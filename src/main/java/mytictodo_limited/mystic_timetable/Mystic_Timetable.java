@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import mytictodo_limited.mystic_timetable.db.dbConnectionManager;
+import mytictodo_limited.mystic_timetable.db.DbUsers;
+import mytictodo_limited.mystic_timetable.db.DbFolder;
 
 /**
  *
@@ -17,17 +19,12 @@ public class Mystic_Timetable {
     public static void main(String[] args) throws SQLException {
         dbConnectionManager users = new dbConnectionManager();
         //dbConnectionManager.ViewAllUserEntryPrint();
+        DbUsers user1 = new DbUsers();
+        user1.UserViewAllEntryPrint();
         
-        List<Map<Integer, Map<String, Object>>> result = users.ViewAllUserEntryReturn();
+        DbFolder folder1 = new DbFolder();
+        folder1.FolderViewAllEntryPrint();
         
-        for (Map<Integer, Map<String, Object>> map : result) {
-            for (Map.Entry<Integer, Map<String, Object>> entry : map.entrySet()) {
-                System.out.println("Entry ID: " + entry.getKey());
-                for (Map.Entry<String, Object> innerEntry : entry.getValue().entrySet()) {
-                    System.out.println(innerEntry.getKey() + ": " + innerEntry.getValue());
-                }
-                System.out.println();
-            }
-        }
+        
     }
 }
