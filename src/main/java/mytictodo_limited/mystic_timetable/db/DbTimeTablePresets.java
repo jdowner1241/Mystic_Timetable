@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbTimeTablePresets extends dbConnectionManager {
+public class DbTimeTablePresets extends DbConnectionManager {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbTimeTablePresets(){
      log.info("Class: DbTimeTablePresets. Action: Default Constructor Triggered.");
@@ -38,7 +38,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
      return presetId;
  }
  public void setPresetId(int presetId){
-     presetId = this.presetId;
+     this.presetId = presetId;
  }
  
  //PresetName
@@ -46,7 +46,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
      return presetName;
  }
  public void setPresetName(String presetName){
-     presetName = this.presetName;
+    this.presetName = presetName;
  }
  
  //PresetCategory
@@ -54,7 +54,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
      return presetCategory;
  }
  public void setPresetCategory(String presetCategory){
-     presetCategory = this.presetCategory;
+     this.presetCategory = presetCategory;
  }
  
  //PresetColor
@@ -62,7 +62,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
      return presetColor;
  }
  public void setPresetColor(String presetColor){
-     presetColor = this.presetColor;
+     this.presetColor = presetColor;
  }
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
@@ -74,9 +74,9 @@ public class DbTimeTablePresets extends dbConnectionManager {
             Connection con = Connection();
             
             //Variables and validation
-            String _presetName = this.presetName;
-            String _presetCategory = this.presetCategory;
-            String _presetColor = this.presetColor;
+            String _presetName = presetName;
+            String _presetCategory = presetCategory;
+            String _presetColor = presetColor;
             
             boolean isValid = true;
             
@@ -105,7 +105,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
            {
              // Data not saved due to validation
              System.out.println("Class: DbTimeTablePresets. Action: Validation Failed. Entry Not Added.");
-             log.info("Class: DbTimeTablePresets. Action: Validation Failed. Entry Not Added.");
+             log.error("Class: DbTimeTablePresets. Action: Validation Failed. Entry Not Added.");
              con.close(); //Close Connection
              log.info("Connection closed");
            }
@@ -113,6 +113,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
         catch(SQLException e) {
             System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. Entry Not Added");
             log.error("Class: DbTimeTablePresets. Action: Connection Failed. Entry Not Added");
+            log.error("\nDetail Error: " + e);
         }
     }
     
@@ -124,9 +125,9 @@ public class DbTimeTablePresets extends dbConnectionManager {
             Connection con = Connection();
             
             //Variables and validation
-            String _presetName = this.presetName;
-            String _presetCategory = this.presetCategory;
-            String _presetColor = this.presetColor;
+            String _presetName = presetName;
+            String _presetCategory = presetCategory;
+            String _presetColor = presetColor;
   
             boolean isValid = true;
             
@@ -161,6 +162,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
         catch(SQLException e) {
             System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. Entry not updated.");
             log.error("Class: DbTimeTablePresets. Action: Connection Failed. Entry not updated.");
+            log.error("\nDetail Error: " + e);
         }
     }
     
@@ -187,6 +189,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
             catch (SQLException e){
                 System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. Entry not Deleted. ");
                 log.error("Class: DbTimeTablePresets. Action: Connection Failed. Entry not Deleted. ");   
+                log.error("\nDetail Error: " + e);
             }
         }
         
@@ -210,13 +213,13 @@ public class DbTimeTablePresets extends dbConnectionManager {
                 ResultSet rset = psSelect.executeQuery();
                 
                 if (rset.next()){
-                    dataStore.setPresetId (rset.getInt("PresetId"));
+                    dataStore.setPresetId(rset.getInt("PresetId"));
                     dataStore.setPresetName(rset.getString("PresetName"));
-                    dataStore.setPresetCategory (rset.getString("PresetCategory")); 
+                    dataStore.setPresetCategory(rset.getString("PresetCategory")); 
                     dataStore.setPresetColor(rset.getString("PresetColor"));
                     
                     System.out.println("Class: DbTimeTablePresets. Action: Entry returned.");
-                    log.error("Class: DbTimeTablePresets. Action: Entry returned.");
+                    log.info("Class: DbTimeTablePresets. Action: Entry returned.");
                     con.close(); //Close Connection
                     log.info("Connection closed");
                 }else {
@@ -229,6 +232,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
             catch (SQLException e) {
                 System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
                 log.error("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
+                log.error("\nDetail Error: " + e);
             }
             
             return dataStore;
@@ -250,17 +254,17 @@ public class DbTimeTablePresets extends dbConnectionManager {
                         + "FROM timetablepresets"
                         + "WHERE PresetName = ?";
                 PreparedStatement psSelect = con.prepareStatement(selectSQL);
-                psSelect.setString(1, this.presetName);
+                psSelect.setString(1, presetName);
                 ResultSet rset = psSelect.executeQuery();
                 
                 if (rset.next()){
-                    dataStore.setPresetId (rset.getInt("PresetId"));
+                    dataStore.setPresetId(rset.getInt("PresetId"));
                     dataStore.setPresetName(rset.getString("PresetName"));
-                    dataStore.setPresetCategory (rset.getString("PresetCategory")); 
+                    dataStore.setPresetCategory(rset.getString("PresetCategory")); 
                     dataStore.setPresetColor(rset.getString("PresetColor"));  
             
                     System.out.println("Class: DbTimeTablePresets. Action: Entry returned.");
-                    log.error("Class: DbTimeTablePresets. Action: Entry returned.");
+                    log.info("Class: DbTimeTablePresets. Action: Entry returned.");
                     con.close(); //Close Connection
                     log.info("Connection closed");
                 }else {
@@ -273,6 +277,7 @@ public class DbTimeTablePresets extends dbConnectionManager {
             catch (SQLException e) {
                 System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
                 log.error("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
+                log.error("\nDetail Error: " + e);
             }
             
             return dataStore;
@@ -297,9 +302,9 @@ public class DbTimeTablePresets extends dbConnectionManager {
                 while(rset.next())
                 {
                     //get info from db to a variable 
-                    dataStore.setPresetId (rset.getInt("PresetId"));
+                    dataStore.setPresetId(rset.getInt("PresetId"));
                     dataStore.setPresetName(rset.getString("PresetName"));
-                    dataStore.setPresetCategory (rset.getString("PresetCategory")); 
+                    dataStore.setPresetCategory(rset.getString("PresetCategory")); 
                     dataStore.setPresetColor(rset.getString("PresetColor"));
     
                     // Save entries 
@@ -307,13 +312,14 @@ public class DbTimeTablePresets extends dbConnectionManager {
                 }
                 
                 System.out.println("Class: DbTimeTablePresets. Action: EntryList returned.");
-                log.error("Class: DbTimeTablePresets. Action: EntryList returned.");
+                log.info("Class: DbTimeTablePresets. Action: EntryList returned.");
                 con.close(); //Close Connection
                 log.info("Connection closed");
             }
             catch (SQLException e) {
                 System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
                 log.error("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
+                log.error("\nDetail Error: " + e);
             }
             
             return presetList;
@@ -355,13 +361,14 @@ public class DbTimeTablePresets extends dbConnectionManager {
                     System.out.println("+++++++++++++++++++++"); 
                 }
                 
-                log.error("Class: DbTimeTablePresets. Action: EntryList printed using console.");
+                log.info("Class: DbTimeTablePresets. Action: EntryList printed using console.");
                 con.close(); //Close Connection
                 log.info("Connection closed");
             }
             catch (SQLException e) {
                 System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
                 log.error("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
+                log.error("\nDetail Error: " + e);
             }
         }
 }

@@ -15,12 +15,13 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class dbConnectionManager {
+public class DbConnectionManagerOlder1 {
     //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
-    public dbConnectionManager (){
+    public DbConnectionManagerOlder1 (){
         log.info("Default Constructor Triggered.");
+        mapList = new ArrayList<>();
     }
-  /*  public dbConnectionManager (String firstName, String lastName, String gender, String streetAddress, String parish, 
+  /*  public DbConnectionManagerOlder1 (String firstName, String lastName, String gender, String streetAddress, String parish, 
             String country, String phoneNumber, String emailAddress )
     {
         log.info("Parameterized Constructor Triggered.");
@@ -35,7 +36,13 @@ public class dbConnectionManager {
         log.info("Parameterized Constructor Complete. Fields updated. ");
     } */
     
- //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
+ //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
+    private Map<String, Object> singleMap;
+    private List<Map <Integer, Map<String, Object>>> mapList;
+    //private Connection con;
+    
+    
+    
    /* private String firstName;
     private String lastName;
     private String gender;
@@ -46,9 +53,34 @@ public class dbConnectionManager {
     private String emailAddress;
     */
     
-    private static final Logger log = LogManager.getLogger(dbConnectionManager.class);
+    private static final Logger log = LogManager.getLogger(DbConnectionManagerOlder1.class);
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
-     /*   
+    
+    // Getter and Setter for singleMap
+    public Map<String, Object> getSingleMap(){
+        return singleMap;
+    }
+    public void setSingleMap(String keyName, Object obj) {
+        if(singleMap == null) {
+            singleMap = new HashMap<>();
+        }
+        singleMap.put(keyName , obj);
+    }
+    
+    // Getter and Setter for mapList
+    public List<Map<Integer, Map<String, Object>>> getMapList() {
+        return mapList;
+    }
+    public void addMapToList(int entryId, Map<String, Object> singleEntry){
+        if(entryId >= mapList.size()){
+            for (int i = mapList.size(); i <= entryId; i++){
+                mapList.add(new HashMap<>());
+            }
+        }
+        mapList.get(entryId).put(entryId, singleEntry);
+    }
+    
+    /*   
     // FirstName 
     public String getFirstName(){
         return firstName;
@@ -286,7 +318,7 @@ public class dbConnectionManager {
         }
     
        //View User Entry using print Statment 
-        public static void ViewAllUserEntryPrint() throws SQLException {
+        public void ViewAllUserEntryPrint() throws SQLException {
             log.info("View all User entries print operation triggered. ");
             try {
                  //database connection 
@@ -333,7 +365,63 @@ public class dbConnectionManager {
                 log.error("Connection Failed. No Entry loaded or Found.");
             }
         }
+        
+    //View User Entry using print Statment 
+        /*public List<Map <Integer, Map<String, Object>>> ViewAllUserEntryReturn() throws SQLException {
+            log.info("View all User entries print operation triggered. ");
+            
+            //Create new class instance
+            DbConnectionManagerOlder1 dataStore = new DbConnectionManagerOlder1();
+            
+            try {
+                 //database connection 
+                Connection con = Connection();
+                
+                // Variables
+                int _userId = 0;
+                String _userName = null;
+                String _emailAddress = null;
+                String _password = null;
+                String _registrationDate = null;
+                
+                // View all entries using the console
+                Statement stmTest = con.createStatement();
+                String SQL = "SELECT * FROM users";
+                ResultSet rset = stmTest.executeQuery(SQL);
+                
+                while(rset.next())
+                {
+                    //get info from db to a variable 
+                    _userId = rset.getInt("UserId");
+                    _userName = rset.getString("UserName");
+                    _emailAddress = rset.getString("EmailAddress");
+                    _password  = rset.getString("Password");
+                    _registrationDate = rset.getString("RegistrationDate");
     
+                    //Store coloum keys in map 
+                    dataStore.setSingleMap("UserId", _userId);
+                    dataStore.setSingleMap("UserName", _userName);
+                    dataStore.setSingleMap("EmailAddress", _emailAddress);
+                    dataStore.setSingleMap("Password", _password);
+                    dataStore.setSingleMap("RegistrationDate", _registrationDate);
+                    
+                    // Save entries 
+                    dataStore.addMapToList(_userId, new HashMap<>(dataStore.getSingleMap()));
+                    dataStore.singleMap.clear(); // Clear singleMap for the next entry
+                }
+                
+                //Close Connection
+                con.close(); 
+                log.info("Connection closed");
+            }
+            catch (SQLException e) {
+                System.out.println("Connection Failed. No Entry loaded or Found.");
+                log.error("Connection Failed. No Entry loaded or Found.");
+            }
+            
+            return dataStore.getMapList();
+        }
+        */
     public static void ShowLog() {
     
     }
