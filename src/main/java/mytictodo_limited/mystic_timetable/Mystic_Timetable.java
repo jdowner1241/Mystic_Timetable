@@ -21,9 +21,10 @@ public class Mystic_Timetable {
         DbConnectionManager users = new DbConnectionManager();
         //dbConnectionManager.ViewAllUserEntryPrint();
         DbUsers user1 = new DbUsers();
-        //user1.UserInsertEntry("Bill", "bill@gmail.com", "password");
-        user1.UserDeleteEntryById(9);
-        user1.UserViewAllEntryPrint();
+        user1.UserInsertEntry("Bill1", "bill1@gmail.com", "password");
+        //user1.UserDeleteEntryById(9);
+        //user1.UserViewAllEntryPrint();
+ 
         
        // DbFolder folder1 = new DbFolder();
        // folder1.FolderViewAllEntryPrint();
