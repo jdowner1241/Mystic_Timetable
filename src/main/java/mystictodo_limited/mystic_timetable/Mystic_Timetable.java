@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package mytictodo_limited.mystic_timetable;
+package mystictodo_limited.mystic_timetable;
+import mystictodo_limited.mystic_timetable.db.DbFolderPerUser;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import mytictodo_limited.mystic_timetable.db.*;
-import mytictodo_limited.mystic_timetable.db.DbConnectionManager;
-import mytictodo_limited.mystic_timetable.db.DbUsers;
-import mytictodo_limited.mystic_timetable.db.DbFolder;
+import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
+import mystictodo_limited.mystic_timetable.db.DbUsers;
+import mystictodo_limited.mystic_timetable.db.DbFolder;
 
 /**
  *

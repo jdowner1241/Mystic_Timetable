@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.RowFilter.Entry;
+import mystictodo_limited.mystic_timetable.dbInterface.DbService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +17,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbTimeTable extends DbConnectionManager {
+public class DbTimeTable extends DbConnectionManager implements DbService<DbTimeTable> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbTimeTable(){
      log.info("Class: DbTimeTable. Action: Default Constructor Triggered.");
@@ -121,7 +122,7 @@ public class DbTimeTable extends DbConnectionManager {
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void UserInsertEntry(String eventName, String eventCategory, String color, int frequency, boolean hasNotification,
+    public void InsertEntry(String eventName, String eventCategory, String color, int frequency, boolean hasNotification,
                                 LocalDate day, LocalDateTime eventStart, LocalDateTime eventEnd ) throws SQLException{
         log.info("Class: DbTimeTable. Action: Insert Entry Operation Triggered.");
         
@@ -187,7 +188,7 @@ public class DbTimeTable extends DbConnectionManager {
     }
     
     //Update Entry
-    public void UserUpdateEntrybyId(int id, String eventName, String eventCategory, String color, int frequency, boolean hasNotification,
+    public void UpdateEntrybyId(int id, String eventName, String eventCategory, String color, int frequency, boolean hasNotification,
                                 LocalDate day, LocalDateTime eventStart, LocalDateTime eventEnd) throws SQLException{
         log.info("Class: DbTimeTable. Action: Update Entry by Id operation triggered. ");
         try{
@@ -250,7 +251,8 @@ public class DbTimeTable extends DbConnectionManager {
     }
     
     // Delete Entry
-        public void UserDeleteEntryById(int id) throws SQLException {
+        @Override
+        public void DeleteEntryById(int id) throws SQLException {
             log.info("Class: DbTimeTable. Action: Delete Entry by Id operation trigger.");
             try{
                  //database connection 
@@ -277,7 +279,7 @@ public class DbTimeTable extends DbConnectionManager {
         }
         
      //Return Entry by Id
-        public DbTimeTable UserGetEntrybyId(int id) throws SQLException {
+        public DbTimeTable GetEntrybyId(int id) throws SQLException {
             log.info("Class: DbTimeTable. Action: Return Entry by Id operation triggered. ");
             
             //Create new class instance
@@ -327,7 +329,7 @@ public class DbTimeTable extends DbConnectionManager {
         }   
         
         //Return Entry by EventName
-        public DbTimeTable UserGetEntrybyEventName(String eventName) throws SQLException {
+        public DbTimeTable GetEntrybyEventName(String eventName) throws SQLException {
             log.info("Class: DbTimeTable. Action: Return Entry by EventName operation triggered. ");
             
             //Create new class instance
@@ -377,7 +379,8 @@ public class DbTimeTable extends DbConnectionManager {
         }   
         
     //Return All Users
-        public ArrayList<DbTimeTable> UserGetAllEntries() throws SQLException {
+        @Override
+        public ArrayList<DbTimeTable> GetAllEntries() throws SQLException {
             log.info("Class: DbTimeTable. Action: Return all Entry operation triggered. ");
             
             //Create new class instance
@@ -424,7 +427,8 @@ public class DbTimeTable extends DbConnectionManager {
         }
 
     //Print all Entries
-        public void UserViewAllEntryPrint() throws SQLException {
+        @Override
+        public void ViewAllEntryPrint() throws SQLException {
             log.info("Class: DbTimeTable. Action: Print all Entry usign Console operation triggered. ");
             try {
                  //database connection 

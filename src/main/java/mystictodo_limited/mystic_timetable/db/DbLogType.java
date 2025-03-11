@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.RowFilter.Entry;
+import mystictodo_limited.mystic_timetable.dbInterface.DbService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbLogType extends DbConnectionManager {
+public class DbLogType extends DbConnectionManager implements DbService<DbLogType> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbLogType(){
      log.info("Class: DbLogType. Action: Default Constructor Triggered.");
@@ -59,7 +60,7 @@ public class DbLogType extends DbConnectionManager {
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void UserInsertEntry(String name, String description) throws SQLException{
+    public void InsertEntry(String name, String description) throws SQLException{
         log.info("Class: DbLogType. Action: Insert Entry Operation Triggered.");
         
         try{
@@ -109,7 +110,7 @@ public class DbLogType extends DbConnectionManager {
     }
     
     //Update Entry
-    public void UserUpdateEntrybyId(int id, String name, String description) throws SQLException{
+    public void UpdateEntrybyId(int id, String name, String description) throws SQLException{
         log.info("Class: DbLogType. Action: Update Entry by Id operation triggered. ");
         try{
              //database connection 
@@ -156,7 +157,8 @@ public class DbLogType extends DbConnectionManager {
     }
     
     // Delete Entry
-        public void UserDeleteEntryById(int id) throws SQLException {
+        @Override
+        public void DeleteEntryById(int id) throws SQLException {
             log.info("Class: DbLogType. Action: Delete Entry by Id operation trigger.");
             try{
                  //database connection 
@@ -183,7 +185,8 @@ public class DbLogType extends DbConnectionManager {
         }
         
      //Return Entry by Id
-        public DbLogType UserGetEntrybyId(int id) throws SQLException {
+        @Override
+        public DbLogType GetEntrybyId(int id) throws SQLException {
             log.info("Class: DbLogType. Action: Return Entry by Id operation triggered. ");
             
             //Create new class instance
@@ -227,7 +230,7 @@ public class DbLogType extends DbConnectionManager {
         }   
         
         //Return Entry by Name
-        public DbLogType UserGetEntrybyName(String name) throws SQLException {
+        public DbLogType GetEntrybyName(String name) throws SQLException {
             log.info("Class: DbLogType. Action: Return Entry by Name operation triggered. ");
             
             //Create new class instance
@@ -271,7 +274,8 @@ public class DbLogType extends DbConnectionManager {
         }   
         
     //Return All Users
-        public ArrayList<DbLogType> UserGetAllEntries() throws SQLException {
+        @Override
+        public ArrayList<DbLogType> GetAllEntries() throws SQLException {
             log.info("Class: DbLogType. Action: Return all Entry operation triggered. ");
             
             //Create new class instance
@@ -312,7 +316,8 @@ public class DbLogType extends DbConnectionManager {
         }
 
     //Print all Entries
-        public void UserViewAllEntryPrint() throws SQLException {
+        @Override
+        public void ViewAllEntryPrint() throws SQLException {
             log.info("Class: DbLogType. Action: Print all Entry usign Console operation triggered. ");
             try {
                  //database connection 

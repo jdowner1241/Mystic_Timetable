@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -22,7 +22,14 @@ public class DbConnectionManager {
         mapList = new ArrayList<>();
     }
     
+    public DbConnectionManager (Class<?> clazz){
+        log.info("Parameterized Constructor Triggered.");
+        this.otherLogger = LogManager.getLogger(clazz);
+        otherClassName = clazz.getName();
+    }
+    
  //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
+    private String otherClassName;
     private Map<String, Object> singleMap;
     private List<Map <Integer, Map<String, Object>>> mapList;
     
@@ -30,6 +37,7 @@ public class DbConnectionManager {
     //private ArrayList<T> TableList;
 
     private static final Logger log = LogManager.getLogger(DbConnectionManager.class);
+    protected Logger otherLogger;
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
     
     // Getter and Setter for singleMap
@@ -99,6 +107,69 @@ public class DbConnectionManager {
 //           //for (int i = 0; i < columnList.length; i++){}
 //   };
     
+    // Create Log
+     public void CreateLog (String level, String message, SQLException e) {
+        //Logger log = LogManager.getLogger(DbUsers.class);
+     
+         String className = otherClassName;
+         
+        //Create Log String 
+        String logString = "Class: " + className + "Action: " + message; 
+         
+         //Use Switch Statement to Save the log
+         if(e != null) {
+            switch(level){
+                case "debug" :
+                    otherLogger.debug(logString);
+                    otherLogger.debug("\nDetail Debug: " + e);
+                    System.out.println(logString);
+                    break;
+                case "info" :
+                    otherLogger.info(logString);
+                    otherLogger.info("\nDetail Info: " + e);
+                    System.out.println(logString);
+                    break;
+                case "warn" :
+                    otherLogger.warn(logString);
+                    otherLogger.warn("\nDetail Warn: " + e);
+                    System.out.println(logString);
+                    break;
+                case "error" :
+                    otherLogger.error(logString);
+                    otherLogger.error("\nDetail Error: " + e);
+                    System.out.println(logString);
+                    break;
+                case "fatal" :
+                    otherLogger.fatal(logString);
+                    otherLogger.fatal("\nDetail Fatal: " + e);
+                    System.out.println(logString);
+                    break; 
+            }
+         }else{
+         switch(level){
+                case "debug" :
+                    otherLogger.debug(logString);
+                    System.out.println(logString);
+                    break;
+                case "info" :
+                    otherLogger.info(logString);
+                    System.out.println(logString);
+                    break;
+                case "warn" :
+                    otherLogger.warn(logString);
+                    System.out.println(logString);
+                    break;
+                case "error" :
+                    otherLogger.error(logString);
+                    System.out.println(logString);
+                    break;
+                case "fatal" :
+                    otherLogger.fatal(logString);
+                    System.out.println(logString);
+                    break; 
+            }
+         }
+     }
     
     public static void ShowLog() {
     

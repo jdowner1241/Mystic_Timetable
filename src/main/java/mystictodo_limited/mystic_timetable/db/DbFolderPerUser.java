@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.RowFilter.Entry;
+import mystictodo_limited.mystic_timetable.dbInterface.DbService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbFolderPerUser extends DbConnectionManager {
+public class DbFolderPerUser extends DbConnectionManager implements DbService<DbFolderPerUser> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbFolderPerUser(){
      log.info("Class: DbFolderPerUser. Action: Default Constructor Triggered.");
@@ -167,6 +168,7 @@ public class DbFolderPerUser extends DbConnectionManager {
     }
     
     // Delete Entry
+        @Override
         public void DeleteEntryById(int id) throws SQLException {
             log.info("Class: DbFolderPerUser. Action: Delete Entry by Id operation trigger.");
             try{
@@ -194,6 +196,7 @@ public class DbFolderPerUser extends DbConnectionManager {
         }
         
      //Return Entry by FolderPerUserId
+        @Override
         public DbFolderPerUser GetEntrybyId(int id) throws SQLException {
             log.info("Class: DbFolderPerUser. Action: Return Entry by Id operation triggered. ");
             
@@ -284,6 +287,7 @@ public class DbFolderPerUser extends DbConnectionManager {
         }   
         
     //Return All Users
+        @Override
         public ArrayList<DbFolderPerUser> GetAllEntries() throws SQLException {
             log.info("Class: DbFolderPerUser. Action: Return all Entry operation triggered. ");
             
@@ -326,6 +330,7 @@ public class DbFolderPerUser extends DbConnectionManager {
         }
 
     //Print all Entries
+        @Override
         public void ViewAllEntryPrint() throws SQLException {
             log.info("Class: DbFolderPerUser. Action: Print all Entry usign Console operation triggered. ");
             try {

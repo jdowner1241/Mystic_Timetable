@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.RowFilter.Entry;
+import mystictodo_limited.mystic_timetable.dbInterface.DbService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbTimeTablePresets extends DbConnectionManager {
+public class DbTimeTablePresets extends DbConnectionManager implements DbService<DbTimeTablePresets>  {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbTimeTablePresets(){
      log.info("Class: DbTimeTablePresets. Action: Default Constructor Triggered.");
@@ -67,7 +68,7 @@ public class DbTimeTablePresets extends DbConnectionManager {
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void PresetInsertEntry(String presetName, String presetCategory, String presetColor) throws SQLException{
+    public void InsertEntry(String presetName, String presetCategory, String presetColor) throws SQLException{
         log.info("Class: DbTimeTablePresets. Action: Insert Entry Operation Triggered.");
         try{
              //database connection 
@@ -118,7 +119,7 @@ public class DbTimeTablePresets extends DbConnectionManager {
     }
     
     //Update Entry
-    public void PresetUpdateEntrybyId(int id, String presetName, String presetCategory, String presetColor) throws SQLException{
+    public void UpdateEntrybyId(int id, String presetName, String presetCategory, String presetColor) throws SQLException{
         log.info("Class: DbTimeTablePresets. Action: Update Entry by Id operation triggered. ");
         try{
              //database connection 
@@ -167,7 +168,8 @@ public class DbTimeTablePresets extends DbConnectionManager {
     }
     
     // Delete Entry
-        public void PresetDeleteEntryById(int id) throws SQLException {
+        @Override
+        public void DeleteEntryById(int id) throws SQLException {
             log.info("Class: DbTimeTablePresets. Action: Delete Entry by Id operation trigger.");
             try{
                  //database connection 
@@ -194,7 +196,8 @@ public class DbTimeTablePresets extends DbConnectionManager {
         }
         
      //Return Entry by Id
-        public DbTimeTablePresets PresetGetEntrybyId(int id) throws SQLException {
+        @Override
+        public DbTimeTablePresets GetEntrybyId(int id) throws SQLException {
             log.info("Class: DbTimeTablePresets. Action: Return Entry by Id operation triggered. ");
             
             //Create new class instance
@@ -239,7 +242,7 @@ public class DbTimeTablePresets extends DbConnectionManager {
         }   
         
         //Return Entry by PresetName
-        public DbTimeTablePresets PresetGetEntrybyPresetName(String presetName) throws SQLException {
+        public DbTimeTablePresets GetEntrybyPresetName(String presetName) throws SQLException {
             log.info("Class: DbTimeTablePresets. Action: Return Entry by PresetName operation triggered. ");
             
             //Create new class instance
@@ -284,7 +287,8 @@ public class DbTimeTablePresets extends DbConnectionManager {
         }   
         
     //Return All Presets
-        public ArrayList<DbTimeTablePresets> PresetGetAllEntries() throws SQLException {
+        @Override
+        public ArrayList<DbTimeTablePresets> GetAllEntries() throws SQLException {
             log.info("Class: DbTimeTablePresets. Action: Return all Entry operation triggered. ");
             
             //Create new class instance
@@ -326,7 +330,8 @@ public class DbTimeTablePresets extends DbConnectionManager {
         }
 
     //Print all Entries
-        public void PresetViewAllEntryPrint() throws SQLException {
+        @Override
+        public void ViewAllEntryPrint() throws SQLException {
             log.info("Class: DbTimeTablePresets. Action: Print all Entry usign Console operation triggered. ");
             try {
                  //database connection 

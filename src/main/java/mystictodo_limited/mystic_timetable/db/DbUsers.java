@@ -2,7 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
+import mystictodo_limited.mystic_timetable.dbInterface.*;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,11 +16,13 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbUsers extends DbConnectionManager {
+public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbUsers(){
-     log.info("Class: DbUsers. Action: Default Constructor Triggered.");
-     //Connection con = Connection();
+     super(DbUsers.class);
+     //log.info("Class: DbUsers. Action: Default Constructor Triggered.");
+     CreateLog("info", "Default Constructor Triggered.", null);
+
  }
     
  //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
@@ -32,7 +35,7 @@ public class DbUsers extends DbConnectionManager {
  private LocalDateTime registrationDate;
  private ArrayList<DbUsers> userList;
  
- private static final Logger log = LogManager.getLogger(DbUsers.class);
+ //private static final Logger log = LogManager.getLogger(DbUsers.class);
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  //UserId
  public int getUserId(){
@@ -77,8 +80,9 @@ public class DbUsers extends DbConnectionManager {
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void UserInsertEntry(String userName, String emailAddress, String password) throws SQLException{
-        log.info("Class: DbUsers. Action: Insert Entry Operation Triggered.");
+    public void InsertEntry(String userName, String emailAddress, String password) throws SQLException{
+       //log.info("Class: DbUsers. Action: Insert Entry Operation Triggered.");
+       CreateLog("info", "Insert Entry Operation Triggered.", null);
         
         try{
              //database connection 
@@ -108,32 +112,40 @@ public class DbUsers extends DbConnectionManager {
                 int rowsInserted = ps.executeUpdate();
             
                 if(rowsInserted > 0) {
-                    System.out.println("Class: DbUsers. Action: Entry Inserted.");
-                    log.info("Class: DbUsers. Action: Entry Inserted.");
-                
-                    //Close Connection
-                    con.close();
-                   log.info("Connection closed");
+                    //System.out.println("Class: DbUsers. Action: Entry Inserted.");
+                    //log.info("Class: DbUsers. Action: Entry Inserted.");
+                    //con.close(); //Close Connection
+                   //log.info("Connection closed");
+                   
+                   CreateLog("info", "Entry Inserted.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
                 }
            } else 
            {
              // Data not saved due to validation
-             System.out.println("Class: DbUsers. Action: Validation Failed. Entry Not Added.");
-             log.error("Class: DbUsers. Action: Validation Failed. Entry Not Added.");
+             //System.out.println("Class: DbUsers. Action: Validation Failed. Entry Not Added.");
+             //log.error("Class: DbUsers. Action: Validation Failed. Entry Not Added.");
+             //con.close(); //Close Connection
+             //log.info("Connection closed");
+             CreateLog("error", "Validation Failed. Entry Not Added.", null);  
              con.close(); //Close Connection
-             log.info("Connection closed");
+             CreateLog("info", "Connection closed.", null);
            }
         }
         catch(SQLException e) {
-            System.out.println("\nClass: DbUsers. Action: Connection Failed. Entry Not Added");
-            log.error("Class: DbUsers. Action: Connection Failed. Entry Not Added");
-            log.error("\nDetail Error: " + e);
+            //System.out.println("\nClass: DbUsers. Action: Connection Failed. Entry Not Added");
+            //log.error("Class: DbUsers. Action: Connection Failed. Entry Not Added");
+            //log.error("\nDetail Error: " + e);
+            CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
     }
     
     //Update Entry
-    public void UserUpdateEntrybyId(int id, String userName, String emailAddress, String password) throws SQLException{
-        log.info("Class: DbUsers. Action: Update Entry by Id operation triggered. ");
+    public void UpdateEntrybyId(int id, String userName, String emailAddress, String password) throws SQLException{
+        //log.info("Class: DbUsers. Action: Update Entry by Id operation triggered. ");
+        CreateLog("info", "Update Entry by Id operation triggered.", null);
+        
         try{
              //database connection 
             Connection con = Connection();
@@ -159,30 +171,43 @@ public class DbUsers extends DbConnectionManager {
                 int rowsUpdated = psUpdate.executeUpdate();
                 
                 if(rowsUpdated > 0) {
-                    System.out.println("Class: DbUsers. Action: Entry Updated.");
-                    log.info("Class: DbUsers. Action: Entry Updated.");
-                    con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbUsers. Action: Entry Updated.");
+                    //log.info("Class: DbUsers. Action: Entry Updated.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("info", "Entry Updated.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
                 }
             }else
             {
                  // Data not saved due to validation
-                System.out.println("Class: DbUsers. Action: Validation Failed. Entry Not Updated.");
-                log.error("Class: DbUsers. Action: Validation Failed. Entry Not Updated.");
+                //System.out.println("Class: DbUsers. Action: Validation Failed. Entry Not Updated.");
+                //log.error("Class: DbUsers. Action: Validation Failed. Entry Not Updated.");
+                //con.close(); //Close Connection
+                //log.info("Connection closed");
+                
+                CreateLog("error", "Validation Failed. Entry Not Updated.", null);  
                 con.close(); //Close Connection
-                log.info("Connection closed");
+                CreateLog("info", "Connection closed.", null);
             }  
         }
         catch(SQLException e) {
-            System.out.println("Class: DbUsers. Action: Connection Failed. Entry not updated.");
-            log.error("Class: DbUsers. Action: Connection Failed. Entry not updated.");
-            log.error("\nDetail Error: " + e);
+            //System.out.println("Class: DbUsers. Action: Connection Failed. Entry not updated.");
+            //log.error("Class: DbUsers. Action: Connection Failed. Entry not updated.");
+            //log.error("\nDetail Error: " + e);
+            
+            CreateLog("error", "Connection Failed. Entry Not updated.", e);
         }
     }
     
     // Delete Entry
-        public void UserDeleteEntryById(int id) throws SQLException {
-            log.info("Class: DbUsers. Action: Delete Entry by Id operation trigger.");
+        @Override
+        public void DeleteEntryById(int id) throws SQLException {
+            //log.info("Class: DbUsers. Action: Delete Entry by Id operation trigger.");
+            CreateLog("info", "Delete Entry by Id operation trigger.", null);
+            
             try{
                  //database connection 
                 Connection con = Connection();
@@ -194,23 +219,32 @@ public class DbUsers extends DbConnectionManager {
                 int rowsDeleted = psDelete.executeUpdate();
                 
                 if(rowsDeleted > 0){
-                    System.out.println("Class: DbUsers. Action: Entry Deleted.");
-                    log.info("Class: DbUsers. Action: Entry Deleted.");
-                     con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbUsers. Action: Entry Deleted.");
+                    //log.info("Class: DbUsers. Action: Entry Deleted.");
+                    // con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("info", "Entry Deleted.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
+                    
                 }
             }
             catch (SQLException e){
-                System.out.println("Class: DbUsers. Action: Connection Failed. Entry not Deleted. ");
-                log.error("Class: DbUsers. Action: Connection Failed. Entry not Deleted. ");   
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbUsers. Action: Connection Failed. Entry not Deleted. ");
+                //log.error("Class: DbUsers. Action: Connection Failed. Entry not Deleted. ");   
+                //log.error("\nDetail Error: " + e);
+                
+                CreateLog("error", "Connection Failed. Entry Not Deleted.", e);
             }
         }
         
      //Return Entry by Id
-        public DbUsers UserGetEntrybyId(int id) throws SQLException {
-            log.info("Class: DbUsers. Action: Return Entry by Id operation triggered. ");
-            
+        @Override
+        public DbUsers GetEntrybyId(int id) throws SQLException {
+            //log.info("Class: DbUsers. Action: Return Entry by Id operation triggered. ");
+            CreateLog("info", "Return Entry by Id operation triggered.", null);
+  
             //Create new class instance
             DbUsers dataStore = new DbUsers();
             
@@ -233,29 +267,41 @@ public class DbUsers extends DbConnectionManager {
                     dataStore.setPassword(rset.getString("Password"));
                     dataStore.setRegistrationDate(rset.getString("RegistrationDate")); 
                     
-                    System.out.println("Class: DbUsers. Action: Entry returned.");
-                    log.info("Class: DbUsers. Action: Entry returned.");
-                    con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbUsers. Action: Entry returned.");
+                    //log.info("Class: DbUsers. Action: Entry returned.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("info", "Entry returned.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
+                    
                 }else {
-                    System.out.println("Class: DbUsers. Action: Entry not found.");
-                    log.error("Class: DbUsers. Action: Entry not found.");
+                    //System.out.println("Class: DbUsers. Action: Entry not found.");
+                    //log.error("Class: DbUsers. Action: Entry not found.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("error", "Entry not found.", null);  
                     con.close(); //Close Connection
-                    log.info("Connection closed");
+                    CreateLog("info", "Connection closed.", null);
                 }
             }
             catch (SQLException e) {
-                System.out.println("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("\nDetail Error: " + e);
+                
+                CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
             return dataStore;
         }   
         
         //Return Entry by UserName
-        public DbUsers UserGetEntrybyUserName(String userName) throws SQLException {
-            log.info("Class: DbUsers. Action: Return Entry by UserName operation triggered. ");
+        public DbUsers GetEntrybyUserName(String userName) throws SQLException {
+            //log.info("Class: DbUsers. Action: Return Entry by UserName operation triggered. ");
+            CreateLog("info", "Return Entry by UserName operation triggered.", null);
             
             //Create new class instance
             DbUsers dataStore = new DbUsers();
@@ -279,29 +325,42 @@ public class DbUsers extends DbConnectionManager {
                     dataStore.setPassword(rset.getString("Password"));
                     dataStore.setRegistrationDate(rset.getString("RegistrationDate"));        
             
-                    System.out.println("Class: DbUsers. Action: Entry returned.");
-                    log.info("Class: DbUsers. Action: Entry returned.");
-                    con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbUsers. Action: Entry returned.");
+                    //log.info("Class: DbUsers. Action: Entry returned.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("info", "Entry returned.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
+                    
                 }else {
-                    System.out.println("Class: DbUsers. Action: Entry not found.");
-                    log.error("Class: DbUsers. Action: Entry not found.");
-                    con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbUsers. Action: Entry not found.");
+                    //log.error("Class: DbUsers. Action: Entry not found.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("error", "Entry not found.", null);  
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null); 
                 }
             }
             catch (SQLException e) {
-                System.out.println("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("\nDetail Error: " + e);
+                
+                CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
             return dataStore;
         }   
         
     //Return All Users
-        public ArrayList<DbUsers> UserGetAllEntries() throws SQLException {
-            log.info("Class: DbUsers. Action: Return all Entry operation triggered. ");
+        @Override
+        public ArrayList<DbUsers> GetAllEntries() throws SQLException {
+            //log.info("Class: DbUsers. Action: Return all Entry operation triggered. ");
+            CreateLog("info", "Return all Entry operation triggered.", null);
             
             //Create new class instance
             DbUsers dataStore = new DbUsers();
@@ -328,23 +387,32 @@ public class DbUsers extends DbConnectionManager {
                     userList.add(dataStore);
                 }
                 
-                System.out.println("Class: DbUsers. Action: EntryList returned.");
-                log.info("Class: DbUsers. Action: EntryList returned.");
+                //System.out.println("Class: DbUsers. Action: EntryList returned.");
+                //log.info("Class: DbUsers. Action: EntryList returned.");
+                //con.close(); //Close Connection
+                //log.info("Connection closed");
+                
+                CreateLog("info", "EntryList returned.", null);
                 con.close(); //Close Connection
-                log.info("Connection closed");
+                CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                System.out.println("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("\nDetail Error: " + e);
+                
+                CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
             return userList;
         }
 
     //Print all Entries
-        public void UserViewAllEntryPrint() throws SQLException {
-            log.info("Class: DbUsers. Action: Print all Entry usign Console operation triggered. ");
+        @Override
+        public void ViewAllEntryPrint() throws SQLException {
+            //log.info("Class: DbUsers. Action: Print all Entry usign Console operation triggered. ");
+            CreateLog("info", "Print all Entry usign Console operation triggered.", null);
+            
             try {
                  //database connection 
                 Connection con = Connection();
@@ -381,14 +449,21 @@ public class DbUsers extends DbConnectionManager {
                     System.out.println("+++++++++++++++++++++"); 
                 }
                 
-                log.info("Class: DbUsers. Action: EntryList printed using console.");
+                //log.info("Class: DbUsers. Action: EntryList printed using console.");
+                //con.close(); //Close Connection
+                //log.info("Connection closed");
+                
+                CreateLog("info", "EntryList printed using console.", null);
                 con.close(); //Close Connection
-                log.info("Connection closed");
+                CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                System.out.println("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("Class: DbUsers. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("\nDetail Error: " + e);
+                
+                CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
         }
+        
 }

@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.RowFilter.Entry;
+import mystictodo_limited.mystic_timetable.dbInterface.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbTimetableLinker extends DbConnectionManager {
+public class DbTimetableLinker extends DbConnectionManager implements DbService<DbTimetableLinker> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbTimetableLinker(){
      log.info("Class: DbTimetableLinker. Action: Default Constructor Triggered.");
@@ -156,6 +157,7 @@ public class DbTimetableLinker extends DbConnectionManager {
     }
     
     // Delete Entry
+        @Override
         public void DeleteEntryById(int id) throws SQLException {
             log.info("Class: DbTimetableLinker. Action: Delete Entry by Id operation trigger.");
             try{
@@ -183,6 +185,7 @@ public class DbTimetableLinker extends DbConnectionManager {
         }
         
      //Return Entry by TimetableLinkerId
+        @Override
         public DbTimetableLinker GetEntrybyId(int id) throws SQLException {
             log.info("Class: DbTimetableLinker. Action: Return Entry by Id operation triggered. ");
             
@@ -271,6 +274,7 @@ public class DbTimetableLinker extends DbConnectionManager {
         }   
         
     //Return All Users
+        @Override
         public ArrayList<DbTimetableLinker> GetAllEntries() throws SQLException {
             log.info("Class: DbTimetableLinker. Action: Return all Entry operation triggered. ");
             
@@ -312,6 +316,7 @@ public class DbTimetableLinker extends DbConnectionManager {
         }
 
     //Print all Entries
+        @Override
         public void ViewAllEntryPrint() throws SQLException {
             log.info("Class: DbTimetableLinker. Action: Print all Entry usign Console operation triggered. ");
             try {

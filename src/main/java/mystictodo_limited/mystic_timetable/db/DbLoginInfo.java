@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.RowFilter.Entry;
+import mystictodo_limited.mystic_timetable.dbInterface.DbService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbLoginInfo extends DbConnectionManager {
+public class DbLoginInfo extends DbConnectionManager implements DbService<DbLoginInfo> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbLoginInfo(){
      log.info("Class: DbLoginInfo. Action: Default Constructor Triggered.");
@@ -69,7 +70,7 @@ public class DbLoginInfo extends DbConnectionManager {
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void UserInsertEntry(int userId, int failedLoginCount ) throws SQLException{
+    public void InsertEntry(int userId, int failedLoginCount ) throws SQLException{
         log.info("Class: DbLoginInfo. Action: Insert Entry Operation Triggered.");
         
         try{
@@ -122,7 +123,7 @@ public class DbLoginInfo extends DbConnectionManager {
     }
     
     //Update Entry
-    public void UserUpdateEntrybyId(int id, int userId, int failedLoginCount) throws SQLException{
+    public void UpdateEntrybyId(int id, int userId, int failedLoginCount) throws SQLException{
         log.info("Class: DbLoginInfo. Action: Update Entry by Id operation triggered. ");
         try{
              //database connection 
@@ -169,7 +170,8 @@ public class DbLoginInfo extends DbConnectionManager {
     }
     
     // Delete Entry
-        public void UserDeleteEntryById(int id) throws SQLException {
+        @Override
+        public void DeleteEntryById(int id) throws SQLException {
             log.info("Class: DbLoginInfo. Action: Delete Entry by Id operation trigger.");
             try{
                  //database connection 
@@ -196,7 +198,8 @@ public class DbLoginInfo extends DbConnectionManager {
         }
         
      //Return Entry by Id
-        public DbLoginInfo UserGetEntrybyId(int id) throws SQLException {
+        @Override
+        public DbLoginInfo GetEntrybyId(int id) throws SQLException {
             log.info("Class: DbLoginInfo. Action: Return Entry by Id operation triggered. ");
             
             //Create new class instance
@@ -242,7 +245,7 @@ public class DbLoginInfo extends DbConnectionManager {
         }   
         
         //Return Entry by UserId
-        public DbLoginInfo UserGetEntrybyUserId(String userId) throws SQLException {
+        public DbLoginInfo GetEntrybyUserId(String userId) throws SQLException {
             log.info("Class: DbLoginInfo. Action: Return Entry by UserId operation triggered. ");
             
             //Create new class instance
@@ -287,7 +290,8 @@ public class DbLoginInfo extends DbConnectionManager {
         }   
         
     //Return All Users
-        public ArrayList<DbLoginInfo> UserGetAllEntries() throws SQLException {
+        @Override
+        public ArrayList<DbLoginInfo> GetAllEntries() throws SQLException {
             log.info("Class: DbLoginInfo. Action: Return all Entry operation triggered. ");
             
             //Create new class instance
@@ -329,7 +333,8 @@ public class DbLoginInfo extends DbConnectionManager {
         }
 
     //Print all Entries
-        public void UserViewAllEntryPrint() throws SQLException {
+        @Override
+        public void ViewAllEntryPrint() throws SQLException {
             log.info("Class: DbLoginInfo. Action: Print all Entry usign Console operation triggered. ");
             try {
                  //database connection 

@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mytictodo_limited.mystic_timetable.db;
+package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.RowFilter.Entry;
+import mystictodo_limited.mystic_timetable.dbInterface.DbService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jamario_Downer
  */
-public class DbFolder extends DbConnectionManager {
+public class DbFolder extends DbConnectionManager implements DbService<DbFolder> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbFolder(){
      log.info("Class: DbFolder. Action: Default Constructor Triggered.");
@@ -49,7 +50,7 @@ public class DbFolder extends DbConnectionManager {
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void FolderInsertEntry(String folderName) throws SQLException{
+    public void InsertEntry(String folderName) throws SQLException{
         log.info("Class: DbFolder. Action: Insert Entry Operation Triggered.");
         try{
              //database connection 
@@ -96,7 +97,7 @@ public class DbFolder extends DbConnectionManager {
     }
     
     //Update Entry
-    public void FolderUpdateEntrybyId(int id) throws SQLException{
+    public void UpdateEntrybyId(int id) throws SQLException{
         log.info("Class: DbFolder. Action: Update Entry by Id operation triggered. ");
         try{
              //database connection 
@@ -141,7 +142,8 @@ public class DbFolder extends DbConnectionManager {
     }
     
     // Delete Entry
-        public void FolderDeleteEntryById(int id) throws SQLException {
+        @Override
+        public void DeleteEntryById(int id) throws SQLException {
             log.info("Class: DbFolder. Action: Delete Entry by Id operation trigger.");
             try{
                  //database connection 
@@ -168,7 +170,8 @@ public class DbFolder extends DbConnectionManager {
         }
         
      //Return Entry by Id
-        public DbFolder FolderGetEntrybyId(int id) throws SQLException {
+        @Override
+        public DbFolder GetEntrybyId(int id) throws SQLException {
             log.info("Class: DbFolder. Action: Return Entry by Id operation triggered. ");
             
             //Create new class instance
@@ -211,7 +214,7 @@ public class DbFolder extends DbConnectionManager {
         }   
         
         //Return Entry by FolderName
-        public DbFolder FolderGetEntrybyFolderId(String folderName) throws SQLException {
+        public DbFolder GetEntrybyFolderId(String folderName) throws SQLException {
             log.info("Class: DbFolder. Action: Return Entry by FolderId operation triggered. ");
             
             //Create new class instance
@@ -254,7 +257,8 @@ public class DbFolder extends DbConnectionManager {
         }   
         
     //Return All folder
-        public ArrayList<DbFolder> FolderGetAllEntries() throws SQLException {
+        @Override
+        public ArrayList<DbFolder> GetAllEntries() throws SQLException {
             log.info("Class: DbFolder. Action: Return all Entry operation triggered. ");
             
             //Create new class instance
@@ -294,8 +298,8 @@ public class DbFolder extends DbConnectionManager {
         }
 
     //Print all Entries
- 
-        public void FolderViewAllEntryPrint() throws SQLException {
+        @Override
+        public void ViewAllEntryPrint() throws SQLException {
             log.info("Class: DbFolder. Action: Print all Entry usign Console operation triggered. ");
             try {
                  //database connection 
