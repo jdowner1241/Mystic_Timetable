@@ -6,7 +6,9 @@ package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import javax.swing.JTable;
 import javax.swing.RowFilter.Entry;
+import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -114,7 +116,7 @@ public class DbConnectionManager {
          String className = otherClassName;
          
         //Create Log String 
-        String logString = "Class: " + className + "Action: " + message; 
+        String logString = "Class: " + className + " Action: " + message; 
          
          //Use Switch Statement to Save the log
          if(e != null) {
@@ -169,6 +171,61 @@ public class DbConnectionManager {
                     break; 
             }
          }
+     }
+     
+     // Get Column headers base on the folder name
+     public ArrayList getTableColumns (String tableName) throws SQLException {
+         CreateLog("info","Get Table Column Operation triggered. ", null);
+         
+         ArrayList tableColumnList = null;
+         
+         try{
+             //database connection
+             
+             Connection con = Connection();
+             
+             //create sql statement
+             Statement stm = con.createStatement();
+             String SQL = "SELECT * FROM " + tableName;
+             ResultSet rset = stm.executeQuery(SQL);
+             
+             ResultSetMetaData rsetMD = rset.getMetaData();
+             int columnCount = rsetMD.getColumnCount();
+             
+             for (int i = 0; i <= columnCount; i++ ){
+                 tableColumnList.add(rsetMD.getColumnName(i));
+             }
+             
+             if (tableColumnList != null){
+                CreateLog("info","Table Column name list returned. ", null);
+             }
+         }
+         catch (SQLException e) {
+             CreateLog("error", "Connection failed. Table Column name list not returned.", e);
+         }
+         
+         return tableColumnList;
+     }
+     
+     // Create table Model with headers
+     public DefaultTableModel CreateTableModel (String tableName) throws SQLException {
+         CreateLog("info","Create Table Model Operation triggered. ", null);
+         
+         //intialize blank table model
+         DefaultTableModel tableModel = null;
+         
+         try{
+            // Add column headers to the tablemodel
+            ArrayList tableColumnList = getTableColumns(tableName);
+            tableModel = new DefaultTableModel(tableColumnList.toArray(), 0);
+         
+         }
+         catch (SQLException e) {
+             CreateLog("error", "Connection failed. Table Model not returned with headers.", e);
+         }
+         
+         
+         return tableModel;
      }
     
     public static void ShowLog() {

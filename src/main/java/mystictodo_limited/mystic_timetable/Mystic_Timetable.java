@@ -20,18 +20,19 @@ public class Mystic_Timetable {
     public static void main(String[] args) throws SQLException {
         DbConnectionManager users = new DbConnectionManager();
         //dbConnectionManager.ViewAllUserEntryPrint();
-        //DbUsers user1 = new DbUsers();
+        DbUsers user1 = new DbUsers();
+        user1.ViewAllEntryPrint();
         //user1.UserInsertEntry("Bill1", "bill1@gmail.com", "password");
         //user1.UserDeleteEntryById(9);
         //user1.UserViewAllEntryPrint();
  
-        //DbFolder folder1 = new DbFolder();
-        //folder1.FolderViewAllEntryPrint();
+       // DbFolder folder1 = new DbFolder();
+        //folder1.ViewAllEntryPrint();
        // DbFolder folder1 = new DbFolder();
        // folder1.FolderViewAllEntryPrint();
         
-       DbFolderPerUser pu = new DbFolderPerUser();
-       pu.ViewAllEntryPrint();
+       //DbFolderPerUser pu = new DbFolderPerUser();
+       //pu.ViewAllEntryPrint();
        //var list = pu.GetAllEntries();
       
         

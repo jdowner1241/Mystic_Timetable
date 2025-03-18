@@ -19,8 +19,11 @@ import org.apache.logging.log4j.Logger;
 public class DbTimetableLinker extends DbConnectionManager implements DbService<DbTimetableLinker> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbTimetableLinker(){
-     log.info("Class: DbTimetableLinker. Action: Default Constructor Triggered.");
+     //log.info("Class: DbTimetableLinker. Action: Default Constructor Triggered.");
      //Connection con = Connection();
+     
+     super(DbTimetableLinker.class);
+     CreateLog("info", "Default Constructor Triggered.", null);
  }
     
  //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
@@ -32,7 +35,7 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
 
  private ArrayList<DbTimetableLinker> timetableLinkerList;
  
- private static final Logger log = LogManager.getLogger(DbTimetableLinker.class);
+ //private static final Logger log = LogManager.getLogger(DbTimetableLinker.class);
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  //TimetableLinker
  public int getTimetableLinkerId(){
@@ -62,7 +65,9 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
     public void InsertEntry(int eventId, int userAndFolderId) throws SQLException{
-        log.info("Class: DbTimetableLinker. Action: Insert Entry Operation Triggered.");
+        //log.info("Class: DbTimetableLinker. Action: Insert Entry Operation Triggered.");
+        CreateLog("info", "Insert Entry Operation Triggered.", null);
+        
         try{
              //database connection 
             Connection con = Connection();
@@ -86,32 +91,43 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                 int rowsInserted = ps.executeUpdate();
             
                 if(rowsInserted > 0) {
-                    System.out.println("Class: DbTimetableLinker. Action: Entry Inserted.");
-                    log.info("Class: DbTimetableLinker. Action: Entry Inserted.");
-                
-                    //Close Connection
-                    con.close();
-                   log.info("Connection closed");
+                    //System.out.println("Class: DbTimetableLinker. Action: Entry Inserted.");
+                    //log.info("Class: DbTimetableLinker. Action: Entry Inserted.");
+                    //con.close(); //Close Connection
+                   //log.info("Connection closed");
+                   
+                   CreateLog("info", "Entry Inserted.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
                 }
            } else 
            {
-             // Data not saved due to validation
-             System.out.println("Class: DbTimetableLinker. Action: Validation Failed. Entry Not Added.");
-             log.error("Class: DbTimetableLinker. Action: Validation Failed. Entry Not Added.");
-             con.close(); //Close Connection
-             log.info("Connection closed");
+             
+             //System.out.println("Class: DbTimetableLinker. Action: Validation Failed. Entry Not Added.");
+            // log.error("Class: DbTimetableLinker. Action: Validation Failed. Entry Not Added.");
+             //con.close(); //Close Connection
+             //log.info("Connection closed");
+               
+              // Data not saved due to validation 
+               CreateLog("error", "Validation Failed. Entry Not Added.", null);  
+               con.close(); //Close Connection
+               CreateLog("info", "Connection closed.", null); 
            }
         }
         catch(SQLException e) {
-            System.out.println("Class: DbTimetableLinker. Action: Connection Failed. Entry Not Added");
-            log.error("Class: DbTimetableLinker. Action: Connection Failed. Entry Not Added");
-            log.error("\nDetail Error: " + e);
+            //System.out.println("Class: DbTimetableLinker. Action: Connection Failed. Entry Not Added");
+            //log.error("Class: DbTimetableLinker. Action: Connection Failed. Entry Not Added");
+            //log.error("\nDetail Error: " + e);
+            
+            CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
     }
     
     //Update Entry
     public void UpdateEntrybyId(int id, int eventId, int userAndFolderId) throws SQLException{
-        log.info("Class: DbTimetableLinker. Action: Update Entry by Id operation triggered. ");
+        //log.info("Class: DbTimetableLinker. Action: Update Entry by Id operation triggered. ");
+        CreateLog("info", "Update Entry by Id operation triggered.", null);
+        
         try{
              //database connection 
             Connection con = Connection();
@@ -135,31 +151,44 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                 int rowsUpdated = psUpdate.executeUpdate();
                 
                 if(rowsUpdated > 0) {
-                    System.out.println("Class: DbTimetableLinker. Action: Entry Updated.");
-                    log.info("Class: DbTimetableLinker. Action: Entry Updated.");
-                    con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbTimetableLinker. Action: Entry Updated.");
+                    //log.info("Class: DbTimetableLinker. Action: Entry Updated.");
+                    //con.close(); //Close Connection
+                   // log.info("Connection closed");
+                   
+                   CreateLog("info", "Entry Updated.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
                 }
             }else
             {
-                 // Data not saved due to validation
-                System.out.println("Class: DbTimetableLinker. Action: Validation Failed. Entry Not Updated.");
-                log.error("Class: DbTimetableLinker. Action: Validation Failed. Entry Not Updated.");
-                con.close(); //Close Connection
-                log.info("Connection closed");
+                 
+                //System.out.println("Class: DbTimetableLinker. Action: Validation Failed. Entry Not Updated.");
+                //log.error("Class: DbTimetableLinker. Action: Validation Failed. Entry Not Updated.");
+                //con.close(); //Close Connection
+                //log.info("Connection closed");
+               
+               // Data not saved due to validation
+               CreateLog("error", "Validation Failed. Entry Not Updated.", null);  
+               con.close(); //Close Connectionr
+               CreateLog("info", "Connection closed.", null); 
             }  
         }
         catch(SQLException e) {
-            System.out.println("Class: DbTimetableLinker. Action: Connection Failed. Entry not updated.");
-            log.error("Class: DbTimetableLinker. Action: Connection Failed. Entry not updated.");
-            log.error("\nDetail Error: " + e);
+            //System.out.println("Class: DbTimetableLinker. Action: Connection Failed. Entry not updated.");
+            //log.error("Class: DbTimetableLinker. Action: Connection Failed. Entry not updated.");
+            //log.error("\nDetail Error: " + e);
+            
+            CreateLog("error", "Connection Failed. Entry Not updated.", e);
         }
     }
     
     // Delete Entry
         @Override
         public void DeleteEntryById(int id) throws SQLException {
-            log.info("Class: DbTimetableLinker. Action: Delete Entry by Id operation trigger.");
+            //log.info("Class: DbTimetableLinker. Action: Delete Entry by Id operation trigger.");
+            CreateLog("info", "Delete Entry by Id operation trigger.", null);
+            
             try{
                  //database connection 
                 Connection con = Connection();
@@ -171,23 +200,30 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                 int rowsDeleted = psDelete.executeUpdate();
                 
                 if(rowsDeleted > 0){
-                    System.out.println("Class: DbTimetableLinker. Action: Entry Deleted.");
-                    log.info("Class: DbTimetableLinker. Action: Entry Deleted.");
-                     con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbTimetableLinker. Action: Entry Deleted.");
+                    //log.info("Class: DbTimetableLinker. Action: Entry Deleted.");
+                    // con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("info", "Entry Deleted.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
                 }
             }
             catch (SQLException e){
-                System.out.println("Class: DbTimetableLinker. Action: Connection Failed. Entry not Deleted. ");
-                log.error("Class: DbTimetableLinker. Action: Connection Failed. Entry not Deleted. ");   
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbTimetableLinker. Action: Connection Failed. Entry not Deleted. ");
+                //log.error("Class: DbTimetableLinker. Action: Connection Failed. Entry not Deleted. ");   
+                //log.error("\nDetail Error: " + e);
+                
+                CreateLog("error", "Connection Failed. Entry not Deleted or Found.", e);
             }
         }
         
      //Return Entry by TimetableLinkerId
         @Override
         public DbTimetableLinker GetEntrybyId(int id) throws SQLException {
-            log.info("Class: DbTimetableLinker. Action: Return Entry by Id operation triggered. ");
+            //log.info("Class: DbTimetableLinker. Action: Return Entry by Id operation triggered. ");
+            CreateLog("info", "Return Entry by Id operation triggered.", null);
             
             //Create new class instance
             DbTimetableLinker dataStore = new DbTimetableLinker();
@@ -209,21 +245,32 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                     dataStore.setEventId(rset.getInt("EventId")); 
                     dataStore.setUserAndUserAndFolderId(rset.getInt("UserAndFolderId")); 
                     
-                    System.out.println("Class: DbTimetableLinker. Action: Entry returned.");
-                    log.info("Class: DbTimetableLinker. Action: Entry returned.");
-                    con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbTimetableLinker. Action: Entry returned.");
+                    //log.info("Class: DbTimetableLinker. Action: Entry returned.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("info", "Entry returned.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
+                    
                 }else {
-                    System.out.println("Class: DbTimetableLinker. Action: Entry not found.");
-                    log.error("Class: DbTimetableLinker. Action: Entry not found.");
+                    //System.out.println("Class: DbTimetableLinker. Action: Entry not found.");
+                    //log.error("Class: DbTimetableLinker. Action: Entry not found.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                    CreateLog("error", "Validation Failed. Entry Not found.", null);  
                     con.close(); //Close Connection
-                    log.info("Connection closed");
+                    CreateLog("info", "Connection closed.", null); 
                 }
             }
             catch (SQLException e) {
-                System.out.println("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("\nDetail Error: " + e);
+                
+              CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);  
             }
             
             return dataStore;
@@ -231,7 +278,8 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
         
         //Return Entry by EventId
         public DbTimetableLinker GetEntrybyEventId(int eventId) throws SQLException {
-            log.info("Class: DbTimetableLinker. Action: Return Entry by EventId operation triggered. ");
+            //log.info("Class: DbTimetableLinker. Action: Return Entry by EventId operation triggered. ");
+            CreateLog("info", "Return Entry by EventId operation triggered.", null);
             
             //Create new class instance
             DbTimetableLinker dataStore = new DbTimetableLinker();
@@ -253,21 +301,31 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                     dataStore.setEventId(rset.getInt("EventId"));
                     dataStore.setUserAndUserAndFolderId(rset.getInt("UserAndFolderId")); 
             
-                    System.out.println("Class: DbTimetableLinker. Action: Entry returned.");
-                    log.info("Class: DbTimetableLinker. Action: Entry returned.");
-                    con.close(); //Close Connection
-                    log.info("Connection closed");
+                    //System.out.println("Class: DbTimetableLinker. Action: Entry returned.");
+                    //log.info("Class: DbTimetableLinker. Action: Entry returned.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                   CreateLog("info", "Entry returned.", null);
+                   con.close(); //Close Connection
+                   CreateLog("info", "Connection closed.", null);
                 }else {
-                    System.out.println("Class: DbTimetableLinker. Action: Entry not found.");
-                    log.error("Class: DbTimetableLinker. Action: Entry not found.");
+                    //System.out.println("Class: DbTimetableLinker. Action: Entry not found.");
+                    //log.error("Class: DbTimetableLinker. Action: Entry not found.");
+                    //con.close(); //Close Connection
+                    //log.info("Connection closed");
+                    
+                    CreateLog("error", "Validation Failed. Entry Not found.", null);  
                     con.close(); //Close Connection
-                    log.info("Connection closed");
+                    CreateLog("info", "Connection closed.", null); 
                 }
             }
             catch (SQLException e) {
-                System.out.println("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("\nDetail Error: " + e);
+                
+               CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);   
             }
             
             return dataStore;
@@ -276,7 +334,8 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
     //Return All Users
         @Override
         public ArrayList<DbTimetableLinker> GetAllEntries() throws SQLException {
-            log.info("Class: DbTimetableLinker. Action: Return all Entry operation triggered. ");
+            //log.info("Class: DbTimetableLinker. Action: Return all Entry operation triggered. ");
+            CreateLog("info", "Return all Entry operation triggered.", null);
             
             //Create new class instance
             DbTimetableLinker dataStore = new DbTimetableLinker();
@@ -301,15 +360,21 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                     timetableLinkerList.add(dataStore);
                 }
                 
-                System.out.println("Class: DbTimetableLinker. Action: EntryList returned.");
-                log.info("Class: DbTimetableLinker. Action: EntryList returned.");
+                //System.out.println("Class: DbTimetableLinker. Action: EntryList returned.");
+                //log.info("Class: DbTimetableLinker. Action: EntryList returned.");
+                //con.close(); //Close Connection
+                //log.info("Connection closed");
+                
+                CreateLog("info", "EntryList returned.", null);
                 con.close(); //Close Connection
-                log.info("Connection closed");
+                CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                System.out.println("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("\nDetail Error: " + e);
+                
+                CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);   
             }
             
             return timetableLinkerList;
@@ -318,7 +383,9 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
     //Print all Entries
         @Override
         public void ViewAllEntryPrint() throws SQLException {
-            log.info("Class: DbTimetableLinker. Action: Print all Entry usign Console operation triggered. ");
+            //log.info("Class: DbTimetableLinker. Action: Print all Entry usign Console operation triggered. ");
+            CreateLog("info", "Print all Entry using Console operation triggered.", null);
+            
             try {
                  //database connection 
                 Connection con = Connection();
@@ -349,14 +416,20 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                     System.out.println("+++++++++++++++++++++"); 
                 }
                 
-                log.info("Class: DbTimetableLinker. Action: EntryList printed using console.");
+                //log.info("Class: DbTimetableLinker. Action: EntryList printed using console.");
+                //con.close(); //Close Connection
+                //log.info("Connection closed");
+                
+                CreateLog("info", "EntryList printed using console.", null);
                 con.close(); //Close Connection
-                log.info("Connection closed");
+                CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                System.out.println("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
-                log.error("\nDetail Error: " + e);
+                //System.out.println("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("Class: DbTimetableLinker. Action: Connection Failed. No Entry loaded or Found.");
+                //log.error("\nDetail Error: " + e);
+                
+               CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);    
             }
         }
 }

@@ -118,6 +118,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
                    //log.info("Connection closed");
                    
                    CreateLog("info", "Entry Inserted.", null);
+                   CreateLog("info", "Entry also added to the DbFolderPerUser table.", null);  // When new user is created. Default folder automatically added to DbFolderPerUser table. 
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
@@ -128,6 +129,8 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
              //log.error("Class: DbUsers. Action: Validation Failed. Entry Not Added.");
              //con.close(); //Close Connection
              //log.info("Connection closed");
+               
+             // Data not saved due to validation  
              CreateLog("error", "Validation Failed. Entry Not Added.", null);  
              con.close(); //Close Connection
              CreateLog("info", "Connection closed.", null);
@@ -137,6 +140,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
             //System.out.println("\nClass: DbUsers. Action: Connection Failed. Entry Not Added");
             //log.error("Class: DbUsers. Action: Connection Failed. Entry Not Added");
             //log.error("\nDetail Error: " + e);
+            
             CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
     }
@@ -235,7 +239,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
                 //log.error("Class: DbUsers. Action: Connection Failed. Entry not Deleted. ");   
                 //log.error("\nDetail Error: " + e);
                 
-                CreateLog("error", "Connection Failed. Entry Not Deleted.", e);
+                CreateLog("error", "Connection Failed. Entry not Deleted or Found.", e);
             }
         }
         
@@ -411,7 +415,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
         @Override
         public void ViewAllEntryPrint() throws SQLException {
             //log.info("Class: DbUsers. Action: Print all Entry usign Console operation triggered. ");
-            CreateLog("info", "Print all Entry usign Console operation triggered.", null);
+            CreateLog("info", "Print all Entry using Console operation triggered.", null);
             
             try {
                  //database connection 
