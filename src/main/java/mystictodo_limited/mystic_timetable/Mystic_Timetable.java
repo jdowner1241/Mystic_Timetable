@@ -5,8 +5,10 @@
 package mystictodo_limited.mystic_timetable;
 import mystictodo_limited.mystic_timetable.db.DbFolderPerUser;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import mystictodo_limited.mystic_timetable.UI.*;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
 import mystictodo_limited.mystic_timetable.db.DbUsers;
 import mystictodo_limited.mystic_timetable.db.DbFolder;
@@ -18,10 +20,16 @@ import mystictodo_limited.mystic_timetable.db.DbFolder;
 public class Mystic_Timetable {
 
     public static void main(String[] args) throws SQLException {
-        DbConnectionManager users = new DbConnectionManager();
+        //DbConnectionManager users = new DbConnectionManager();
         //dbConnectionManager.ViewAllUserEntryPrint();
-        DbUsers user1 = new DbUsers();
-        user1.ViewAllEntryPrint();
+       // DbUsers user1 = new DbUsers();
+        //ArrayList<DbUsers> userList = user1.GetAllEntries();
+
+       // for ( var user : userList){
+       //     System.out.println(user);
+       // }
+        
+        //user1.ViewAllEntryPrint();
         //user1.UserInsertEntry("Bill1", "bill1@gmail.com", "password");
         //user1.UserDeleteEntryById(9);
         //user1.UserViewAllEntryPrint();
@@ -34,6 +42,9 @@ public class Mystic_Timetable {
        //DbFolderPerUser pu = new DbFolderPerUser();
        //pu.ViewAllEntryPrint();
        //var list = pu.GetAllEntries();
+       
+       JTimetableLoginPage startApp = new JTimetableLoginPage();
+       startApp.setVisible(true);
       
         
     }

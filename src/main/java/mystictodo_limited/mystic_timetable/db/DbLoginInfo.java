@@ -351,8 +351,7 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
             //log.info("Class: DbLoginInfo. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
-            //Create new class instance
-            DbLoginInfo dataStore = new DbLoginInfo();
+            
             
             try {
                  //database connection 
@@ -365,13 +364,16 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 
                 while(rset.next())
                 {
+                    //Create new class instance
+                    DbLoginInfo dataStore = new DbLoginInfo();
+                    
                     //get info from db to a variable 
                     dataStore.setLoginInfoId(rset.getInt("LoginInfoId"));
                     dataStore.setLoginInfoId(rset.getInt("UserId"));
                     dataStore.setFailedLoginCount(rset.getInt("FailedLoginCount")); 
                     dataStore.setLastLogin(rset.getString("LastLogin"));
     
-                    // Save entries 
+                     // Save entry elements to datastore
                     loginInfoList.add(dataStore);
                 }
                 

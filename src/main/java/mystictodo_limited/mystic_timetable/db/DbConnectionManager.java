@@ -21,11 +21,13 @@ public class DbConnectionManager {
     //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
     public DbConnectionManager (){
         log.info("Default Constructor Triggered.");
+        //CreateLog("info","Default Constructor Triggered.", null);
         mapList = new ArrayList<>();
     }
     
     public DbConnectionManager (Class<?> clazz){
         log.info("Parameterized Constructor Triggered.");
+        //CreateLog("info","Parameterized Constructor Triggered.", null);
         this.otherLogger = LogManager.getLogger(clazz);
         otherClassName = clazz.getName();
     }
@@ -73,6 +75,7 @@ public class DbConnectionManager {
     // Return Connection 
     public static Connection Connection() {
         log.info("Connection method triggered.");
+
         Connection con = null;
         try{
             // connection info

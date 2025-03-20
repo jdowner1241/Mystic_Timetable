@@ -319,8 +319,7 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
             //log.info("Class: DbFolder. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
-            //Create new class instance
-            DbFolder dataStore = new DbFolder();
+            
             
             try {
                  //database connection 
@@ -333,11 +332,14 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                 
                 while(rset.next())
                 {
+                    //Create new class instance
+                    DbFolder dataStore = new DbFolder();
+                    
                     //get info from db to a variable 
                     dataStore.setFolderId(rset.getInt("FolderId"));
                     dataStore.setFolderName(rset.getString("FolderName"));
     
-                    // Save entries 
+                    // Save entry elements to datastore
                     folderList.add(dataStore);
                 }
                 

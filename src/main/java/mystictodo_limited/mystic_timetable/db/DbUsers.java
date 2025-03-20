@@ -19,8 +19,8 @@ import org.apache.logging.log4j.Logger;
 public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbUsers(){
-     super(DbUsers.class);
      //log.info("Class: DbUsers. Action: Default Constructor Triggered.");
+     super(DbUsers.class);
      CreateLog("info", "Default Constructor Triggered.", null);
 
  }
@@ -33,7 +33,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
  private String emailAddress;
  private String password;
  private LocalDateTime registrationDate;
- private ArrayList<DbUsers> userList;
+ private ArrayList<DbUsers> userList = new ArrayList<>();
  
  //private static final Logger log = LogManager.getLogger(DbUsers.class);
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
@@ -74,8 +74,21 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
      return registrationDate;
  }
  public void setRegistrationDate(String _registrationDate){
-     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-     registrationDate = LocalDateTime.parse(_registrationDate, formatter);
+     //if (_registrationDate != null){
+     //   DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+     //   registrationDate = LocalDateTime.parse(_registrationDate, formatter);
+     //}
+     //else {
+    //     registrationDate = LocalDateTime.now();
+    // }
+     
+     if (_registrationDate != null) {
+        // Define a custom formatter that matches the input format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        registrationDate = LocalDateTime.parse(_registrationDate, formatter);
+    } else {
+        registrationDate = LocalDateTime.now();
+    }
  }
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
@@ -365,10 +378,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
         public ArrayList<DbUsers> GetAllEntries() throws SQLException {
             //log.info("Class: DbUsers. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null);
-            
-            //Create new class instance
-            DbUsers dataStore = new DbUsers();
-            
+
             try {
                  //database connection 
                 Connection con = Connection();
@@ -380,6 +390,9 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
                 
                 while(rset.next())
                 {
+                    //Create new class instance
+                     DbUsers dataStore = new DbUsers();
+                    
                     //get info from db to a variable 
                     dataStore.setUserId(rset.getInt("UserId"));
                     dataStore.setUserName(rset.getString("UserName"));
@@ -387,8 +400,9 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
                     dataStore.setPassword(rset.getString("Password"));
                     dataStore.setRegistrationDate(rset.getString("RegistrationDate"));
     
-                    // Save entries 
-                    userList.add(dataStore);
+                     // Save entry elements to datastore
+                    userList.add(dataStore); 
+                    
                 }
                 
                 //System.out.println("Class: DbUsers. Action: EntryList returned.");

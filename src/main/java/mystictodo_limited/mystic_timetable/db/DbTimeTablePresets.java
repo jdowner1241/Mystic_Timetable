@@ -347,8 +347,7 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
             //log.info("Class: DbTimeTablePresets. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null);
             
-            //Create new class instance
-            DbTimeTablePresets dataStore = new DbTimeTablePresets();
+            
             
             try {
                  //database connection 
@@ -361,13 +360,16 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                 
                 while(rset.next())
                 {
+                    //Create new class instance
+                    DbTimeTablePresets dataStore = new DbTimeTablePresets();
+                    
                     //get info from db to a variable 
                     dataStore.setPresetId(rset.getInt("PresetId"));
                     dataStore.setPresetName(rset.getString("PresetName"));
                     dataStore.setPresetCategory(rset.getString("PresetCategory")); 
                     dataStore.setPresetColor(rset.getString("PresetColor"));
     
-                    // Save entries 
+                     // Save entry elements to datastore
                     presetList.add(dataStore);
                 }
                 

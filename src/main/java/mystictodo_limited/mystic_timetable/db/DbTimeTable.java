@@ -440,8 +440,7 @@ public class DbTimeTable extends DbConnectionManager implements DbService<DbTime
             //log.info("Class: DbTimeTable. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
-            //Create new class instance
-            DbTimeTable dataStore = new DbTimeTable();
+           
             
             try {
                  //database connection 
@@ -454,6 +453,9 @@ public class DbTimeTable extends DbConnectionManager implements DbService<DbTime
                 
                 while(rset.next())
                 {
+                     //Create new class instance
+                     DbTimeTable dataStore = new DbTimeTable();
+                    
                     //get info from db to a variable 
                     dataStore.setTimetableId(rset.getInt("TimetableId"));
                     dataStore.setEventName(rset.getString("EventName"));
@@ -465,7 +467,7 @@ public class DbTimeTable extends DbConnectionManager implements DbService<DbTime
                     dataStore.setEventStart(rset.getString("EventStart")); 
                     dataStore.setEventEnd(rset.getString("EventEnd")); 
     
-                    // Save entries 
+                     // Save entry elements to datastore
                     timetableList.add(dataStore);
                 }
                 

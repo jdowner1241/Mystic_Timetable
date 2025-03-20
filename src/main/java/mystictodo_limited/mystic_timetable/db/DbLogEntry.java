@@ -380,8 +380,6 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
             //log.info("Class: DbLogEntry. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
-            //Create new class instance
-            DbLogEntry dataStore = new DbLogEntry();
             
             try {
                  //database connection 
@@ -394,6 +392,9 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                 
                 while(rset.next())
                 {
+                    //Create new class instance
+                    DbLogEntry dataStore = new DbLogEntry();
+                    
                     //get info from db to a variable 
                     dataStore.setLogId (rset.getInt("LogId"));
                     dataStore.setUserId(rset.getInt("UserId"));
@@ -402,7 +403,7 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                     dataStore.setMessage(rset.getString("Message"));
                     dataStore.setTimeStamp(rset.getString("TimeStamp"));
     
-                    // Save entries 
+                    // Save entry elements to datastore
                     logEntryList.add(dataStore);
                 }
                 

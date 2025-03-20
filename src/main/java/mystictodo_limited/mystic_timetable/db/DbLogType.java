@@ -333,8 +333,7 @@ public class DbLogType extends DbConnectionManager implements DbService<DbLogTyp
             //log.info("Class: DbLogType. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
-            //Create new class instance
-            DbLogType dataStore = new DbLogType();
+            
             
             try {
                  //database connection 
@@ -347,12 +346,15 @@ public class DbLogType extends DbConnectionManager implements DbService<DbLogTyp
                 
                 while(rset.next())
                 {
+                    //Create new class instance
+                    DbLogType dataStore = new DbLogType();
+                    
                     //get info from db to a variable 
                     dataStore.setLogTypeId(rset.getInt("LogTypeId"));
                     dataStore.setName(rset.getString("Name"));
                     dataStore.setDescription(rset.getString("Description")); 
     
-                    // Save entries 
+                     // Save entry elements to datastore
                     logTypeList.add(dataStore);
                 }
                 

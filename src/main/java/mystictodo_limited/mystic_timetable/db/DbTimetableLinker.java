@@ -337,8 +337,7 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
             //log.info("Class: DbTimetableLinker. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null);
             
-            //Create new class instance
-            DbTimetableLinker dataStore = new DbTimetableLinker();
+            
             
             try {
                  //database connection 
@@ -351,12 +350,15 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                 
                 while(rset.next())
                 {
+                    //Create new class instance
+                    DbTimetableLinker dataStore = new DbTimetableLinker();
+                    
                     //get info from db to a variable 
                     dataStore.setTimetableLinkerId(rset.getInt("TimetableLinkerId"));
                     dataStore.setEventId(rset.getInt("EventId"));
                     dataStore.setUserAndUserAndFolderId(rset.getInt("UserAndFolderId")); 
     
-                    // Save entries 
+                     // Save entry elements to datastore
                     timetableLinkerList.add(dataStore);
                 }
                 

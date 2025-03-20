@@ -349,8 +349,7 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
             //log.info("Class: DbFolderPerUser. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
-            //Create new class instance
-            DbFolderPerUser dataStore = new DbFolderPerUser();
+            
             
             try {
                  //database connection 
@@ -363,13 +362,16 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
                 
                 while(rset.next())
                 {
+                    //Create new class instance
+                    DbFolderPerUser dataStore = new DbFolderPerUser();
+                    
                     //get info from db to a variable 
                     dataStore.setFolderPerUserId(rset.getInt("FolderPerUserId"));
                     dataStore.setUserId(rset.getInt("UserId"));
                     dataStore.setFolderId(rset.getInt("FolderId")); 
                     dataStore.setFolderNumberPerUser(rset.getInt("FolderNumberPerUser"));
     
-                    // Save entries 
+                     // Save entry elements to datastore
                     folderPerUserList.add(dataStore);
                 }
                 
