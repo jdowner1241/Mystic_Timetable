@@ -59,20 +59,20 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jHome = new javax.swing.JPanel();
         jAddUser = new javax.swing.JPanel();
         jLabelUserName = new javax.swing.JLabel();
-        tFUserName = new java.awt.TextField();
         jLabelEmail = new javax.swing.JLabel();
-        tFEmail = new java.awt.TextField();
         jLabelPassword = new javax.swing.JLabel();
-        tFPassword = new java.awt.TextField();
-        bClearAll = new java.awt.Button();
-        bShowPassword1 = new java.awt.Button();
+        jPFPasswordAddUser = new javax.swing.JPasswordField();
+        jTGBShowPasswordAddUser = new javax.swing.JToggleButton();
+        jTFUserNameAddUser = new javax.swing.JTextField();
+        jBClearAllAddUser = new javax.swing.JButton();
+        jTFEmailAddUser = new javax.swing.JTextField();
         jLogin = new javax.swing.JPanel();
         jLabelUserNameLogin = new javax.swing.JLabel();
-        tFUserNameLogin = new java.awt.TextField();
         jLabelPasswordLogin = new javax.swing.JLabel();
-        tFPasswordLogin = new java.awt.TextField();
-        bClearAll1 = new java.awt.Button();
-        bShowPassword2 = new java.awt.Button();
+        jTFUserNameLogin = new javax.swing.JTextField();
+        jPFPasswordLogin = new javax.swing.JPasswordField();
+        jTGBShowPasswordLogin = new javax.swing.JToggleButton();
+        jBClearAllLogin = new javax.swing.JButton();
         jPanelUserControls = new javax.swing.JPanel();
         jAppTitle1 = new javax.swing.JLabel();
 
@@ -116,58 +116,72 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jAddUser.setMaximumSize(new java.awt.Dimension(500, 1000));
         jAddUser.setPreferredSize(new java.awt.Dimension(300, 300));
 
-        jLabelUserName.setLabelFor(tFUserName);
+        jLabelUserName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelUserName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabelUserName.setLabelFor(jTFUserNameAddUser);
         jLabelUserName.setText("User Name");
 
-        jLabelEmail.setLabelFor(tFEmail);
+        jLabelEmail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelEmail.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabelEmail.setLabelFor(jTFEmailAddUser);
         jLabelEmail.setText("Email");
 
-        jLabelPassword.setLabelFor(tFPassword);
+        jLabelPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelPassword.setLabelFor(jPFPasswordAddUser);
         jLabelPassword.setText("Password");
 
-        tFPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jPFPasswordAddUser.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jPFPasswordAddUser.setMaximumSize(new java.awt.Dimension(1000, 50));
 
-        bClearAll.setActionCommand("Show");
-        bClearAll.setLabel("Clear All");
-        bClearAll.setName(""); // NOI18N
-        bClearAll.addActionListener(new java.awt.event.ActionListener() {
+        jTGBShowPasswordAddUser.setText("Show");
+        jTGBShowPasswordAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bClearAllActionPerformed(evt);
+                jTGBShowPasswordAddUserActionPerformed(evt);
             }
         });
 
-        bShowPassword1.setActionCommand("Show");
-        bShowPassword1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        bShowPassword1.setLabel("Show");
-        bShowPassword1.setName(""); // NOI18N
-        bShowPassword1.addActionListener(new java.awt.event.ActionListener() {
+        jTFUserNameAddUser.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTFUserNameAddUser.setToolTipText("Enter User Name");
+        jTFUserNameAddUser.setMaximumSize(new java.awt.Dimension(1000, 100));
+
+        jBClearAllAddUser.setText("Clear All");
+        jBClearAllAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bShowPassword1ActionPerformed(evt);
+                jBClearAllAddUserActionPerformed(evt);
             }
         });
+
+        jTFEmailAddUser.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTFEmailAddUser.setToolTipText("Enter User Name");
+        jTFEmailAddUser.setMaximumSize(new java.awt.Dimension(1000, 100));
 
         javax.swing.GroupLayout jAddUserLayout = new javax.swing.GroupLayout(jAddUser);
         jAddUser.setLayout(jAddUserLayout);
         jAddUserLayout.setHorizontalGroup(
             jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jAddUserLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(30, 30, 30)
+                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jAddUserLayout.createSequentialGroup()
                         .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-                        .addComponent(bShowPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tFPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tFEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tFUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jAddUserLayout.createSequentialGroup()
+                        .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTFEmailAddUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTFUserNameAddUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jAddUserLayout.createSequentialGroup()
+                                .addComponent(jPFPasswordAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                                .addComponent(jTGBShowPasswordAddUser)
+                                .addGap(3, 3, 3)))
+                        .addGap(30, 30, 30))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jAddUserLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(101, 101, 101))
+                .addComponent(jBClearAllAddUser)
+                .addGap(114, 114, 114))
         );
         jAddUserLayout.setVerticalGroup(
             jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,55 +189,50 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabelUserName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tFUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addComponent(jTFUserNameAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tFEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jAddUserLayout.createSequentialGroup()
-                        .addComponent(jLabelPassword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tFPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(bShowPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(bClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jTFEmailAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelPassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTGBShowPasswordAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPFPasswordAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(jBClearAllAddUser)
+                .addContainerGap(48, Short.MAX_VALUE))
         );
-
-        tFUserName.getAccessibleContext().setAccessibleName("Enter User Name");
-        tFUserName.getAccessibleContext().setAccessibleDescription("");
-        tFEmail.getAccessibleContext().setAccessibleName("Enter User Email");
-        tFPassword.getAccessibleContext().setAccessibleName("Enter User Password");
-        bClearAll.getAccessibleContext().setAccessibleName("Show");
 
         jLogin.setEnabled(false);
         jLogin.setMaximumSize(new java.awt.Dimension(500, 1000));
         jLogin.setPreferredSize(new java.awt.Dimension(300, 300));
 
-        jLabelUserNameLogin.setLabelFor(tFUserNameLogin);
+        jLabelUserNameLogin.setLabelFor(jTFUserNameLogin);
         jLabelUserNameLogin.setText("User Name or Email");
 
-        jLabelPasswordLogin.setLabelFor(tFPasswordLogin);
+        jLabelPasswordLogin.setLabelFor(jPFPasswordLogin);
         jLabelPasswordLogin.setText("Password");
 
-        bClearAll1.setActionCommand("Show");
-        bClearAll1.setLabel("Clear All");
-        bClearAll1.setName(""); // NOI18N
-        bClearAll1.addActionListener(new java.awt.event.ActionListener() {
+        jTFUserNameLogin.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTFUserNameLogin.setToolTipText("Enter User Name");
+        jTFUserNameLogin.setMaximumSize(new java.awt.Dimension(1000, 100));
+
+        jPFPasswordLogin.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jPFPasswordLogin.setMaximumSize(new java.awt.Dimension(1000, 50));
+
+        jTGBShowPasswordLogin.setText("Show");
+        jTGBShowPasswordLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bClearAll1ActionPerformed(evt);
+                jTGBShowPasswordLoginActionPerformed(evt);
             }
         });
 
-        bShowPassword2.setActionCommand("Show");
-        bShowPassword2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        bShowPassword2.setLabel("Show");
-        bShowPassword2.setName(""); // NOI18N
-        bShowPassword2.addActionListener(new java.awt.event.ActionListener() {
+        jBClearAllLogin.setText("Clear All");
+        jBClearAllLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bShowPassword2ActionPerformed(evt);
+                jBClearAllLoginActionPerformed(evt);
             }
         });
 
@@ -232,38 +241,39 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jLoginLayout.setHorizontalGroup(
             jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLoginLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLoginLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLoginLayout.createSequentialGroup()
-                                .addComponent(jLabelPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                                .addComponent(bShowPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tFPasswordLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tFUserNameLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelUserNameLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabelUserNameLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jLoginLayout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(bClearAll1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jLoginLayout.createSequentialGroup()
+                                .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jBClearAllLogin)
+                                    .addComponent(jPFPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTGBShowPasswordLogin))
+                            .addComponent(jTFUserNameLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 20, Short.MAX_VALUE))))
         );
         jLoginLayout.setVerticalGroup(
             jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLoginLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jLabelUserNameLogin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tFUserNameLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelPasswordLogin)
-                    .addComponent(bShowPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tFPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(bClearAll1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTFUserNameLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(jLabelPasswordLogin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPFPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTGBShowPasswordLogin))
+                .addGap(29, 29, 29)
+                .addComponent(jBClearAllLogin)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelUserUILayout = new javax.swing.GroupLayout(jPanelUserUI);
@@ -279,7 +289,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             .addGroup(jPanelUserUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelUserUILayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                    .addComponent(jAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 286, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jPanelUserUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelUserUILayout.createSequentialGroup()
@@ -303,7 +313,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             .addGroup(jPanelUserUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUserUILayout.createSequentialGroup()
                     .addGap(16, 16, 16)
-                    .addComponent(jLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 274, Short.MAX_VALUE)
+                    .addComponent(jLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -373,21 +383,36 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bShowPassword1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowPassword1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bShowPassword1ActionPerformed
+    private void jTGBShowPasswordLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTGBShowPasswordLoginActionPerformed
+        // Toggle to show the PasswordField Content 
+        if(jTGBShowPasswordLogin.isSelected()){
+            jPFPasswordLogin.setEchoChar((char) 0); //Show password
+        }else{
+            jPFPasswordLogin.setEchoChar('*'); //Hide password
+        }   
+    }//GEN-LAST:event_jTGBShowPasswordLoginActionPerformed
 
-    private void bClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearAllActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bClearAllActionPerformed
+    private void jBClearAllLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBClearAllLoginActionPerformed
+        //Clear All Content from Fields.
+        jTFUserNameLogin.setText("");
+        jPFPasswordLogin.setText("");
+    }//GEN-LAST:event_jBClearAllLoginActionPerformed
 
-    private void bClearAll1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClearAll1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bClearAll1ActionPerformed
+    private void jTGBShowPasswordAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTGBShowPasswordAddUserActionPerformed
+        // Toggle to show the PasswordField Content 
+        if(jTGBShowPasswordAddUser.isSelected()){
+            jPFPasswordAddUser.setEchoChar((char) 0); //Show password
+        }else{
+            jPFPasswordAddUser.setEchoChar('.'); //Hide password
+        }
+    }//GEN-LAST:event_jTGBShowPasswordAddUserActionPerformed
 
-    private void bShowPassword2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowPassword2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bShowPassword2ActionPerformed
+    private void jBClearAllAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBClearAllAddUserActionPerformed
+        //Clear All Content from Fields.
+        jTFUserNameAddUser.setText("");
+        jTFEmailAddUser.setText("");
+        jPFPasswordAddUser.setText("");
+    }//GEN-LAST:event_jBClearAllAddUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -425,12 +450,10 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Button bClearAll;
-    private java.awt.Button bClearAll1;
-    private java.awt.Button bShowPassword1;
-    private java.awt.Button bShowPassword2;
     private javax.swing.JPanel jAddUser;
     private javax.swing.JLabel jAppTitle1;
+    private javax.swing.JButton jBClearAllAddUser;
+    private javax.swing.JButton jBClearAllLogin;
     private javax.swing.JPanel jHome;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelPassword;
@@ -439,13 +462,15 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelUserNameLogin;
     private javax.swing.JPanel jLogin;
     private javax.swing.JLabel jModeHeader;
+    private javax.swing.JPasswordField jPFPasswordAddUser;
+    private javax.swing.JPasswordField jPFPasswordLogin;
     private javax.swing.JPanel jPanelUserControls;
     private javax.swing.JPanel jPanelUserUI;
-    private java.awt.TextField tFEmail;
-    private java.awt.TextField tFPassword;
-    private java.awt.TextField tFPasswordLogin;
-    private java.awt.TextField tFUserName;
-    private java.awt.TextField tFUserNameLogin;
+    private javax.swing.JTextField jTFEmailAddUser;
+    private javax.swing.JTextField jTFUserNameAddUser;
+    private javax.swing.JTextField jTFUserNameLogin;
+    private javax.swing.JToggleButton jTGBShowPasswordAddUser;
+    private javax.swing.JToggleButton jTGBShowPasswordLogin;
     // End of variables declaration//GEN-END:variables
 
     
