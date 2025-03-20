@@ -553,9 +553,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                     // add ActionListener to the button
                     button1.addActionListener((ActionEvent e) -> {
                         jModeHeader.setText(username); //Change ModeHeader to User Name
-                        jPanelUserUISwitch(3); //Switch Mode to Login
                         loginPrompt(userId); //Trigger User prompt and stores the userId
-                        jPanelUserControlsSwitch(2, "login");
+                        jPanelUserUISwitch(3); //Switch Mode to Login
+                        jPanelUserControlsSwitch(2, "login"); // switch UserControls to login
                     });
                     row.add(button1, gbc); // Add button to jHome 
                     
@@ -570,7 +570,16 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                     
                     // add ActionListener to the button
                     button2.addActionListener((ActionEvent e) -> {
-                        System.out.println("Delete the User ");
+                        try{
+                            user.DeleteEntryById(userId);
+                            //DbUsers eventUser = new DbUsers();
+                            //eventUser.DeleteEntryById(userId);
+                        }catch(SQLException ex){
+                            logger.CreateLog("error", "Failed to delele User : " + username , ex);
+                        }
+                        System.out.println(userId);
+                        jPanelUserUISwitch(1); //Switch Mode to home
+                        jPanelUserControlsSwitch(1, "home");// switch UserControls to home
                     });
                     row.add(button2, gbc); // Add button to row 
                     

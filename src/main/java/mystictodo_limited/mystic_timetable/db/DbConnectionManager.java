@@ -128,26 +128,31 @@ public class DbConnectionManager {
                     otherLogger.debug(logString);
                     otherLogger.debug("\nDetail Debug: " + e);
                     System.out.println(logString);
+                    System.out.println("Detail Error : " + e);
                     break;
                 case "info" :
                     otherLogger.info(logString);
                     otherLogger.info("\nDetail Info: " + e);
                     System.out.println(logString);
+                    System.out.println("Detail Error : " + e);
                     break;
                 case "warn" :
                     otherLogger.warn(logString);
                     otherLogger.warn("\nDetail Warn: " + e);
                     System.out.println(logString);
+                    System.out.println("Detail Error : " + e);
                     break;
                 case "error" :
                     otherLogger.error(logString);
                     otherLogger.error("\nDetail Error: " + e);
                     System.out.println(logString);
+                    System.out.println("Detail Error : " + e);
                     break;
                 case "fatal" :
                     otherLogger.fatal(logString);
                     otherLogger.fatal("\nDetail Fatal: " + e);
                     System.out.println(logString);
+                    System.out.println("Detail Error : " + e);
                     break; 
             }
          }else{
