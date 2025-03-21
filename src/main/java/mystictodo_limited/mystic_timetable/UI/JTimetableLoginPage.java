@@ -71,6 +71,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jTFUserNameAddUser = new javax.swing.JTextField();
         jBClearAllAddUser = new javax.swing.JButton();
         jTFEmailAddUser = new javax.swing.JTextField();
+        jLabelErrorUserNameAddUser = new javax.swing.JLabel();
+        jLabelErrorEmailAddUser = new javax.swing.JLabel();
+        jLabelErrorPasswordAddUser = new javax.swing.JLabel();
         jLogin = new javax.swing.JPanel();
         jLabelUserNameLogin = new javax.swing.JLabel();
         jLabelPasswordLogin = new javax.swing.JLabel();
@@ -136,7 +139,13 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jLabelPassword.setText("Password");
 
         jPFPasswordAddUser.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jPFPasswordAddUser.setToolTipText("Enter Password");
         jPFPasswordAddUser.setMaximumSize(new java.awt.Dimension(1000, 50));
+        jPFPasswordAddUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPFPasswordAddUserKeyTyped(evt);
+            }
+        });
 
         jTGBShowPasswordAddUser.setText("Show");
         jTGBShowPasswordAddUser.addActionListener(new java.awt.event.ActionListener() {
@@ -148,6 +157,11 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jTFUserNameAddUser.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTFUserNameAddUser.setToolTipText("Enter User Name");
         jTFUserNameAddUser.setMaximumSize(new java.awt.Dimension(1000, 100));
+        jTFUserNameAddUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTFUserNameAddUserKeyTyped(evt);
+            }
+        });
 
         jBClearAllAddUser.setText("Clear All");
         jBClearAllAddUser.addActionListener(new java.awt.event.ActionListener() {
@@ -157,8 +171,28 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         });
 
         jTFEmailAddUser.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTFEmailAddUser.setToolTipText("Enter User Name");
+        jTFEmailAddUser.setToolTipText("Enter Email");
         jTFEmailAddUser.setMaximumSize(new java.awt.Dimension(1000, 100));
+        jTFEmailAddUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTFEmailAddUserKeyTyped(evt);
+            }
+        });
+
+        jLabelErrorUserNameAddUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelErrorUserNameAddUser.setForeground(new java.awt.Color(255, 0, 0));
+        jLabelErrorUserNameAddUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelErrorUserNameAddUser.setText("*");
+
+        jLabelErrorEmailAddUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelErrorEmailAddUser.setForeground(new java.awt.Color(255, 0, 0));
+        jLabelErrorEmailAddUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelErrorEmailAddUser.setText("*");
+
+        jLabelErrorPasswordAddUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelErrorPasswordAddUser.setForeground(new java.awt.Color(255, 0, 0));
+        jLabelErrorPasswordAddUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelErrorPasswordAddUser.setText("*");
 
         javax.swing.GroupLayout jAddUserLayout = new javax.swing.GroupLayout(jAddUser);
         jAddUser.setLayout(jAddUserLayout);
@@ -166,23 +200,33 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jAddUserLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTFEmailAddUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTFUserNameAddUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jAddUserLayout.createSequentialGroup()
-                        .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jAddUserLayout.createSequentialGroup()
                         .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTFEmailAddUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTFUserNameAddUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jAddUserLayout.createSequentialGroup()
+                                .addComponent(jLabelPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelErrorPasswordAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jAddUserLayout.createSequentialGroup()
                                 .addComponent(jPFPasswordAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTGBShowPasswordAddUser)
-                                .addGap(3, 3, 3)))
-                        .addGap(30, 30, 30))))
+                                .addComponent(jTGBShowPasswordAddUser)))
+                        .addGap(3, 3, 3))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jAddUserLayout.createSequentialGroup()
+                        .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jAddUserLayout.createSequentialGroup()
+                                .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelErrorEmailAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jAddUserLayout.createSequentialGroup()
+                                .addComponent(jLabelUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelErrorUserNameAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(30, 30, 30))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jAddUserLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBClearAllAddUser)
@@ -192,22 +236,28 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jAddUserLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabelUserName)
+                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelUserName)
+                    .addComponent(jLabelErrorUserNameAddUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTFUserNameAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelEmail)
+                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelEmail)
+                    .addComponent(jLabelErrorEmailAddUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTFEmailAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelPassword)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPassword)
+                    .addComponent(jLabelErrorPasswordAddUser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jAddUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTGBShowPasswordAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPFPasswordAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26)
                 .addComponent(jBClearAllAddUser)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jLogin.setEnabled(false);
@@ -417,7 +467,23 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jTFUserNameAddUser.setText("");
         jTFEmailAddUser.setText("");
         jPFPasswordAddUser.setText("");
+        jLabelErrorUserNameAddUser.setVisible(false);
+        jLabelErrorEmailAddUser.setVisible(false);
+        jLabelErrorPasswordAddUser.setVisible(false);
+        
     }//GEN-LAST:event_jBClearAllAddUserActionPerformed
+
+    private void jTFUserNameAddUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFUserNameAddUserKeyTyped
+        jLabelErrorUserNameAddUser.setVisible(false); 
+    }//GEN-LAST:event_jTFUserNameAddUserKeyTyped
+
+    private void jTFEmailAddUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFEmailAddUserKeyTyped
+        jLabelErrorEmailAddUser.setVisible(false);
+    }//GEN-LAST:event_jTFEmailAddUserKeyTyped
+
+    private void jPFPasswordAddUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPFPasswordAddUserKeyTyped
+        jLabelErrorPasswordAddUser.setVisible(false);
+    }//GEN-LAST:event_jPFPasswordAddUserKeyTyped
 
     /**
      * @param args the command line arguments
@@ -461,6 +527,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     private javax.swing.JButton jBClearAllLogin;
     private javax.swing.JPanel jHome;
     private javax.swing.JLabel jLabelEmail;
+    private javax.swing.JLabel jLabelErrorEmailAddUser;
+    private javax.swing.JLabel jLabelErrorPasswordAddUser;
+    private javax.swing.JLabel jLabelErrorUserNameAddUser;
     private javax.swing.JLabel jLabelPassword;
     private javax.swing.JLabel jLabelPasswordLogin;
     private javax.swing.JLabel jLabelUserName;
@@ -502,6 +571,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             case 2 :
                 jModeHeader.setText("Add New User");
                 jAddUser.setVisible(true);
+                jLabelErrorUserNameAddUser.setVisible(false);
+                jLabelErrorEmailAddUser.setVisible(false);
+                jLabelErrorPasswordAddUser.setVisible(false);
                 break;
             case 3 :
                 jLogin.setVisible(true);
@@ -690,70 +762,110 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     private void addNewUser() {
         logger.CreateLog("info", "Create new user Method triggered.", null);
         boolean valid = true;
+        jLabelErrorUserNameAddUser.setVisible(false);
+        jLabelErrorEmailAddUser.setVisible(false);
+        jLabelErrorPasswordAddUser.setVisible(false);
   
         //verify that fields are not empty and valid
+        String errorMessage = "";
         //Test UserName
         if(jTFUserNameAddUser == null || jTFUserNameAddUser.getText().isBlank()){
             valid = false;
             
             jTFUserNameAddUser.grabFocus();
-            jTFUserNameAddUser.setToolTipText("User Name Invalid or Empty!");
-
+            jLabelErrorUserNameAddUser.setVisible(true);
+            errorMessage += "UserName : User Name Invalid or Empty!";
             //JOptionPane.showMessageDialog(jTFUserNameAddUser, "User Name Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
-            
-            
-            //jTFUserNameAddUser.addActionListener((ActionEvent e) -> {
-            //    JOptionPane.showMessageDialog(jTFUserNameAddUser, "User Name Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
-            //});
         }
         
         //Test Email
         if(jTFEmailAddUser == null || jTFEmailAddUser.getText().isBlank()){
             valid = false;
-            jTFEmailAddUser.addActionListener((ActionEvent e) -> {
-                    JOptionPane.showMessageDialog(jTFEmailAddUser, "Email Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
-            });
+            
+            jTFEmailAddUser.grabFocus();
+            jLabelErrorEmailAddUser.setVisible(true);
+            errorMessage += "\nEmail : Email Invalid or Empty!";
+            //JOptionPane.showMessageDialog(jTFEmailAddUser, "Email Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
         }else{
             String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
             Pattern pattern = Pattern.compile(emailRegex);
             Matcher matcher = pattern.matcher(jTFEmailAddUser.getText());
             if(!matcher.matches()){
                 valid = false;
-                jTFEmailAddUser.addActionListener((ActionEvent e) -> {
-                    JOptionPane.showMessageDialog(jTFEmailAddUser, "Email format Invalid!", "warning", JOptionPane.WARNING_MESSAGE );
-                });
+                
+                jTFEmailAddUser.grabFocus();
+                jLabelErrorEmailAddUser.setVisible(true);
+                errorMessage += "\nEmail : Email format Invalid!";
+                //JOptionPane.showMessageDialog(jTFEmailAddUser, "Email format Invalid!", "warning", JOptionPane.WARNING_MESSAGE );
             }
         }
         
         //Test Password
         if(jPFPasswordAddUser == null){
            valid = false;
-            jPFPasswordAddUser.addActionListener((ActionEvent e) -> {
-                JOptionPane.showMessageDialog(jPFPasswordAddUser, "Password Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
-            });
+           
+           jPFPasswordAddUser.grabFocus();
+           jLabelErrorPasswordAddUser.setVisible(true);
+           errorMessage += "\nPassword : Password null!";
+           //JOptionPane.showMessageDialog(jPFPasswordAddUser, "Password null!", "warning", JOptionPane.WARNING_MESSAGE );
         }else{
             char[] passwordChar = jPFPasswordAddUser.getPassword();
             String password = new String(passwordChar);
-            valid = false;
+            
             if(password.isBlank()){
                 valid = false;
-                jPFPasswordAddUser.addActionListener((ActionEvent e) -> {
-                    JOptionPane.showMessageDialog(jPFPasswordAddUser, "Password Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
-                }); 
+                
+                jPFPasswordAddUser.grabFocus();
+                jLabelErrorPasswordAddUser.setVisible(true);
+                errorMessage += "\nPassword : Password Invalid or Empty!";
+                //JOptionPane.showMessageDialog(jPFPasswordAddUser, "Password Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
             } 
+        }
+        
+        //Display error
+        if(!valid){
+            JOptionPane.showMessageDialog(jTFUserNameAddUser, errorMessage, "warning", JOptionPane.WARNING_MESSAGE );
         }
             
         //verify that user name or email does not exist
+        DbUsers users = new DbUsers();
+        if(valid){
+            
+            try{
+                ArrayList<DbUsers> userList = users.GetAllEntries();
                 
+                for (var user : userList){
+                    String userName = user.getUserName();
+                    String email = user.getEmailAddress();
+                    if(userName.contains(jTFUserNameAddUser.getText()) || email.contains(jTFEmailAddUser.getText()) ){
+                        valid = false;
+                        JOptionPane.showMessageDialog(jTFUserNameAddUser, "UserName or Email already exist. Please try again!", "warning", JOptionPane.WARNING_MESSAGE );
+                    }
+                }
+            }catch (SQLException e){
+                logger.CreateLog("error", "Add new user Failed validation. Username or Email already exist.", e);
+            
+            }
+        }
+           
         //if all condition or valid, save the user
         if(valid){
-        
             
-         
-            JOptionPane.showMessageDialog(jPanelUserUI, "New User Added!", "information", JOptionPane.INFORMATION_MESSAGE );
-            //jPanelUserUISwitch(1);//Switch to UserList to home mode 
-            //jPanelUserControlsSwitch(1, "home"); //switch UserControls to home mode
-            
+            String userName = jTFUserNameAddUser.getText();
+            String email = jTFEmailAddUser.getText(); 
+            char[] passwordChar = jPFPasswordAddUser.getPassword();
+            String password = new String(passwordChar);       
+
+            try{
+                users.InsertEntry(userName, email, password);  // Add user to the database 
+                
+                JOptionPane.showMessageDialog(jPanelUserUI, "New User Added!", "information", JOptionPane.INFORMATION_MESSAGE );
+                jPanelUserUISwitch(1);//Switch to UserList to home mode 
+                jPanelUserControlsSwitch(1, "home"); //switch UserControls to home mode
+                
+            }catch(SQLException e){
+                logger.CreateLog("error", "Failed to connect or add new user. ", e);
+            }
         }else{
             //JOptionPane.showMessageDialog(jPanelUserUI, "Failed to Add User!", "error", JOptionPane.ERROR_MESSAGE );
             logger.CreateLog("error", "User not saved due to invalid input. ", null);
