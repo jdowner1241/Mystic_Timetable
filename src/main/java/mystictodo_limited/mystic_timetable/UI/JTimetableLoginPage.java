@@ -775,7 +775,6 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             jTFUserNameAddUser.grabFocus();
             jLabelErrorUserNameAddUser.setVisible(true);
             errorMessage += "UserName : User Name Invalid or Empty!";
-            //JOptionPane.showMessageDialog(jTFUserNameAddUser, "User Name Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
         }
         
         //Test Email
@@ -785,7 +784,6 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             jTFEmailAddUser.grabFocus();
             jLabelErrorEmailAddUser.setVisible(true);
             errorMessage += "\nEmail : Email Invalid or Empty!";
-            //JOptionPane.showMessageDialog(jTFEmailAddUser, "Email Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
         }else{
             String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
             Pattern pattern = Pattern.compile(emailRegex);
@@ -796,7 +794,6 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                 jTFEmailAddUser.grabFocus();
                 jLabelErrorEmailAddUser.setVisible(true);
                 errorMessage += "\nEmail : Email format Invalid!";
-                //JOptionPane.showMessageDialog(jTFEmailAddUser, "Email format Invalid!", "warning", JOptionPane.WARNING_MESSAGE );
             }
         }
         
@@ -807,7 +804,6 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
            jPFPasswordAddUser.grabFocus();
            jLabelErrorPasswordAddUser.setVisible(true);
            errorMessage += "\nPassword : Password null!";
-           //JOptionPane.showMessageDialog(jPFPasswordAddUser, "Password null!", "warning", JOptionPane.WARNING_MESSAGE );
         }else{
             char[] passwordChar = jPFPasswordAddUser.getPassword();
             String password = new String(passwordChar);
@@ -818,7 +814,6 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                 jPFPasswordAddUser.grabFocus();
                 jLabelErrorPasswordAddUser.setVisible(true);
                 errorMessage += "\nPassword : Password Invalid or Empty!";
-                //JOptionPane.showMessageDialog(jPFPasswordAddUser, "Password Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
             } 
         }
         
@@ -827,29 +822,10 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(jTFUserNameAddUser, errorMessage, "warning", JOptionPane.WARNING_MESSAGE );
         }
             
-        //verify that user name or email does not exist
-        DbUsers users = new DbUsers();
-        if(valid){
-            
-            try{
-                ArrayList<DbUsers> userList = users.GetAllEntries();
-                
-                for (var user : userList){
-                    String userName = user.getUserName();
-                    String email = user.getEmailAddress();
-                    if(userName.contains(jTFUserNameAddUser.getText()) || email.contains(jTFEmailAddUser.getText()) ){
-                        valid = false;
-                        JOptionPane.showMessageDialog(jTFUserNameAddUser, "UserName or Email already exist. Please try again!", "warning", JOptionPane.WARNING_MESSAGE );
-                    }
-                }
-            }catch (SQLException e){
-                logger.CreateLog("error", "Add new user Failed validation. Username or Email already exist.", e);
-            
-            }
-        }
            
         //if all condition or valid, save the user
         if(valid){
+            DbUsers user = new DbUsers();
             
             String userName = jTFUserNameAddUser.getText();
             String email = jTFEmailAddUser.getText(); 
@@ -857,17 +833,25 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             String password = new String(passwordChar);       
 
             try{
-                users.InsertEntry(userName, email, password);  // Add user to the database 
                 
-                JOptionPane.showMessageDialog(jPanelUserUI, "New User Added!", "information", JOptionPane.INFORMATION_MESSAGE );
-                jPanelUserUISwitch(1);//Switch to UserList to home mode 
-                jPanelUserControlsSwitch(1, "home"); //switch UserControls to home mode
-                
+                boolean inserted = user.InsertEntry(userName, email, password);  // Add user to the database and also further test if it exist
+                if(inserted){
+                    JOptionPane.showMessageDialog(jPanelUserUI, "New User Added!", "information", JOptionPane.INFORMATION_MESSAGE );
+                    jPanelUserUISwitch(1);//Switch to UserList to home mode 
+                    jPanelUserControlsSwitch(1, "home"); //switch UserControls to home mode
+                    
+                    //Clear input
+                    jTFUserNameAddUser.setText("");
+                    jTFEmailAddUser.setText("");
+                    jPFPasswordAddUser.setText("");
+                }else{
+                    JOptionPane.showMessageDialog(jTFUserNameAddUser, "Username or Email already exist. Please try again!", "warning", JOptionPane.WARNING_MESSAGE );
+                }
+
             }catch(SQLException e){
                 logger.CreateLog("error", "Failed to connect or add new user. ", e);
             }
         }else{
-            //JOptionPane.showMessageDialog(jPanelUserUI, "Failed to Add User!", "error", JOptionPane.ERROR_MESSAGE );
             logger.CreateLog("error", "User not saved due to invalid input. ", null);
         }
                 

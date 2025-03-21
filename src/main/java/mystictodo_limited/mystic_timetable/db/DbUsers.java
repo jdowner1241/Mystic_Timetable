@@ -8,6 +8,9 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter.Entry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +25,6 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
      //log.info("Class: DbUsers. Action: Default Constructor Triggered.");
      super(DbUsers.class);
      CreateLog("info", "Default Constructor Triggered.", null);
-
  }
     
  //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
@@ -33,6 +35,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
  private String emailAddress;
  private String password;
  private LocalDateTime registrationDate;
+ private boolean isValid;
  private ArrayList<DbUsers> userList = new ArrayList<>();
  
  //private static final Logger log = LogManager.getLogger(DbUsers.class);
@@ -93,7 +96,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void InsertEntry(String userName, String emailAddress, String password) throws SQLException{
+    public boolean InsertEntry(String userName, String emailAddress, String password) throws SQLException{
        //log.info("Class: DbUsers. Action: Insert Entry Operation Triggered.");
        CreateLog("info", "Insert Entry Operation Triggered.", null);
         
@@ -101,17 +104,58 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
              //database connection 
             Connection con = Connection();
             
-            //Variables and validation
-            String _userName = userName;
-            String _emailAddress = emailAddress;
-            String _password = password;
-            LocalDateTime _setRegistrationDate = LocalDateTime.now();
-            String _registrationDate = _setRegistrationDate.toString();
+            //valid if insert is empty or null 
+            String errorMessage = "";
+            isValid = true;
             
-            boolean isValid = true;
+            //verify that variables are not empty and valid
+            //Test UserName
+            if(userName == null || userName.isBlank()){
+                isValid = false;
+                errorMessage += "UserName : User Name Invalid or Empty!";
+            }
+        
+            //Test Email
+            if(emailAddress == null || emailAddress.isBlank()){
+                isValid = false;
+                errorMessage += "\nEmail : Email Invalid or Empty!";
+            }else{
+                String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+                Pattern pattern = Pattern.compile(emailRegex);
+                Matcher matcher = pattern.matcher(emailAddress);
+                if(!matcher.matches()){
+                    isValid = false;
+                    errorMessage += "\nEmail : Email format Invalid!";
+                }
+            }
             
-           if (isValid == true) 
+            //Test Password
+            if(password == null || password.isBlank()){
+               isValid = false;
+               errorMessage += "\nPassword : Password Invalid or Empty!";
+            }
+            
+            //verify that user name or email does not exist
+            ArrayList<DbUsers> userList = GetAllEntries();
+                for (var user : userList){
+                    String testUserName = user.getUserName();
+                    String testEmail = user.getEmailAddress();
+                    if(testUserName.contains(userName) || testEmail.contains(emailAddress) ){
+                        isValid = false;
+                         errorMessage += "\nUserName or Email already exist.";
+                    }
+                }
+ 
+                
+           if (isValid) 
            {
+               //Variables after being confirmed validation
+                String _userName = userName;
+                String _emailAddress = emailAddress;
+                String _password = password;
+                LocalDateTime _setRegistrationDate = LocalDateTime.now();
+                String _registrationDate = _setRegistrationDate.toString();
+               
                //insert to database
                 String insertSQL = "INSERT INTO users "
                         + "(UserName, EmailAddress, Password, RegistrationDate) "
@@ -134,6 +178,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
                    CreateLog("info", "Entry also added to the DbFolderPerUser table.", null);  // When new user is created. Default folder automatically added to DbFolderPerUser table. 
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
+                   
                 }
            } else 
            {
@@ -144,7 +189,8 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
              //log.info("Connection closed");
                
              // Data not saved due to validation  
-             CreateLog("error", "Validation Failed. Entry Not Added.", null);  
+             errorMessage += "\nValidation Failed. Entry Not Added."; 
+             CreateLog("error", errorMessage, null);  
              con.close(); //Close Connection
              CreateLog("info", "Connection closed.", null);
            }
@@ -153,9 +199,10 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
             //System.out.println("\nClass: DbUsers. Action: Connection Failed. Entry Not Added");
             //log.error("Class: DbUsers. Action: Connection Failed. Entry Not Added");
             //log.error("\nDetail Error: " + e);
-            
+            isValid = false;
             CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
+        return isValid;
     }
     
     //Update Entry
