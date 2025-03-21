@@ -34,7 +34,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="445" max="32767" attributes="0"/>
               <Component id="jModeHeader" min="-2" pref="252" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="442" max="-2" attributes="0"/>
+              <EmptySpace pref="442" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
@@ -233,7 +233,7 @@
                                   <Component id="jTFUserNameAddUser" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jPFPasswordAddUser" min="-2" pref="171" max="-2" attributes="0"/>
-                                      <EmptySpace pref="7" max="32767" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                       <Component id="jTGBShowPasswordAddUser" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                                   </Group>
@@ -388,7 +388,7 @@
                                   </Group>
                                   <Component id="jTFUserNameLogin" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="32" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -408,9 +408,9 @@
                           <Component id="jPFPasswordLogin" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jTGBShowPasswordLogin" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       <Component id="jBClearAllLogin" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="61" max="32767" attributes="0"/>
+                      <EmptySpace pref="48" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

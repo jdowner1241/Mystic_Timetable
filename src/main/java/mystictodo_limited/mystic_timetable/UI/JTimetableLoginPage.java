@@ -12,14 +12,19 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import mystictodo_limited.mystic_timetable.db.*;
 
@@ -174,7 +179,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                             .addComponent(jTFUserNameAddUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jAddUserLayout.createSequentialGroup()
                                 .addComponent(jPFPasswordAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTGBShowPasswordAddUser)
                                 .addGap(3, 3, 3)))
                         .addGap(30, 30, 30))))
@@ -256,7 +261,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTGBShowPasswordLogin))
                             .addComponent(jTFUserNameLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 20, Short.MAX_VALUE))))
+                        .addGap(0, 32, Short.MAX_VALUE))))
         );
         jLoginLayout.setVerticalGroup(
             jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,9 +276,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                 .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPFPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTGBShowPasswordLogin))
-                .addGap(29, 29, 29)
+                .addGap(42, 42, 42)
                 .addComponent(jBClearAllLogin)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelUserUILayout = new javax.swing.GroupLayout(jPanelUserUI);
@@ -356,7 +361,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(445, Short.MAX_VALUE)
                 .addComponent(jModeHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(442, 442, 442))
+                .addContainerGap(442, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(11, 11, 11)
@@ -552,10 +557,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                     
                     // add ActionListener to the button
                     button1.addActionListener((ActionEvent e) -> {
-                        jModeHeader.setText(username); //Change ModeHeader to User Name
-                        loginPrompt(userId); //Trigger User prompt and stores the userId
-                        jPanelUserUISwitch(3); //Switch Mode to Login
-                        jPanelUserControlsSwitch(2, "login"); // switch UserControls to login
+                        loginPrompt(userId, username); //Trigger User prompt and stores the userId
                     });
                     row.add(button1, gbc); // Add button to jHome 
                     
@@ -597,11 +599,24 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         }
     }// End jHomeAddElements 
     
+    
     // Show User and prompt to enter credentials
-    private void loginPrompt(int UserId){
-     logger.CreateLog("info", "LoginPrompt Method triggered.", null);
+    private void loginPrompt(int UserId, String username){
+        logger.CreateLog("info", "LoginPrompt Method triggered.", null);
      
-     
+        //Login in automatically if its the guest user without a password
+        if(UserId == 1){
+           //Switch to the Guest UserAccount
+           this.setVisible(false); //hide current Frame
+           
+           //create and show second frame
+           JTimetableMain mainPanel = new JTimetableMain(UserId, username);
+           mainPanel.setVisible(true);
+        }else{
+           jPanelUserUISwitch(3); //Switch Mode to Login
+           jPanelUserControlsSwitch(2, "login"); // switch UserControls to login
+           jModeHeader.setText(username); //Change ModeHeader to User Name
+        }
     
     }//End LoginPrompt page
             
@@ -632,8 +647,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         buttonLogin.setBounds(10, 20, 40, 20);
         buttonLogin.addActionListener((ActionEvent e) -> {
             //Switch to timetable ui base on a userId
-            
-            
+             
         });
         
         // Create addUser button
@@ -641,10 +655,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         buttonaddUser.setBounds(10, 20, 40, 20);
         buttonaddUser.addActionListener((ActionEvent e) -> {
             //add new user to database 
-            
-            
-            jPanelUserUISwitch(1);//Switch to UserList to home mode 
-            jPanelUserControlsSwitch(1, "home"); //switch UserControls to home mode
+            addNewUser();
         });
         
         //Determines what button would appear on the login page base on a event triggered(mode)
@@ -674,7 +685,81 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                  break;
  
         }// End switch 
-    }// jPanelUserControlsSwitch
+    }//End jPanelUserControlsSwitch
+
+    private void addNewUser() {
+        logger.CreateLog("info", "Create new user Method triggered.", null);
+        boolean valid = true;
+  
+        //verify that fields are not empty and valid
+        //Test UserName
+        if(jTFUserNameAddUser == null || jTFUserNameAddUser.getText().isBlank()){
+            valid = false;
+            
+            jTFUserNameAddUser.grabFocus();
+            jTFUserNameAddUser.setToolTipText("User Name Invalid or Empty!");
+
+            //JOptionPane.showMessageDialog(jTFUserNameAddUser, "User Name Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
+            
+            
+            //jTFUserNameAddUser.addActionListener((ActionEvent e) -> {
+            //    JOptionPane.showMessageDialog(jTFUserNameAddUser, "User Name Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
+            //});
+        }
+        
+        //Test Email
+        if(jTFEmailAddUser == null || jTFEmailAddUser.getText().isBlank()){
+            valid = false;
+            jTFEmailAddUser.addActionListener((ActionEvent e) -> {
+                    JOptionPane.showMessageDialog(jTFEmailAddUser, "Email Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
+            });
+        }else{
+            String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+            Pattern pattern = Pattern.compile(emailRegex);
+            Matcher matcher = pattern.matcher(jTFEmailAddUser.getText());
+            if(!matcher.matches()){
+                valid = false;
+                jTFEmailAddUser.addActionListener((ActionEvent e) -> {
+                    JOptionPane.showMessageDialog(jTFEmailAddUser, "Email format Invalid!", "warning", JOptionPane.WARNING_MESSAGE );
+                });
+            }
+        }
+        
+        //Test Password
+        if(jPFPasswordAddUser == null){
+           valid = false;
+            jPFPasswordAddUser.addActionListener((ActionEvent e) -> {
+                JOptionPane.showMessageDialog(jPFPasswordAddUser, "Password Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
+            });
+        }else{
+            char[] passwordChar = jPFPasswordAddUser.getPassword();
+            String password = new String(passwordChar);
+            valid = false;
+            if(password.isBlank()){
+                valid = false;
+                jPFPasswordAddUser.addActionListener((ActionEvent e) -> {
+                    JOptionPane.showMessageDialog(jPFPasswordAddUser, "Password Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
+                }); 
+            } 
+        }
+            
+        //verify that user name or email does not exist
+                
+        //if all condition or valid, save the user
+        if(valid){
+        
+            
+         
+            JOptionPane.showMessageDialog(jPanelUserUI, "New User Added!", "information", JOptionPane.INFORMATION_MESSAGE );
+            //jPanelUserUISwitch(1);//Switch to UserList to home mode 
+            //jPanelUserControlsSwitch(1, "home"); //switch UserControls to home mode
+            
+        }else{
+            //JOptionPane.showMessageDialog(jPanelUserUI, "Failed to Add User!", "error", JOptionPane.ERROR_MESSAGE );
+            logger.CreateLog("error", "User not saved due to invalid input. ", null);
+        }
+                
+    }//End addNewUser
     
 
     
