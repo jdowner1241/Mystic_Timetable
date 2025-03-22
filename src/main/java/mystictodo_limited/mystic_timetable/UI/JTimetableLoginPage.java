@@ -27,6 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import mystictodo_limited.mystic_timetable.db.*;
+import mystictodo_limited.mystic_timetable.tools.validCheck;
 
 /**
  *
@@ -75,9 +76,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jLabelErrorEmailAddUser = new javax.swing.JLabel();
         jLabelErrorPasswordAddUser = new javax.swing.JLabel();
         jLogin = new javax.swing.JPanel();
-        jLabelUserNameLogin = new javax.swing.JLabel();
+        jLabelEmailLogin = new javax.swing.JLabel();
         jLabelPasswordLogin = new javax.swing.JLabel();
-        jTFUserNameLogin = new javax.swing.JTextField();
+        jTFEmailLogin = new javax.swing.JTextField();
         jPFPasswordLogin = new javax.swing.JPasswordField();
         jTGBShowPasswordLogin = new javax.swing.JToggleButton();
         jBClearAllLogin = new javax.swing.JButton();
@@ -264,15 +265,15 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jLogin.setMaximumSize(new java.awt.Dimension(500, 1000));
         jLogin.setPreferredSize(new java.awt.Dimension(300, 300));
 
-        jLabelUserNameLogin.setLabelFor(jTFUserNameLogin);
-        jLabelUserNameLogin.setText("User Name or Email");
+        jLabelEmailLogin.setLabelFor(jTFEmailLogin);
+        jLabelEmailLogin.setText(" Email");
 
         jLabelPasswordLogin.setLabelFor(jPFPasswordLogin);
         jLabelPasswordLogin.setText("Password");
 
-        jTFUserNameLogin.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTFUserNameLogin.setToolTipText("Enter User Name");
-        jTFUserNameLogin.setMaximumSize(new java.awt.Dimension(1000, 100));
+        jTFEmailLogin.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTFEmailLogin.setToolTipText("Enter User Name");
+        jTFEmailLogin.setMaximumSize(new java.awt.Dimension(1000, 100));
 
         jPFPasswordLogin.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jPFPasswordLogin.setMaximumSize(new java.awt.Dimension(1000, 50));
@@ -298,28 +299,25 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             .addGroup(jLoginLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jLoginLayout.createSequentialGroup()
-                        .addComponent(jLabelUserNameLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jLoginLayout.createSequentialGroup()
-                        .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jLoginLayout.createSequentialGroup()
-                                .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jBClearAllLogin)
-                                    .addComponent(jPFPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTGBShowPasswordLogin))
-                            .addComponent(jTFUserNameLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 32, Short.MAX_VALUE))))
+                    .addComponent(jLabelEmailLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabelPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jLoginLayout.createSequentialGroup()
+                            .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jBClearAllLogin)
+                                .addComponent(jPFPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTGBShowPasswordLogin))
+                        .addComponent(jTFEmailLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
         jLoginLayout.setVerticalGroup(
             jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLoginLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(jLabelUserNameLogin)
+                .addComponent(jLabelEmailLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTFUserNameLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTFEmailLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addComponent(jLabelPasswordLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -344,7 +342,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             .addGroup(jPanelUserUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelUserUILayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 286, Short.MAX_VALUE)
+                    .addComponent(jAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jPanelUserUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelUserUILayout.createSequentialGroup()
@@ -404,14 +402,12 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanelUserControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelUserUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanelUserControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanelUserUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jModeHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(445, Short.MAX_VALUE)
-                .addComponent(jModeHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(442, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(11, 11, 11)
@@ -449,7 +445,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
 
     private void jBClearAllLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBClearAllLoginActionPerformed
         //Clear All Content from Fields.
-        jTFUserNameLogin.setText("");
+        jTFEmailLogin.setText("");
         jPFPasswordLogin.setText("");
     }//GEN-LAST:event_jBClearAllLoginActionPerformed
 
@@ -527,13 +523,13 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     private javax.swing.JButton jBClearAllLogin;
     private javax.swing.JPanel jHome;
     private javax.swing.JLabel jLabelEmail;
+    private javax.swing.JLabel jLabelEmailLogin;
     private javax.swing.JLabel jLabelErrorEmailAddUser;
     private javax.swing.JLabel jLabelErrorPasswordAddUser;
     private javax.swing.JLabel jLabelErrorUserNameAddUser;
     private javax.swing.JLabel jLabelPassword;
     private javax.swing.JLabel jLabelPasswordLogin;
     private javax.swing.JLabel jLabelUserName;
-    private javax.swing.JLabel jLabelUserNameLogin;
     private javax.swing.JPanel jLogin;
     private javax.swing.JLabel jModeHeader;
     private javax.swing.JPasswordField jPFPasswordAddUser;
@@ -541,8 +537,8 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelUserControls;
     private javax.swing.JPanel jPanelUserUI;
     private javax.swing.JTextField jTFEmailAddUser;
+    private javax.swing.JTextField jTFEmailLogin;
     private javax.swing.JTextField jTFUserNameAddUser;
-    private javax.swing.JTextField jTFUserNameLogin;
     private javax.swing.JToggleButton jTGBShowPasswordAddUser;
     private javax.swing.JToggleButton jTGBShowPasswordLogin;
     // End of variables declaration//GEN-END:variables
@@ -550,13 +546,15 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     
     //Feilds >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
     private DbConnectionManager logger;
-    
+    private int passwordAttempts;
     
     //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
 
     //Switch jPanelUserUI
     private void jPanelUserUISwitch(int mode){
         
+        passwordAttempts = 0;
+
         //Disable all Ui element to prevent UI issues
         jHome.setVisible(false);  //Mode 1
         jAddUser.setVisible(false); //Mode 2
@@ -673,28 +671,37 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     
     
     // Show User and prompt to enter credentials
-    private void loginPrompt(int UserId, String username){
+    private void loginPrompt(int userId, String username){
         logger.CreateLog("info", "LoginPrompt Method triggered.", null);
      
         //Login in automatically if its the guest user without a password
-        if(UserId == 1){
-           //Switch to the Guest UserAccount
-           this.setVisible(false); //hide current Frame
-           
-           //create and show second frame
-           JTimetableMain mainPanel = new JTimetableMain(UserId, username);
-           mainPanel.setVisible(true);
+        if(userId == 1){
+           //Switch to the Guest UserAccount MainPage without password
+            signSuccess(userId, username);
         }else{
            jPanelUserUISwitch(3); //Switch Mode to Login
-           jPanelUserControlsSwitch(2, "login"); // switch UserControls to login
+           jPanelUserControlsSwitch(userId, "login"); // switch UserControls to login
            jModeHeader.setText(username); //Change ModeHeader to User Name
+           
         }
-    
     }//End LoginPrompt page
+    
+    
+    // Sign into user only if credentials are correct 
+    private void signSuccess(int UserId, String username){
+    //Switch to the Guest UserAccount
+     this.setVisible(false); //hide current Frame
+           
+     //create and show second frame
+     JTimetableMain mainPanel = new JTimetableMain(UserId, username);
+     mainPanel.setVisible(true);
+    
+    }//End signSuccess
+    
             
     
     //Switch jPandelUserControls buttons base on Events
-    private void jPanelUserControlsSwitch(int buttonCount, String mode){
+    private void jPanelUserControlsSwitch(int userId, String mode){
         logger.CreateLog("info", "jPanelUserControls show elements event triggered.", null);
         
         //Create a list of buttons
@@ -703,7 +710,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         buttonNewUser.setBounds(10, 20, 40, 20);
         buttonNewUser.addActionListener((ActionEvent e) -> {
             jPanelUserUISwitch(2);//Switch to UserList to addUser mode 
-            jPanelUserControlsSwitch(2, "addUser"); //switch UserControls to addUser mode
+            jPanelUserControlsSwitch(1, "addUser"); //switch UserControls to addUser mode
         });
         
         // Create Cancel button
@@ -719,7 +726,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         buttonLogin.setBounds(10, 20, 40, 20);
         buttonLogin.addActionListener((ActionEvent e) -> {
             //Switch to timetable ui base on a userId
-             
+            if (userId != 1){
+                loginVerification(userId);
+            }
         });
         
         // Create addUser button
@@ -768,62 +777,81 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
   
         //verify that fields are not empty and valid
         String errorMessage = "";
+        
         //Test UserName
-        if(jTFUserNameAddUser == null || jTFUserNameAddUser.getText().isBlank()){
+        boolean testUserName = validCheck.checkTextField(jTFUserNameAddUser);
+        if(!testUserName){
             valid = false;
-            
-            jTFUserNameAddUser.grabFocus();
             jLabelErrorUserNameAddUser.setVisible(true);
             errorMessage += "UserName : User Name Invalid or Empty!";
         }
         
-        //Test Email
-        if(jTFEmailAddUser == null || jTFEmailAddUser.getText().isBlank()){
+       //Test Email
+        boolean testEmail = validCheck.checkEmailField(jTFEmailAddUser);
+        if(!testEmail) {
             valid = false;
-            
-            jTFEmailAddUser.grabFocus();
             jLabelErrorEmailAddUser.setVisible(true);
-            errorMessage += "\nEmail : Email Invalid or Empty!";
-        }else{
-            String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-            Pattern pattern = Pattern.compile(emailRegex);
-            Matcher matcher = pattern.matcher(jTFEmailAddUser.getText());
-            if(!matcher.matches()){
-                valid = false;
-                
-                jTFEmailAddUser.grabFocus();
-                jLabelErrorEmailAddUser.setVisible(true);
-                errorMessage += "\nEmail : Email format Invalid!";
-            }
+            errorMessage += "\nEmail : Email Invalid format or Empty!";
         }
         
         //Test Password
-        if(jPFPasswordAddUser == null){
-           valid = false;
-           
-           jPFPasswordAddUser.grabFocus();
-           jLabelErrorPasswordAddUser.setVisible(true);
-           errorMessage += "\nPassword : Password null!";
-        }else{
-            char[] passwordChar = jPFPasswordAddUser.getPassword();
-            String password = new String(passwordChar);
-            
-            if(password.isBlank()){
-                valid = false;
-                
-                jPFPasswordAddUser.grabFocus();
-                jLabelErrorPasswordAddUser.setVisible(true);
-                errorMessage += "\nPassword : Password Invalid or Empty!";
-            } 
+        boolean testPassword = validCheck.checkPasswordField(jPFPasswordAddUser);
+        if(!testPassword){
+            valid = false;
+            jLabelErrorPasswordAddUser.setVisible(true);
+            errorMessage += "\nPassword : Password Invalid or Empty!";
         }
         
-        //Display error
-        if(!valid){
-            JOptionPane.showMessageDialog(jTFUserNameAddUser, errorMessage, "warning", JOptionPane.WARNING_MESSAGE );
-        }
+        
+//        if(jTFUserNameAddUser == null || jTFUserNameAddUser.getText().isBlank()){
+//            valid = false;
+//            
+//            jTFUserNameAddUser.grabFocus();
+//            jLabelErrorUserNameAddUser.setVisible(true);
+//            errorMessage += "UserName : User Name Invalid or Empty!";
+//        }
+  
+//        if(jTFEmailAddUser == null || jTFEmailAddUser.getText().isBlank()){
+//            valid = false;
+//            
+//            jTFEmailAddUser.grabFocus();
+//            jLabelErrorEmailAddUser.setVisible(true);
+//            errorMessage += "\nEmail : Email Invalid format or Empty!";
+//        }else{
+//            String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+//            Pattern pattern = Pattern.compile(emailRegex);
+//            Matcher matcher = pattern.matcher(jTFEmailAddUser.getText());
+//            if(!matcher.matches()){
+//                valid = false;
+//                
+//                jTFEmailAddUser.grabFocus();
+//                jLabelErrorEmailAddUser.setVisible(true);
+//                errorMessage += "\nEmail : Email format Invalid!";
+//            }
+//        }
+        
+//        if(jPFPasswordAddUser == null){
+//           valid = false;
+//           
+//           jPFPasswordAddUser.grabFocus();
+//           jLabelErrorPasswordAddUser.setVisible(true);
+//           errorMessage += "\nPassword : Password null!";
+//        }else{
+//            char[] passwordChar = jPFPasswordAddUser.getPassword();
+//            String password = new String(passwordChar);
+//            
+//            if(password.isBlank()){
+//                valid = false;
+//                
+//                jPFPasswordAddUser.grabFocus();
+//                jLabelErrorPasswordAddUser.setVisible(true);
+//                errorMessage += "\nPassword : Password Invalid or Empty!";
+//            } 
+//        }
+        
             
            
-        //if all condition or valid, save the user
+        //if all condition or valid, save the user other a error prompt is offered
         if(valid){
             DbUsers user = new DbUsers();
             
@@ -852,10 +880,85 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                 logger.CreateLog("error", "Failed to connect or add new user. ", e);
             }
         }else{
+            //Display error
+            JOptionPane.showMessageDialog(jTFUserNameAddUser, errorMessage, "warning", JOptionPane.WARNING_MESSAGE );
             logger.CreateLog("error", "User not saved due to invalid input. ", null);
         }
                 
     }//End addNewUser
+ 
+
+    //Verify that credentials are valid before signing.
+    private boolean loginVerification(int userId) {
+        logger.CreateLog("info", "Sign into user Method triggered.", null);
+        boolean valid = true;
+        boolean confirmedLogin = false;
+        
+        //verify that fields are not empty and valid
+        //Test UserName or email and password
+        boolean testEmail = validCheck.checkEmailField(jTFEmailLogin);
+        boolean testPassword = validCheck.checkPasswordField(jPFPasswordLogin);
+        if(!testEmail || !testPassword){
+            valid = false;
+        }
+        
+        try{
+            //if all condition or valid, save the user other a error prompt is offered
+            if(valid){
+                //Create instance of the required tables
+                DbUsers userDB = new DbUsers();
+                DbLoginInfo loginInfo = new DbLoginInfo();
+                
+                //Initial required varilables 
+                String userName = "";
+            
+                String email = jTFEmailLogin.getText();
+                char[] passwordChar = jPFPasswordLogin.getPassword();
+                String password = new String(passwordChar);       
+
+                //get user information for validation
+                var userDetails = userDB.GetEntrybyId(userId);
+                
+                
+                //validate if the Email and password is correct
+                if(userDetails.getEmailAddress().equals(email) && userDetails.getPassword().equals(password)){
+                    confirmedLogin = true;
+                }
+                
+                // Attempted sign
+                if(confirmedLogin){
+                    
+                    JOptionPane.showMessageDialog(jPanelUserUI, "Login Successful!", "information", JOptionPane.INFORMATION_MESSAGE );
+                    signSuccess(userId, userName); //Switch to UserList to Main page
+                    
+                    //Clear input
+                    jTFEmailLogin.setText("");
+                    jPFPasswordLogin.setText("");
+                }else{
+                    JOptionPane.showMessageDialog(jTFUserNameAddUser, "Login Failed. Email or Password incorrect!", "warning", JOptionPane.WARNING_MESSAGE );
+                   
+                }
+                
+                //Note Login Info for both attempt types
+                boolean inserted = loginInfo.InsertEntry(userId, confirmedLogin, 0, 0);
+                if(inserted){
+                    logger.CreateLog("error", "Login Info updated. ", null);
+                }else{
+                    logger.CreateLog("error", "Failed to insert LoginInfo. ", null);
+                }
+                
+            }else{
+                //Display error
+                JOptionPane.showMessageDialog(jTFEmailLogin, "Field : Invalid or Empty!", "warning", JOptionPane.WARNING_MESSAGE );
+                logger.CreateLog("error", "User Login Failed due to invalid or empty input. ", null);
+            }
+        
+        }catch(SQLException e){
+                logger.CreateLog("error", "Failed to connect. User Login Failed due to error. ", e);
+        }
+
+        return confirmedLogin;
+    }// End loginVerification
     
 
     

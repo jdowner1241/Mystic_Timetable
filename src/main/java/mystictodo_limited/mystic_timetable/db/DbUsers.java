@@ -318,7 +318,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
                 
                 // use id to locate entry
                 String selectSQL = "SELECT UserId, UserName, EmailAddress, Password, RegistrationDate "
-                        + "FROM users"
+                        + "FROM users "
                         + "WHERE UserId = ?";
                 PreparedStatement psSelect = con.prepareStatement(selectSQL);
                 psSelect.setInt(1, id);
@@ -376,7 +376,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
                 
                 // use name to locate entry
                 String selectSQL = "SELECT UserId, UserName, EmailAddress, Password, RegistrationDate "
-                        + "FROM users"
+                        + "FROM users "
                         + "WHERE UserName = ?";
                 PreparedStatement psSelect = con.prepareStatement(selectSQL);
                 psSelect.setString(1, userName);

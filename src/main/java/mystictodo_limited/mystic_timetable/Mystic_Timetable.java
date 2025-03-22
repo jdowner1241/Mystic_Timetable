@@ -45,7 +45,11 @@ public class Mystic_Timetable {
        
        JTimetableLoginPage startApp = new JTimetableLoginPage();
        startApp.setVisible(true);
-      
+       
+       //DbUsers userDb = new DbUsers();
+       //var user = userDb.GetEntrybyId(8 );
+       //String email = user.getEmailAddress();
+       //System.out.println(email);
         
     }
 }

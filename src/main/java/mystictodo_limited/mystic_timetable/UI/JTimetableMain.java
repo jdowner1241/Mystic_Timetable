@@ -26,7 +26,9 @@ public class JTimetableMain extends javax.swing.JFrame {
     public JTimetableMain(int userId, String userName){
         this();
         this.userId = userId;
+        jUserId.setText(String.valueOf(userId));
         this.userName = userName;
+        jUserName.setText(userName);
     }
 
     /**
@@ -38,11 +40,25 @@ public class JTimetableMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jUserName = new javax.swing.JLabel();
+        jUserId = new javax.swing.JLabel();
+        jBackToMain = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jUserName.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+
+        jUserId.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+
+        jBackToMain.setText("< Back");
+        jBackToMain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBackToMainActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -56,15 +72,36 @@ public class JTimetableMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1287, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(jUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(144, 144, 144)
+                .addComponent(jUserId, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(141, 141, 141)
+                .addComponent(jBackToMain)
+                .addContainerGap(569, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 743, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jUserId, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jBackToMain)))
+                .addContainerGap(549, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBackToMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBackToMainActionPerformed
+        backToMain();
+    }//GEN-LAST:event_jBackToMainActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,9 +140,12 @@ public class JTimetableMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBackToMain;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel jUserId;
+    private javax.swing.JLabel jUserName;
     // End of variables declaration//GEN-END:variables
 
     //Feilds >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
@@ -115,4 +155,14 @@ public class JTimetableMain extends javax.swing.JFrame {
     
     //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
 
+    private void backToMain(){
+    //Switch to the Guest UserAccount
+     this.setVisible(false); //hide current Frame
+           
+     //create and show second frame
+     JTimetableLoginPage login = new JTimetableLoginPage();
+     login.setVisible(true);
+    }//End signSuccess
+    
+    
 }//End Class

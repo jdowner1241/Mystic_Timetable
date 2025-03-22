@@ -31,6 +31,8 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
  
  private int loginInfoId;
  private int userId;
+ private boolean loginResult;
+ private int successLoginCount;
  private int failedLoginCount;
  private LocalDateTime lastLogin;
  private ArrayList<DbLoginInfo> loginInfoList;
@@ -53,6 +55,24 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
      this.userId = userId;
  }
  
+ //Login Results
+    public boolean getLoginResult() {
+        return loginResult;
+    }
+
+    public void setLoginResult(boolean loginResult) {
+        this.loginResult = loginResult;
+    }
+ 
+ //SuccessLoginCount
+     public int getSuccessLoginCount() {
+        return successLoginCount;
+    }
+
+    public void setSuccessLoginCount(int successLoginCount) {
+        this.successLoginCount = successLoginCount;
+    }
+ 
  //FailedLoginCount
  public int getFailedLoginCount(){
      return failedLoginCount;
@@ -73,32 +93,37 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void InsertEntry(int userId, int failedLoginCount ) throws SQLException{
+    public boolean InsertEntry(int userId, boolean loginResult, int successLoginCount, int failedLoginCount ) throws SQLException{
         //log.info("Class: DbLoginInfo. Action: Insert Entry Operation Triggered.");
         CreateLog("info", "Insert Entry Operation Triggered.", null);  
-        
+        boolean isValid = true;
+                    
         try{
              //database connection 
             Connection con = Connection();
             
             //Variables and validation
             int _userId = userId;
-            int _failedLoginCount = failedLoginCount;
+            boolean _loginResult = loginResult;
+            int _successLoginCount = successLoginCount;
+            int _failedLoginCount = failedLoginCount;    
             LocalDateTime _setLastLogin = LocalDateTime.now();
             String _lastLogin = _setLastLogin.toString();
             
-            boolean isValid = true;
+
             
            if (isValid == true) 
            {
                //insert to database
                 String insertSQL = "INSERT INTO logininfo "
-                        + "(UserId, FailedLoginCount, Password, LastLogin) "
-                        + "VALUE (?,?,?,?)";
+                        + "(UserId, LoginResult, SuccessLoginCount, FailedLoginCount, LastLogin) "
+                        + "VALUE (?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(insertSQL);
                 ps.setInt(1, _userId);
-                ps.setInt(2, _failedLoginCount);
-                ps.setString(4, _lastLogin);         
+                ps.setBoolean(2, _loginResult);
+                ps.setInt(3, _successLoginCount);
+                ps.setInt(4, _failedLoginCount);
+                ps.setString(5, _lastLogin);         
             
                 int rowsInserted = ps.executeUpdate();
             
@@ -132,10 +157,11 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
             
             CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
+        return isValid;
     }
     
     //Update Entry
-    public void UpdateEntrybyId(int id, int userId, int failedLoginCount) throws SQLException{
+    public void UpdateEntrybyId(int id, int userId, boolean loginResult, int successLoginCount, int failedLoginCount) throws SQLException{
         //log.info("Class: DbLoginInfo. Action: Update Entry by Id operation triggered. ");
         CreateLog("info", "Update Entry by Id operation triggered.", null);  
         
@@ -145,7 +171,9 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
             
             //Variables and validation
             int _userId = userId;
-            int _failedLoginCount = failedLoginCount;
+            boolean _loginResult = loginResult;
+            int _successLoginCount = successLoginCount;
+            int _failedLoginCount = failedLoginCount;    
   
             boolean isValid = true;
             
@@ -153,12 +181,14 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
             {
                 // update the entry
                 String updateSQL = "UPDATE logininfo "
-                        + "SET UserId = ? FailedLoginCount = ? Password = ?"
+                        + "SET UserId = ? LoginResult = ? SuccessLoginCount = ? FailedLoginCount = ? Password = ?"
                         + "WHERE LoginInfoId = ?";
                 PreparedStatement psUpdate  = con.prepareStatement(updateSQL);
                 psUpdate.setInt(1, _userId);
-                psUpdate.setInt(2, _failedLoginCount);
-                psUpdate.setInt(4, id);
+                psUpdate.setBoolean(2, _loginResult);
+                psUpdate.setInt(3, _successLoginCount);
+                psUpdate.setInt(4, _failedLoginCount);
+                psUpdate.setInt(5, id);
                 int rowsUpdated = psUpdate.executeUpdate();
                 
                 if(rowsUpdated > 0) {
@@ -243,7 +273,7 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 Connection con = Connection();
                 
                 // use id to locate entry
-                String selectSQL = "SELECT LoginInfoId, UserId, FailedLoginCount, LastLogin "
+                String selectSQL = "SELECT LoginInfoId, UserId, LoginResult, SuccessLoginCount,  FailedLoginCount, LastLogin "
                         + "FROM logininfo"
                         + "WHERE LoginInfoId = ?";
                 PreparedStatement psSelect = con.prepareStatement(selectSQL);
@@ -252,8 +282,9 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 
                 if (rset.next()){
                     dataStore.setLoginInfoId(rset.getInt("LoginInfoId"));
-                    dataStore.setLoginInfoId(rset.getInt("UserId"));
-                    
+                    dataStore.setUserId(rset.getInt("UserId"));
+                    dataStore.setLoginResult(rset.getBoolean("LoginResult"));
+                    dataStore.setSuccessLoginCount(rset.getInt("SuccessLoginCount"));
                     dataStore.setFailedLoginCount(rset.getInt("FailedLoginCount")); 
                     dataStore.setLastLogin(rset.getString("LastLogin")); 
                     
@@ -301,7 +332,7 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 Connection con = Connection();
                 
                 // use name to locate entry
-                String selectSQL = "SELECT LoginInfoId, UserId, FailedLoginCount, LastLogin "
+                String selectSQL = "SELECT LoginInfoId, UserId, LoginResult, SuccessLoginCount,  FailedLoginCount, LastLogin "
                         + "FROM logininfo"
                         + "WHERE UserId = ?";
                 PreparedStatement psSelect = con.prepareStatement(selectSQL);
@@ -310,7 +341,9 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 
                 if (rset.next()){
                     dataStore.setLoginInfoId(rset.getInt("LoginInfoId"));
-                    dataStore.setLoginInfoId(rset.getInt("UserId"));
+                    dataStore.setUserId(rset.getInt("UserId"));
+                    dataStore.setLoginResult(rset.getBoolean("LoginResult"));
+                    dataStore.setSuccessLoginCount(rset.getInt("SuccessLoginCount"));
                     dataStore.setFailedLoginCount(rset.getInt("FailedLoginCount")); 
                     dataStore.setLastLogin(rset.getString("LastLogin"));        
             
@@ -351,8 +384,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
             //log.info("Class: DbLoginInfo. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
-            
-            
             try {
                  //database connection 
                 Connection con = Connection();
@@ -370,6 +401,8 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                     //get info from db to a variable 
                     dataStore.setLoginInfoId(rset.getInt("LoginInfoId"));
                     dataStore.setLoginInfoId(rset.getInt("UserId"));
+                    dataStore.setLoginResult(rset.getBoolean("LoginResult"));
+                    dataStore.setSuccessLoginCount(rset.getInt("SuccessLoginCount"));
                     dataStore.setFailedLoginCount(rset.getInt("FailedLoginCount")); 
                     dataStore.setLastLogin(rset.getString("LastLogin"));
     
@@ -410,6 +443,8 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 // Variables
                 int _loginInfoId = 0;
                 int _userId = 0;
+                boolean _loginResult = true;
+                int _successLoginCount = 0;
                 int _failedLoginCount = 0;
                 String _lastLogin = null;
                 
@@ -425,12 +460,16 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                     //get info from db to a variable 
                     _loginInfoId = rset.getInt("LoginInfoId");
                     _userId = rset.getInt("UserId");
+                     _loginResult = rset.getBoolean("LoginResult");
+                     _successLoginCount = rset.getInt("SuccessLoginCount");
                     _failedLoginCount = rset.getInt("FailedLoginCount");
                     _lastLogin = rset.getString("LastLogin");
     
                     //print info 
                     System.out.println("\n\nLogInfo Entry Id: " + _loginInfoId);
                     System.out.println("UserId : " + _userId );
+                    System.out.println("LoginResult : " + _loginResult );
+                    System.out.println("SuccessLoginCount : " + _successLoginCount );
                     System.out.println("FailedLoginCount : " + _failedLoginCount);
                     System.out.println("LastLogin : " + _lastLogin); 
                     System.out.println("+++++++++++++++++++++"); 
