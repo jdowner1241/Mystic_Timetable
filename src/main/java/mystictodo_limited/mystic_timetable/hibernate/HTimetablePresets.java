@@ -20,7 +20,9 @@ import jakarta.persistence.Table;
 @Table(name = "timetablepresets")
 public class HTimetablePresets {
 //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
-
+    public HTimetablePresets() {}
+    
+   
 
 //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
 @Id

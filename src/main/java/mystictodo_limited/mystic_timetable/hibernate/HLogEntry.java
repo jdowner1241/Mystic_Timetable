@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -23,18 +25,27 @@ import java.util.Date;
 public class HLogEntry {
  
 //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
-
+  public HLogEntry(){};
+    
 
 //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private int logId;
  
- @Column(name = "UserId", nullable = false)
+ @Column(name = "UserId", nullable = false, insertable = false, updatable = false)
  private int userId;
  
- @Column(name = "LogTypeId", nullable = false)
+ @ManyToOne
+ @JoinColumn(name = "UserId", nullable = false)
+ private HUsers users;
+ 
+ @Column(name = "LogTypeId", nullable = false, insertable = false, updatable = false)
  private int logTypeId;
+ 
+ @ManyToOne
+ @JoinColumn(name = "LogTypeId", nullable = false)
+ private HLogType logtype;
  
  @Column(name = "LogLevel", nullable = false )
  private String logLevel;
@@ -45,7 +56,7 @@ public class HLogEntry {
  @Temporal(TemporalType.TIMESTAMP)
  @Column(name = "TimeStamp", nullable = false)
  private Date timeStamp;
-    
+ 
 //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
     public int getLogId() {
         return logId;
@@ -55,12 +66,23 @@ public class HLogEntry {
         this.logId = logId;
     }
 
-    public int getUserId() {
+      public int getUserId() {
         return userId;
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+     public HUsers getUsers() {
+        return users;
+    }
+
+    public void setUsers(HUsers users) {
+        this.users = users;
+        if (users != null){
+            this.userId = users.getUserId();// returns the userid if not null
+        }
     }
  
     public int getLogTypeId() {
@@ -70,6 +92,18 @@ public class HLogEntry {
     public void setLogTypeId(int logTypeId) {
         this.logTypeId = logTypeId;
     }
+    
+      public HLogType getLogtype() {
+        return logtype;
+    }
+
+    public void setLogtype(HLogType logtype) {
+        this.logtype = logtype;
+        if(logtype != null){
+            this.logTypeId = logtype.getLogTypeId();
+        }
+    }
+    
     public String getLogLevel() {
         return logLevel;
     }
@@ -97,5 +131,5 @@ public class HLogEntry {
  
 //Method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
 
-
+   
 }

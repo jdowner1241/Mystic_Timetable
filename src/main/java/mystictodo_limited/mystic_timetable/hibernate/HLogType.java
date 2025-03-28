@@ -5,12 +5,16 @@
 package mystictodo_limited.mystic_timetable.hibernate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,6 +26,9 @@ public class HLogType {
  
 //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
 
+  public HLogType(){
+      //setLogEntryList();
+  }
 
 //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  @Id
@@ -33,6 +40,9 @@ public class HLogType {
  
  @Column(name = "Description", nullable = false)
  private String description;
+ 
+ @OneToMany(mappedBy = "logtype", fetch = FetchType.EAGER )
+ private List<HLogEntry> logEntryList = new ArrayList<>();
  
 //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
   public int getLogTypeId() {
@@ -58,10 +68,26 @@ public class HLogType {
     public void setDescription(String description) {
         this.description = description;
     }  
+    
+    public List<HLogEntry> getLogEntryList() {
+        return logEntryList;
+    }
+
+    public void setLogEntryList() {
+        //Method not required 
+        
+        HLogEntryDAOImpl logEntryDAO = new HLogEntryDAOImpl();
+        List<HLogEntry> logEntries = logEntryDAO.findAll();
+        
+        for (HLogEntry logEntry : logEntries){
+            if(logEntry.getLogTypeId() == this.logTypeId){
+                logEntryList.add(logEntry);
+            }
+        }
+    }
  
 //Method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
 
-    
-    
+
     
 }

@@ -19,9 +19,6 @@ import org.apache.logging.log4j.Logger;
 public class DbFolderPerUser extends DbConnectionManager implements DbService<DbFolderPerUser> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbFolderPerUser(){
-     //log.info("Class: DbFolderPerUser. Action: Default Constructor Triggered.");
-     //Connection con = Connection();
-     
      super(DbFolderPerUser.class);
      CreateLog("info", "Default Constructor Triggered.", null);  
  }
@@ -35,7 +32,6 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
  private int folderNumberPerUser;
  private ArrayList<DbFolderPerUser> folderPerUserList;
  
- //private static final Logger log = LogManager.getLogger(DbFolderPerUser.class);
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  //GetFolderUserId
  public int getFolderPerUserId(){
@@ -100,23 +96,13 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
                 int rowsInserted = ps.executeUpdate();
             
                 if(rowsInserted > 0) {
-                    //System.out.println("Class: DbFolderPerUser. Action: Entry Inserted.");
-                    //log.info("Class: DbFolderPerUser. Action: Entry Inserted.");
-                    //con.close();//Close Connection
-                   //log.info("Connection closed");
-                   
+                   // Perform Action if not empty
                    CreateLog("info", "Entry Inserted.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
            } else 
            {
-             // Data not saved due to validation
-             //System.out.println("Class: DbFolderPerUser. Action: Validation Failed. Entry Not Added.");
-             //log.error("Class: DbFolderPerUser. Action: Validation Failed. Entry Not Added.");
-             //con.close(); //Close Connection
-             //log.info("Connection closed");
-               
                // Data not saved due to validation
                 CreateLog("error", "Validation Failed. Entry Not Added.", null);  
                 con.close(); //Close Connection
@@ -124,17 +110,12 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
            }
         }
         catch(SQLException e) {
-            //System.out.println("Class: DbFolderPerUser. Action: Connection Failed. Entry Not Added");
-            //log.error("Class: DbFolderPerUser. Action: Connection Failed. Entry Not Added");
-            //log.error("\nDetail Error: " + e);
-            
             CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
     }
     
     //Update Entry
     public void UpdateEntrybyId(int id, int userId, int folderId, int folderNumberPerUser) throws SQLException{
-        //log.info("Class: DbFolderPerUser. Action: Update Entry by Id operation triggered. ");
         CreateLog("info", "Update Entry by Id operation triggered.", null);  
         
         try{
@@ -162,23 +143,13 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
                 int rowsUpdated = psUpdate.executeUpdate();
                 
                 if(rowsUpdated > 0) {
-                    //System.out.println("Class: DbFolderPerUser. Action: Entry Updated.");
-                    //log.info("Class: DbFolderPerUser. Action: Entry Updated.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                     CreateLog("info", "Entry Updated.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }
             }else
             {
-                 // Data not saved due to validation
-               // System.out.println("Class: DbFolderPerUser. Action: Validation Failed. Entry Not Updated.");
-                //log.error("Class: DbFolderPerUser. Action: Validation Failed. Entry Not Updated.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 // Data not saved due to validation
                 CreateLog("error", "Validation Failed. Entry Not Updated.", null);  
                 con.close(); //Close Connection
@@ -186,10 +157,6 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
             }  
         }
         catch(SQLException e) {
-            //System.out.println("Class: DbFolderPerUser. Action: Connection Failed. Entry not updated.");
-            //log.error("Class: DbFolderPerUser. Action: Connection Failed. Entry not updated.");
-            //log.error("\nDetail Error: " + e);
-            
             CreateLog("error", "Connection Failed. Entry not updated.", e);
         }
     }
@@ -197,7 +164,6 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
     // Delete Entry
         @Override
         public void DeleteEntryById(int id) throws SQLException {
-            //log.info("Class: DbFolderPerUser. Action: Delete Entry by Id operation trigger.");
             CreateLog("info", "Delete Entry by Id operation trigger.", null);  
             
             try{
@@ -211,21 +177,13 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
                 int rowsDeleted = psDelete.executeUpdate();
                 
                 if(rowsDeleted > 0){
-                    //System.out.println("Class: DbFolderPerUser. Action: Entry Deleted.");
-                    //log.info("Class: DbFolderPerUser. Action: Entry Deleted.");
-                    // con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                     CreateLog("info", "Entry Deleted.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }
             }
             catch (SQLException e){
-                //System.out.println("Class: DbFolderPerUser. Action: Connection Failed. Entry not Deleted. ");
-                //log.error("Class: DbFolderPerUser. Action: Connection Failed. Entry not Deleted. ");   
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. Entry not Deleted or Found.", e);
             }
         }
@@ -233,7 +191,6 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
      //Return Entry by FolderPerUserId
         @Override
         public DbFolderPerUser GetEntrybyId(int id) throws SQLException {
-            //log.info("Class: DbFolderPerUser. Action: Return Entry by Id operation triggered. ");
             CreateLog("info", "Return Entry by Id operation triggered.", null); 
             
             //Create new class instance
@@ -257,30 +214,17 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
                     dataStore.setFolderId(rset.getInt("FolderId")); 
                     dataStore.setFolderNumberPerUser(rset.getInt("FolderNumberPerUser"));
                     
-                    //System.out.println("Class: DbFolderPerUser. Action: Entry returned.");
-                   // log.info("Class: DbFolderPerUser. Action: Entry returned.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                     CreateLog("info", "Entry returned.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }else {
-                    //System.out.println("Class: DbFolderPerUser. Action: Entry not found.");
-                    //log.error("Class: DbFolderPerUser. Action: Entry not found.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("error", "Validation Failed. Entry not found.", null);  
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);   
                 }
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbFolderPerUser. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbFolderPerUser. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -289,7 +233,6 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
         
         //Return Entry by UserId
         public DbFolderPerUser GetEntrybyUserId(int userId) throws SQLException {
-            //log.info("Class: DbFolderPerUser. Action: Return Entry by UserId operation triggered. ");
             CreateLog("info", "Return Entry by UserId operation triggered.", null);  
             
             //Create new class instance
@@ -312,31 +255,18 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
                     dataStore.setUserId(rset.getInt("UserId"));
                     dataStore.setFolderId(rset.getInt("FolderId")); 
                     dataStore.setFolderNumberPerUser(rset.getInt("FolderNumberPerUser"));  
-            
-                    //System.out.println("Class: DbFolderPerUser. Action: Entry returned.");
-                    //log.info("Class: DbFolderPerUser. Action: Entry returned.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
                     
+                    // Perform Action if not empty
                     CreateLog("info", "Entry returned.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }else {
-                    //System.out.println("Class: DbFolderPerUser. Action: Entry not found.");
-                   // log.error("Class: DbFolderPerUser. Action: Entry not found.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("error", "Validation Failed. Entry not found.", null);  
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);   
                 }
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbFolderPerUser. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbFolderPerUser. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -346,7 +276,6 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
     //Return All Users
         @Override
         public ArrayList<DbFolderPerUser> GetAllEntries() throws SQLException {
-            //log.info("Class: DbFolderPerUser. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
             
@@ -375,20 +304,11 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
                     folderPerUserList.add(dataStore);
                 }
                 
-                //System.out.println("Class: DbFolderPerUser. Action: EntryList returned.");
-                //log.info("Class: DbFolderPerUser. Action: EntryList returned.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 CreateLog("info", "EntryList returned.", null);
                 con.close(); //Close Connection
                 CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbFolderPerUser. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbFolderPerUser. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -398,7 +318,6 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
     //Print all Entries
         @Override
         public void ViewAllEntryPrint() throws SQLException {
-            //log.info("Class: DbFolderPerUser. Action: Print all Entry usign Console operation triggered. ");
             CreateLog("info", "Print all Entry using Console operation triggered.", null); 
             
             try {
@@ -434,19 +353,11 @@ public class DbFolderPerUser extends DbConnectionManager implements DbService<Db
                     System.out.println("+++++++++++++++++++++"); 
                 }
                 
-                //log.info("Class: DbFolderPerUser. Action: EntryList printed using console.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 CreateLog("info", "EntryList printed using console.", null);
                 con.close(); //Close Connection
                 CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbFolderPerUser. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbFolderPerUser. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
         }

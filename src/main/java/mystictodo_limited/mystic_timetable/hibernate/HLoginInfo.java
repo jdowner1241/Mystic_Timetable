@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -26,14 +28,20 @@ public class HLoginInfo {
  
 //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
 
-
+ public HLoginInfo(){}
+ 
 //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private int loginInfoId;
  
- @Column(name = "UserId", nullable = false)
+
+ @Column(name = "UserId", nullable = false, insertable = false, updatable = false)
  private int userId;
+ 
+ @ManyToOne
+ @JoinColumn(name = "UserId", nullable = false)
+ private HUsers users;
  
  @Column(name = "LoginResult", nullable = false)
  private boolean loginResult;
@@ -64,6 +72,17 @@ public class HLoginInfo {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+     public HUsers getUsers() {
+        return users;
+    }
+
+    public void setUsers(HUsers users) {
+        this.users = users;
+        if (users != null){
+            this.userId = users.getUserId();// returns the userid if not null
+        }
     }
 
     public boolean isLoginResult() {

@@ -19,15 +19,11 @@ import org.apache.logging.log4j.Logger;
 public class DbTimeTablePresets extends DbConnectionManager implements DbService<DbTimeTablePresets> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbTimeTablePresets(){
-     //log.info("Class: DbTimeTablePresets. Action: Default Constructor Triggered.");
-     //Connection con = Connection();
-     
      super(DbTimeTablePresets.class);
      CreateLog("info", "Default Constructor Triggered.", null);   
  }
     
  //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
- //private Connection con; 
  
  private int presetId;
  private String presetName;
@@ -35,7 +31,6 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
  private String presetColor;
  private ArrayList<DbTimeTablePresets> presetList;
  
- //private static final Logger log = LogManager.getLogger(DbTimeTablePresets.class);
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  //PresetId
  public int getPresetId(){
@@ -72,7 +67,6 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
     public void InsertEntry(String presetName, String presetCategory, String presetColor) throws SQLException{
-        //log.info("Class: DbTimeTablePresets. Action: Insert Entry Operation Triggered.");
         CreateLog("info", "Insert Entry Operation Triggered.", null);   
         
         try{
@@ -100,21 +94,13 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                 int rowsInserted = ps.executeUpdate();
             
                 if(rowsInserted > 0) {
-                    //System.out.println("Class: DbTimeTablePresets. Action: Entry Inserted.");
-                    //log.info("Class: DbTimeTablePresets. Action: Entry Inserted.");
-                    //con.close(); //Close Connection
-                   // log.info("Connection closed");
-                   
+                   // Perform Action if not empty
                    CreateLog("info", "Entry Inserted.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
            } else 
            {
-             //System.out.println("Class: DbTimeTablePresets. Action: Validation Failed. Entry Not Added.");
-             //log.error("Class: DbTimeTablePresets. Action: Validation Failed. Entry Not Added.");
-             //con.close(); //Close Connection
-             //log.info("Connection closed");
                
                 // Data not saved due to validation  
                 CreateLog("error", "Validation Failed. Entry Not Added.", null);  
@@ -123,17 +109,12 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
            }
         }
         catch(SQLException e) {
-            //System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. Entry Not Added");
-            //log.error("Class: DbTimeTablePresets. Action: Connection Failed. Entry Not Added");
-            //log.error("\nDetail Error: " + e);
-            
             CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
     }
     
     //Update Entry
     public void UpdateEntrybyId(int id, String presetName, String presetCategory, String presetColor) throws SQLException{
-        //log.info("Class: DbTimeTablePresets. Action: Update Entry by Id operation triggered. ");
         CreateLog("info", "Update Entry by Id operation triggered.", null);
         
         try{
@@ -161,21 +142,13 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                 int rowsUpdated = psUpdate.executeUpdate();
                 
                 if(rowsUpdated > 0) {
-                    //System.out.println("Class: DbTimeTablePresets. Action: Entry Updated.");
-                    //log.info("Class: DbTimeTablePresets. Action: Entry Updated.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                    CreateLog("info", "Entry Updated.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
             }else
             {
-                //System.out.println("Class: DbTimeTablePresets. Action: Validation Failed. Entry Not Updated.");
-                //log.info("Class: DbTimeTablePresets. Action: Validation Failed. Entry Not Updated.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
                 
                 // Data not saved due to validation
                 CreateLog("error", "Validation Failed. Entry Not Updated.", null);  
@@ -183,11 +156,7 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                 CreateLog("info", "Connection closed.", null); 
             }  
         }
-        catch(SQLException e) {
-            //System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. Entry not updated.");
-            //log.error("Class: DbTimeTablePresets. Action: Connection Failed. Entry not updated.");
-            //log.error("\nDetail Error: " + e);
-            
+        catch(SQLException e) {     
             CreateLog("error", "Connection Failed. Entry Not updated.", e);
         }
     }
@@ -195,7 +164,6 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
     // Delete Entry
         @Override
         public void DeleteEntryById(int id) throws SQLException {
-            //log.info("Class: DbTimeTablePresets. Action: Delete Entry by Id operation trigger.");
             CreateLog("info", "Delete Entry by Id operation trigger.", null);
             
             try{
@@ -209,21 +177,13 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                 int rowsDeleted = psDelete.executeUpdate();
                 
                 if(rowsDeleted > 0){
-                    //System.out.println("Class: DbTimeTablePresets. Action: Entry Deleted.");
-                    //log.info("Class: DbTimeTablePresets. Action: Entry Deleted.");
-                    // con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                    CreateLog("info", "Entry Deleted.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
             }
             catch (SQLException e){
-                //System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. Entry not Deleted. ");
-                //log.error("Class: DbTimeTablePresets. Action: Connection Failed. Entry not Deleted. ");   
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. Entry not Deleted or Found.", e);
             }
         }
@@ -231,7 +191,6 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
      //Return Entry by Id
         @Override
         public DbTimeTablePresets GetEntrybyId(int id) throws SQLException {
-            //log.info("Class: DbTimeTablePresets. Action: Return Entry by Id operation triggered. ");
             CreateLog("info", "Delete Entry by Id operation trigger.", null);
             
             //Create new class instance
@@ -255,30 +214,16 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                     dataStore.setPresetCategory(rset.getString("PresetCategory")); 
                     dataStore.setPresetColor(rset.getString("PresetColor"));
                     
-                    //System.out.println("Class: DbTimeTablePresets. Action: Entry returned.");
-                    //log.info("Class: DbTimeTablePresets. Action: Entry returned.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                    CreateLog("info", "Entry returned.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }else {
-                    //System.out.println("Class: DbTimeTablePresets. Action: Entry not found.");
-                    //log.error("Class: DbTimeTablePresets. Action: Entry not found.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("error", "Validation Failed. Entry Not found.", null);  
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null); 
                 }
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -287,7 +232,6 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
         
         //Return Entry by PresetName
         public DbTimeTablePresets GetEntrybyPresetName(String presetName) throws SQLException {
-            //log.info("Class: DbTimeTablePresets. Action: Return Entry by PresetName operation triggered. ");
             CreateLog("info", "Return Entry by PresetName operation triggered.", null);
             
             //Create new class instance
@@ -311,30 +255,16 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                     dataStore.setPresetCategory(rset.getString("PresetCategory")); 
                     dataStore.setPresetColor(rset.getString("PresetColor"));  
             
-                    //System.out.println("Class: DbTimeTablePresets. Action: Entry returned.");
-                    //log.info("Class: DbTimeTablePresets. Action: Entry returned.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("info", "Entry returned.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }else {
-                    //System.out.println("Class: DbTimeTablePresets. Action: Entry not found.");
-                    //log.error("Class: DbTimeTablePresets. Action: Entry not found.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("error", "Validation Failed. Entry not found.", null);  
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null); 
                 }
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);  
             }
             
@@ -344,9 +274,7 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
     //Return All Presets
         @Override
         public ArrayList<DbTimeTablePresets> GetAllEntries() throws SQLException {
-            //log.info("Class: DbTimeTablePresets. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null);
-            
             
             
             try {
@@ -373,20 +301,11 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                     presetList.add(dataStore);
                 }
                 
-                //System.out.println("Class: DbTimeTablePresets. Action: EntryList returned.");
-                //log.info("Class: DbTimeTablePresets. Action: EntryList returned.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 CreateLog("info", "EntryList returned.", null);
                 con.close(); //Close Connection
                 CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);   
             }
             
@@ -396,7 +315,6 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
     //Print all Entries
         @Override
         public void ViewAllEntryPrint() throws SQLException {
-            //log.info("Class: DbTimeTablePresets. Action: Print all Entry usign Console operation triggered. ");
             CreateLog("info", "Print all Entry using Console operation triggered.", null);
             
             try {
@@ -432,19 +350,11 @@ public class DbTimeTablePresets extends DbConnectionManager implements DbService
                     System.out.println("+++++++++++++++++++++"); 
                 }
                 
-                //log.info("Class: DbTimeTablePresets. Action: EntryList printed using console.");
-               // con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 CreateLog("info", "EntryList printed using console.", null);
                 con.close(); //Close Connection
                 CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbTimeTablePresets. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);  
             }
         }

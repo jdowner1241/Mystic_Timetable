@@ -32,8 +32,8 @@ public class Mystic_Timetable {
     public static void main(String[] args) throws SQLException {
         
         //Start App +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        //JTimetableLoginPage startApp = new JTimetableLoginPage();
-        //startApp.setVisible(true);
+        JTimetableLoginPage startApp = new JTimetableLoginPage();
+        startApp.setVisible(true);
         
         
         //test ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -61,19 +61,42 @@ public class Mystic_Timetable {
         //Save Entiry
         //HFolderDAOImpl folderDao = new HFolderDAOImpl();
         //HFolder folder = new HFolder();
+        //HUsersDAOImpl UserDAO = new HUsersDAOImpl();
+        //HUsers users = new HUsers();
+       
         //folder.setFolderName("School");
         //folderDao.save(folder);
+        //System.out.println("Folder saved");
         
         // find entry by id
         //HFolder foundFolder = folderDao.findById(folder.getFolderId());
-        //HFolder foundFolder = folderDao.findById(2);
+        //HFolder foundFolder = folderDao.findById(1);
+        //HUsers foundUser = UserDAO.findById(1);
         //System.out.println("Found Folder Id : " + foundFolder);
         
         // update entry
-        //foundFolder.setFolderName("SchoolTimetable1");
+        //foundFolder.setFolderName("SchoolTimetable");
         //folderDao.update(foundFolder);
         
         // delete entry
-        ////folderDao.delete(foundFolder);
+        //folderDao.delete(foundFolder);
+        
+        //get all related table info
+        //foundFolder.setFolderPerUserList();
+//        List<HFolderPerUser> folderPerUserList = foundFolder.getFolderPerUserList();
+//        for (HFolderPerUser folderPerUser : folderPerUserList){
+//            System.out.println( folderPerUser.getFolderPerUserId());
+//           
+//        }
+//        
+//        System.out.println("Nextlist :");
+//        List<HFolderPerUser> userList = foundUser.getFolderPerUserList();
+//        for (HFolderPerUser folderPerUser : userList){
+//            System.out.println( folderPerUser.getFolderPerUserId());
+//           
+//        }
+        
+        
+        
     }
 }

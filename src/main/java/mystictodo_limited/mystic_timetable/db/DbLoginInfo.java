@@ -19,15 +19,11 @@ import org.apache.logging.log4j.Logger;
 public class DbLoginInfo extends DbConnectionManager implements DbService<DbLoginInfo> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbLoginInfo(){
-     //log.info("Class: DbLoginInfo. Action: Default Constructor Triggered.");
-     //Connection con = Connection();
-     
      super(DbLoginInfo.class);
      CreateLog("info", "Default Constructor Triggered.", null);  
  }
     
  //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
- //private Connection con; 
  
  private int loginInfoId;
  private int userId;
@@ -37,7 +33,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
  private LocalDateTime lastLogin;
  private ArrayList<DbLoginInfo> loginInfoList;
  
- //private static final Logger log = LogManager.getLogger(DbLoginInfo.class);
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  //LoginInfoId
  public int getLoginInfoId(){
@@ -94,7 +89,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
     public boolean InsertEntry(int userId, boolean loginResult, int successLoginCount, int failedLoginCount ) throws SQLException{
-        //log.info("Class: DbLoginInfo. Action: Insert Entry Operation Triggered.");
         CreateLog("info", "Insert Entry Operation Triggered.", null);  
         boolean isValid = true;
                     
@@ -111,7 +105,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
             String _lastLogin = _setLastLogin.toString();
             
 
-            
            if (isValid == true) 
            {
                //insert to database
@@ -128,33 +121,20 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 int rowsInserted = ps.executeUpdate();
             
                 if(rowsInserted > 0) {
-                    //System.out.println("Class: DbLoginInfo. Action: Entry Inserted.");
-                    //log.info("Class: DbLoginInfo. Action: Entry Inserted.");
-                    //con.close(); //Close Connection
-                   //log.info("Connection closed");
-                   
+                   // Perform Action if not empty
                    CreateLog("info", "Entry Inserted.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
            } else 
            {
-             //System.out.println("Class: DbLoginInfo. Action: Validation Failed. Entry Not Added.");
-             //log.error("Class: DbLoginInfo. Action: Validation Failed. Entry Not Added.");
-             //con.close(); //Close Connection
-             //log.info("Connection closed");
-             
              // Data not saved due to validation
              CreateLog("error", "Validation Failed. Entry Not Added.", null);  
              con.close(); //Close Connection
              CreateLog("info", "Connection closed.", null);   
            }
         }
-        catch(SQLException e) {
-            //System.out.println("\nClass: DbLoginInfo. Action: Connection Failed. Entry Not Added");
-            //log.error("Class: DbLoginInfo. Action: Connection Failed. Entry Not Added");
-            //log.error("\nDetail Error: " + e);
-            
+        catch(SQLException e) {;
             CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
         return isValid;
@@ -162,7 +142,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
     
     //Update Entry
     public void UpdateEntrybyId(int id, int userId, boolean loginResult, int successLoginCount, int failedLoginCount) throws SQLException{
-        //log.info("Class: DbLoginInfo. Action: Update Entry by Id operation triggered. ");
         CreateLog("info", "Update Entry by Id operation triggered.", null);  
         
         try{
@@ -192,22 +171,13 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 int rowsUpdated = psUpdate.executeUpdate();
                 
                 if(rowsUpdated > 0) {
-                    //System.out.println("Class: DbLoginInfo. Action: Entry Updated.");
-                    //log.info("Class: DbLoginInfo. Action: Entry Updated.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                    CreateLog("info", "Entry Updated.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
             }else
             {
-                //System.out.println("Class: DbLoginInfo. Action: Validation Failed. Entry Not Updated.");
-                //log.error("Class: DbLoginInfo. Action: Validation Failed. Entry Not Updated.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 // Data not saved due to validation
                 CreateLog("error", "Validation Failed. Entry Not Updated.", null);  
                 con.close(); //Close Connection
@@ -215,10 +185,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
             }  
         }
         catch(SQLException e) {
-            //System.out.println("Class: DbLoginInfo. Action: Connection Failed. Entry not updated.");
-            //log.error("Class: DbLoginInfo. Action: Connection Failed. Entry not updated.");
-            //log.error("\nDetail Error: " + e);
-            
             CreateLog("error", "Connection Failed. Entry not updated.", e);
         }
     }
@@ -226,7 +192,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
     // Delete Entry
         @Override
         public void DeleteEntryById(int id) throws SQLException {
-            //log.info("Class: DbLoginInfo. Action: Delete Entry by Id operation trigger.");
             CreateLog("info", "Delete Entry by Id operation trigger.", null);  
             
             try{
@@ -240,21 +205,13 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                 int rowsDeleted = psDelete.executeUpdate();
                 
                 if(rowsDeleted > 0){
-                    //System.out.println("Class: DbLoginInfo. Action: Entry Deleted.");
-                    //log.info("Class: DbLoginInfo. Action: Entry Deleted.");
-                    // con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                    CreateLog("info", "Entry Deleted.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
             }
             catch (SQLException e){
-                //System.out.println("Class: DbLoginInfo. Action: Connection Failed. Entry not Deleted. ");
-                //log.error("Class: DbLoginInfo. Action: Connection Failed. Entry not Deleted. ");   
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. Entry not Deleted or Found.", e);
             }
         }
@@ -262,7 +219,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
      //Return Entry by Id
         @Override
         public DbLoginInfo GetEntrybyId(int id) throws SQLException {
-            //log.info("Class: DbLoginInfo. Action: Return Entry by Id operation triggered. ");
             CreateLog("info", "Return Entry by Id operation triggered.", null);  
             
             //Create new class instance
@@ -288,31 +244,17 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                     dataStore.setFailedLoginCount(rset.getInt("FailedLoginCount")); 
                     dataStore.setLastLogin(rset.getString("LastLogin")); 
                     
-                    //System.out.println("Class: DbLoginInfo. Action: Entry returned.");
-                    //log.info("Class: DbLoginInfo. Action: Entry returned.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                    CreateLog("info", "Entry returned.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                    
                 }else {
-                    //System.out.println("Class: DbLoginInfo. Action: Entry not found.");
-                    //log.error("Class: DbLoginInfo. Action: Entry not found.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("error", "Validation Failed. Entry not found.", null);  
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);   
                 }
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbLoginInfo. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbLoginInfo. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -321,7 +263,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
         
         //Return Entry by UserId
         public DbLoginInfo GetEntrybyUserId(String userId) throws SQLException {
-            //log.info("Class: DbLoginInfo. Action: Return Entry by UserId operation triggered. ");
             CreateLog("info", "Return Entry by UserId operation triggered.", null);  
             
             //Create new class instance
@@ -347,31 +288,17 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                     dataStore.setFailedLoginCount(rset.getInt("FailedLoginCount")); 
                     dataStore.setLastLogin(rset.getString("LastLogin"));        
             
-                    //System.out.println("Class: DbLoginInfo. Action: Entry returned.");
-                    //log.info("Class: DbLoginInfo. Action: Entry returned.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                    CreateLog("info", "Entry returned.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                    
                 }else {
-                    //System.out.println("Class: DbLoginInfo. Action: Entry not found.");
-                    //log.error("Class: DbLoginInfo. Action: Entry not found.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("error", "Validation Failed. Entry not found.", null);  
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);     
                 }
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbLoginInfo. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbLoginInfo. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -381,7 +308,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
     //Return All Users
         @Override
         public ArrayList<DbLoginInfo> GetAllEntries() throws SQLException {
-            //log.info("Class: DbLoginInfo. Action: Return all Entry operation triggered. ");
             CreateLog("info", "Return all Entry operation triggered.", null); 
             
             try {
@@ -409,21 +335,11 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                      // Save entry elements to datastore
                     loginInfoList.add(dataStore);
                 }
-                
-                //System.out.println("Class: DbLoginInfo. Action: EntryList returned.");
-                //log.info("Class: DbLoginInfo. Action: EntryList returned.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 CreateLog("info", "EntryList returned.", null);
                 con.close(); //Close Connection
                 CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbLoginInfo. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbLoginInfo. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -433,7 +349,6 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
     //Print all Entries
         @Override
         public void ViewAllEntryPrint() throws SQLException {
-            //log.info("Class: DbLoginInfo. Action: Print all Entry usign Console operation triggered. ");
             CreateLog("info", "Print all Entry using Console operation triggered.", null); 
             
             try {
@@ -475,19 +390,11 @@ public class DbLoginInfo extends DbConnectionManager implements DbService<DbLogi
                     System.out.println("+++++++++++++++++++++"); 
                 }
                 
-                //log.info("Class: DbLoginInfo. Action: EntryList printed using console.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 CreateLog("info", "EntryList printed using console.", null);
                 con.close(); //Close Connection
                 CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbLoginInfo. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbLoginInfo. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
         }

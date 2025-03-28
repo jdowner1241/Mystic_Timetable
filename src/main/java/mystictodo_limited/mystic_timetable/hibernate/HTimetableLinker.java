@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -21,19 +23,28 @@ import jakarta.persistence.Table;
 public class HTimetableLinker {
  
 //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
-
+ public HTimetableLinker(){}
+    
 
 //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private int timetableLinkerId;
  
- @Column(name = "EventId", nullable = false)
+ @Column(name = "EventId", nullable = false, insertable = false, updatable = false)
  private int eventId;
  
- @Column(name = "UserAndFolderId", nullable = false)
+ @ManyToOne
+ @JoinColumn(name = "EventId", nullable = false)
+ private HTimetable timetable;
+ 
+ @Column(name = "UserAndFolderId", nullable = false, insertable = false, updatable = false)
  private int userAndFolderId;
  
+ @ManyToOne
+ @JoinColumn(name = "UserAndFolderId", nullable = false)
+ private HFolderPerUser folderperuser;
+
  
 //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
   
@@ -53,6 +64,17 @@ public class HTimetableLinker {
         this.eventId = eventId;
     }
 
+    public HTimetable getTimetable() {
+        return timetable;
+    }
+
+    public void setTimetable(HTimetable timetable) {
+        this.timetable = timetable;
+        if(timetable != null){
+            this.eventId = timetable.getTimetableId();
+        }
+    }
+    
     public int getUserAndFolderId() {
         return userAndFolderId;
     }
@@ -60,10 +82,20 @@ public class HTimetableLinker {
     public void setUserAndFolderId(int userAndFolderId) {
         this.userAndFolderId = userAndFolderId;
     }
+    
+    public HFolderPerUser getFolderperuser() {
+        return folderperuser;
+    }
+
+    public void setFolderperuser(HFolderPerUser folderperuser) {
+        this.folderperuser = folderperuser;
+        if(folderperuser != null){
+            this.userAndFolderId = folderperuser.getFolderPerUserId();
+        }
+    }
  
 //Method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
 
-    
     
     
 }

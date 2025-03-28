@@ -10,12 +10,16 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,7 +31,7 @@ import jakarta.persistence.TemporalType;
 public class HTimetable {
  
 //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
-
+  public HTimetable(){}
 
 //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  @Id
@@ -60,6 +64,9 @@ public class HTimetable {
  @Temporal(TemporalType.TIMESTAMP)
  @Column(name = "EventEnd", nullable = false)
  private Date eventEnd;
+ 
+@OneToMany(mappedBy = "timetable", fetch = FetchType.EAGER)
+private List<HTimetableLinker> timetableLinkerList = new ArrayList<>();
  
 //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
   
@@ -134,8 +141,26 @@ public class HTimetable {
     public void setEventEnd(Date eventEnd) {
         this.eventEnd = eventEnd;
     }
+    
+    public List<HTimetableLinker> getTimetableLinkerList() {
+        return timetableLinkerList;
+    }
+
+    public void setTimetableLinkerList() {
+        //Method not required 
+        
+        HTimetableLinkerDAOImpl timetableLinkerDAO = new HTimetableLinkerDAOImpl();
+        List<HTimetableLinker> timetableLinkers = timetableLinkerDAO.findAll();
+        
+        for (HTimetableLinker timetableLinker : timetableLinkers){
+            if(timetableLinker.getEventId() == this.timetableId){
+                timetableLinkerList.add(timetableLinker);
+            }
+        }
+    }
  
 //Method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
+
 
     
     

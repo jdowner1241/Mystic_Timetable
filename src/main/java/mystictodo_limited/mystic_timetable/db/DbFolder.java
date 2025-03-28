@@ -19,9 +19,6 @@ import org.apache.logging.log4j.Logger;
 public class DbFolder extends DbConnectionManager implements DbService<DbFolder> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbFolder(){
-     //log.info("Class: DbFolder. Action: Default Constructor Triggered.");
-     //Connection con = Connection();
-     
      super(DbFolder.class);
      CreateLog("info", "Default Constructor Triggered.", null);  
  }
@@ -32,8 +29,7 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
  private int folderId;
  private String folderName;
  private ArrayList<DbFolder> folderList;
- 
- //private static final Logger log = LogManager.getLogger(DbFolder.class);
+
  //Getter/Setter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
  //FolderId
  public int getFolderId(){
@@ -54,7 +50,6 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
     public void InsertEntry(String folderName) throws SQLException{
-        //log.info("Class: DbFolder. Action: Insert Entry Operation Triggered.");
         CreateLog("info", "Insert Entry Operation Triggered.", null);
         
         try{
@@ -78,23 +73,13 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                 int rowsInserted = ps.executeUpdate();
             
                 if(rowsInserted > 0) {
-                    //System.out.println("Class: DbFolder. Action: Entry Inserted.");
-                    //log.info("Class: DbFolder. Action: Entry Inserted.");
-                    //con.close();//Close Connection
-                   //log.info("Connection closed");
-                   
+                   //Insert Entry and close connection 
                    CreateLog("info", "Entry Inserted.", null);
                    con.close(); //Close Connection
                    CreateLog("info", "Connection closed.", null);
                 }
            } else 
            {
-             // Data not saved due to validation
-             //System.out.println("Class: DbFolder. Action: Validation Failed. Entry Not Added.");
-             //log.error("Class: DbFolder. Action: Validation Failed. Entry Not Added.");
-             //con.close(); //Close Connection
-             //log.info("Connection closed");
-               
                // Data not saved due to validation
                 CreateLog("error", "Validation Failed. Entry Not Added.", null);  
                 con.close(); //Close Connection
@@ -102,17 +87,12 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
            }
         }
         catch(SQLException e) {
-            //System.out.println("Class: DbFolder. Action: Connection Failed. Entry Not Added");
-            //log.error("Class: DbFolder. Action: Connection Failed. Entry Not Added");
-            //log.error("\nDetail Error: " + e);
-            
             CreateLog("error", "Connection Failed. Entry Not Added.", e);
         }
     }
     
     //Update Entry
     public void UpdateEntrybyId(int id) throws SQLException{
-        //log.info("Class: DbFolder. Action: Update Entry by Id operation triggered. ");
         CreateLog("info", "Update Entry by Id operation triggered.", null);  
         
         try{
@@ -136,22 +116,13 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                 int rowsUpdated = psUpdate.executeUpdate();
                 
                 if(rowsUpdated > 0) {
-                    //System.out.println("Class: DbFolder. Action: Entry Updated.");
-                    //log.info("Class: DbFolder. Action: Entry Updated.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Insert if not empty
                     CreateLog("info", "Entry Updated.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }
             }else
             {
-                 // Data not saved due to validation
-                //System.out.println("Class: DbFolder. Action: Validation Failed. Entry Not Updated.");
-                //log.error("Class: DbFolder. Action: Validation Failed. Entry Not Updated.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
                 
                 // Data not saved due to validation
                 CreateLog("error", "Validation Failed. Entry Not Updated.", null);  
@@ -159,11 +130,7 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                 CreateLog("info", "Connection closed.", null);   
             }  
         }
-        catch(SQLException e) {
-            //System.out.println("Class: DbFolder. Action: Connection Failed. Entry not updated.");
-            //log.error("Class: DbFolder. Action: Connection Failed. Entry not updated.");
-            //log.error("\nDetail Error: " + e);
-            
+        catch(SQLException e) { 
             CreateLog("error", "Connection Failed. Entry not updated.", e);
         }
     }
@@ -171,7 +138,6 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
     // Delete Entry
         @Override
         public void DeleteEntryById(int id) throws SQLException {
-            //log.info("Class: DbFolder. Action: Delete Entry by Id operation trigger.");
             CreateLog("info", "Delete Entry by Id operation trigger.", null);  
             
             try{
@@ -185,21 +151,13 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                 int rowsDeleted = psDelete.executeUpdate();
                 
                 if(rowsDeleted > 0){
-                    //System.out.println("Class: DbFolder. Action: Entry Deleted.");
-                    //log.info("Class: DbFolder. Action: Entry Deleted.");
-                    // con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                     CreateLog("info", "Entry Deleted.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }
             }
             catch (SQLException e){
-                //System.out.println("Class: DbFolder. Action: Connection Failed. Entry not Deleted. ");
-                //log.error("Class: DbFolder. Action: Connection Failed. Entry not Deleted. ");   
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. Entry not Deleted or Found.", e);
             }
         }
@@ -207,7 +165,6 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
      //Return Entry by Id
         @Override
         public DbFolder GetEntrybyId(int id) throws SQLException {
-            //log.info("Class: DbFolder. Action: Return Entry by Id operation triggered. ");
             CreateLog("info", "Return Entry by Id operation triggered.", null); 
             
             //Create new class instance
@@ -228,31 +185,18 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                 if (rset.next()){
                     dataStore.setFolderId(rset.getInt("FolderId"));
                     dataStore.setFolderName(rset.getString("FolderName"));
-             
-                    //System.out.println("Class: DbFolder. Action: Entry returned.");
-                    //log.info("Class: DbFolder. Action: Entry returned.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+
+                    // Perform Action if not empty
                     CreateLog("info", "Entry returned.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }else {
-                    //System.out.println("Class: DbFolder. Action: Entry not found.");
-                    //log.error("Class: DbFolder. Action: Entry not found.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("error", "Validation Failed. Entry not found.", null);  
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);   
                 }
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbFolder. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbFolder. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -260,8 +204,7 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
         }   
         
         //Return Entry by FolderName
-        public DbFolder GetEntrybyFolderId(String folderName) throws SQLException {
-            //log.info("Class: DbFolder. Action: Return Entry by FolderName operation triggered. ");
+        public DbFolder GetEntrybyFolderId(String folderName) throws SQLException {       
             CreateLog("info", "Return Entry by FolderName operation triggered.", null);  
             
             //Create new class instance
@@ -283,30 +226,17 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                     dataStore.setFolderId(rset.getInt("FolderId"));
                     dataStore.setFolderName(rset.getString("FolderName"));
 
-                    //System.out.println("Class: DbFolder. Action: Entry returned.");
-                    //log.info("Class: DbFolder. Action: Entry returned.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
+                    // Perform Action if not empty
                     CreateLog("info", "Entry returned.", null);
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);
                 }else {
-                    //System.out.println("Class: DbFolder. Action: Entry not found.");
-                    //log.error("Class: DbFolder. Action: Entry not found.");
-                    //con.close(); //Close Connection
-                    //log.info("Connection closed");
-                    
                     CreateLog("error", "Validation Failed. Entry not found.", null);  
                     con.close(); //Close Connection
                     CreateLog("info", "Connection closed.", null);   
                 }
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbFolder. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbFolder. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -315,11 +245,8 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
         
     //Return All folder
         @Override
-        public ArrayList<DbFolder> GetAllEntries() throws SQLException {
-            //log.info("Class: DbFolder. Action: Return all Entry operation triggered. ");
+        public ArrayList<DbFolder> GetAllEntries() throws SQLException {         
             CreateLog("info", "Return all Entry operation triggered.", null); 
-            
-            
             
             try {
                  //database connection 
@@ -343,20 +270,11 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                     folderList.add(dataStore);
                 }
                 
-                //System.out.println("Class: DbFolder. Action: EntryList returned.");
-                //log.info("Class: DbFolder. Action: EntryList returned.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 CreateLog("info", "EntryList returned.", null);
                 con.close(); //Close Connection
                 CreateLog("info", "Connection closed.", null);
             }
             catch (SQLException e) {
-                //System.out.println("Class: DbFolder. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbFolder. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
             
@@ -365,8 +283,7 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
 
     //Print all Entries
         @Override
-        public void ViewAllEntryPrint() throws SQLException {
-            //log.info("Class: DbFolder. Action: Print all Entry usign Console operation triggered. ");
+        public void ViewAllEntryPrint() throws SQLException {  
             CreateLog("info", "Print all Entry using Console operation triggered.", null); 
             
             try {
@@ -384,7 +301,6 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                 
                 while(rset.next())
                 {
-          
                     //get info from db to a variable 
                     _folderId = rset.getInt("FolderId");
                     _folderName = rset.getString("FolderName");
@@ -395,19 +311,11 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
                     System.out.println("+++++++++++++++++++++"); 
                 }
                 
-                //log.info("Class: DbFolder. Action: EntryList printed using console.");
-                //con.close(); //Close Connection
-                //log.info("Connection closed");
-                
                 CreateLog("info", "EntryList printed using console.", null);
                 con.close(); //Close Connection
                 CreateLog("info", "Connection closed.", null);
             }
-            catch (SQLException e) {
-                //System.out.println("Class: DbFolder. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("Class: DbFolder. Action: Connection Failed. No Entry loaded or Found.");
-                //log.error("\nDetail Error: " + e);
-                
+            catch (SQLException e) {       
                 CreateLog("error", "Connection Failed. No Entry loaded or Found.", e);
             }
         }

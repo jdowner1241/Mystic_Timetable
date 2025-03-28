@@ -120,8 +120,12 @@ public class DbConnectionManager {
          
         //Create Log String 
         String logString = "Class: " + className + " Action: " + message; 
-         
-        Throwable cause = e.getCause();
+        
+        Throwable cause = null;
+        if (e != null){
+            cause = e.getCause();
+        }
+        
          //Use Switch Statement to Save the log
          if(e != null) {
             switch(level){
