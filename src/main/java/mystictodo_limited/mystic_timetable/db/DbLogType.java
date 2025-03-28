@@ -31,7 +31,7 @@ public class DbLogType extends DbConnectionManager implements DbService<DbLogTyp
  
  private int logTypeId;
  private String name;
- private String Description;
+ private String description;
  private ArrayList<DbLogType> logTypeList;
  
  //private static final Logger log = LogManager.getLogger(DbLogType.class);
@@ -54,10 +54,10 @@ public class DbLogType extends DbConnectionManager implements DbService<DbLogTyp
  
  //Description
  public String getDescription(){
-     return Description;
+     return description;
  }
- public void setDescription(String Description){
-     this.Description = Description;
+ public void setDescription(String description){
+     this.description = description;
  }
  
  

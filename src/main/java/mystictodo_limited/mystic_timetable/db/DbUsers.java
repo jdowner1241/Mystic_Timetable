@@ -3,6 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mystictodo_limited.mystic_timetable.db;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import mystictodo_limited.mystic_timetable.dbInterface.*;
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -14,11 +22,13 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter.Entry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.util.Date;
 
 /**
  *
  * @author Jamario_Downer
  */
+
 public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
  //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
  public DbUsers(){
@@ -29,7 +39,6 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
     
  //Fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
  //private Connection con; 
- 
  private int userId;
  private String userName;
  private String emailAddress;
@@ -77,14 +86,7 @@ public class DbUsers extends DbConnectionManager implements DbService<DbUsers> {
      return registrationDate;
  }
  public void setRegistrationDate(String _registrationDate){
-     //if (_registrationDate != null){
-     //   DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-     //   registrationDate = LocalDateTime.parse(_registrationDate, formatter);
-     //}
-     //else {
-    //     registrationDate = LocalDateTime.now();
-    // }
-     
+
      if (_registrationDate != null) {
         // Define a custom formatter that matches the input format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

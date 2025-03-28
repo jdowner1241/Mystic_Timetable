@@ -13,10 +13,17 @@ import java.net.*;
  *
  * @author Jamario_Downer
  */
-public class apiConnection {
+public class APIServer {
     
     //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
-    public apiConnection (){
+    public APIServer (){
+        
+        try{
+            StartServer();
+        }catch (IOException | ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        
         
     }//end default constructor
     
@@ -80,51 +87,13 @@ public class apiConnection {
         
     }// end Server method
 
-    //Start Client
-    public void StartClient() throws UnknownHostException, InterruptedException, 
-            IOException, ClassNotFoundException{
+    public static void main(String args[]) {
         
-        //get the LocalHost IP address, and if the server is using the same ip then use that
-        InetAddress host = InetAddress.getLocalHost();
-        Socket senderSock = null;
-        ObjectOutputStream objOutStream = null;
-        ObjectInputStream objInStream = null;
-        
-        for (int i=0; i < 5; i++ ){
-            
-            //extablish a connection to the server 
-            senderSock = new Socket (host.getHostName(), port);
-            
-            //Write the socket for the ObjectOutputStream
-            objOutStream = new ObjectOutputStream(senderSock.getOutputStream());
-            
-            //Print a Message to send a request to the server socket
-            System.out.println("Sending request to Server Socket");
-            
-            //if count is equal to 5, then exit
-            if (i == 4){
-                objOutStream.writeObject("Exit");
-            }else{
-                objOutStream.writeObject("" + i);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new APIServer();
             }
-            
-            //Read the response message from the sender
-            objInStream = new ObjectInputStream(senderSock.getInputStream());
-            
-            //Convert ObjectInputStream to String
-            String objMessage = (String) objInStream.readObject();
-           
-            //Print the Message on host
-            System.out.println("Message received : " + objMessage);
-            
-            //Close all
-            objInStream.close();
-            objOutStream.close();
-            senderSock.close();
-            
-        }// end for lopp
-        
+        });
+    }
     
-    }// end Client method
-    
-} // End apiConnection Class 
+} // End APIServer Class 

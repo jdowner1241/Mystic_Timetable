@@ -31,7 +31,7 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
  
  private int timetableLinkerId;
  private int eventId;
- private int userAndUserAndFolderId;
+ private int userAndFolderId;
 
  private ArrayList<DbTimetableLinker> timetableLinkerList;
  
@@ -54,11 +54,11 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
  }
  
  //UserAndFolderId
- public int getUserAndUserAndFolderId(){
-     return userAndUserAndFolderId;
+ public int getUserAndFolderId(){
+     return userAndFolderId;
  }
- public void setUserAndUserAndFolderId(int userAndUserAndFolderId){
-     this.userAndUserAndFolderId = userAndUserAndFolderId;
+ public void setUserAndFolderId(int userAndFolderId){
+     this.userAndFolderId = userAndFolderId;
  }
  
  
@@ -243,7 +243,7 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                 if (rset.next()){
                     dataStore.setTimetableLinkerId(rset.getInt("TimetableLinkerId"));
                     dataStore.setEventId(rset.getInt("EventId")); 
-                    dataStore.setUserAndUserAndFolderId(rset.getInt("UserAndFolderId")); 
+                    dataStore.setUserAndFolderId(rset.getInt("UserAndFolderId")); 
                     
                     //System.out.println("Class: DbTimetableLinker. Action: Entry returned.");
                     //log.info("Class: DbTimetableLinker. Action: Entry returned.");
@@ -299,7 +299,7 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                 if (rset.next()){
                     dataStore.setTimetableLinkerId(rset.getInt("EventId"));
                     dataStore.setEventId(rset.getInt("EventId"));
-                    dataStore.setUserAndUserAndFolderId(rset.getInt("UserAndFolderId")); 
+                    dataStore.setUserAndFolderId(rset.getInt("UserAndFolderId")); 
             
                     //System.out.println("Class: DbTimetableLinker. Action: Entry returned.");
                     //log.info("Class: DbTimetableLinker. Action: Entry returned.");
@@ -356,7 +356,7 @@ public class DbTimetableLinker extends DbConnectionManager implements DbService<
                     //get info from db to a variable 
                     dataStore.setTimetableLinkerId(rset.getInt("TimetableLinkerId"));
                     dataStore.setEventId(rset.getInt("EventId"));
-                    dataStore.setUserAndUserAndFolderId(rset.getInt("UserAndFolderId")); 
+                    dataStore.setUserAndFolderId(rset.getInt("UserAndFolderId")); 
     
                      // Save entry elements to datastore
                     timetableLinkerList.add(dataStore);
