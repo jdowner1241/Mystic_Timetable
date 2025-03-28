@@ -16,6 +16,7 @@ import mystictodo_limited.mystic_timetable.UI.*;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
 import mystictodo_limited.mystic_timetable.db.DbUsers;
 import mystictodo_limited.mystic_timetable.db.DbFolder;
+import mystictodo_limited.mystic_timetable.hibernate.*;
 import mystictodo_limited.mystic_timetable.hibernate.HUsers;
 import mystictodo_limited.mystic_timetable.hibernate.HibernateUtil;
 import mystictodo_limited.mystic_timetable.util.APIServer;
@@ -31,8 +32,8 @@ public class Mystic_Timetable {
     public static void main(String[] args) throws SQLException {
         
         //Start App +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        JTimetableLoginPage startApp = new JTimetableLoginPage();
-        startApp.setVisible(true);
+        //JTimetableLoginPage startApp = new JTimetableLoginPage();
+        //startApp.setVisible(true);
         
         
         //test ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -56,9 +57,23 @@ public class Mystic_Timetable {
 //        session.close();
 //        HibernateUtil.shutdown();
         
+        //test hibernate2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //Save Entiry
+        //HFolderDAOImpl folderDao = new HFolderDAOImpl();
+        //HFolder folder = new HFolder();
+        //folder.setFolderName("School");
+        //folderDao.save(folder);
         
+        // find entry by id
+        //HFolder foundFolder = folderDao.findById(folder.getFolderId());
+        //HFolder foundFolder = folderDao.findById(2);
+        //System.out.println("Found Folder Id : " + foundFolder);
         
-
+        // update entry
+        //foundFolder.setFolderName("SchoolTimetable1");
+        //folderDao.update(foundFolder);
         
+        // delete entry
+        ////folderDao.delete(foundFolder);
     }
 }

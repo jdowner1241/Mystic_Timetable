@@ -16,5 +16,13 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HUsers"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HTimetablePresets"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HTimetableLinker"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HTimetable"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLoginInfo"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLogType"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLogEntry"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HFolderPerUser"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HFolder"/>   
     </session-factory>
 </hibernate-configuration>

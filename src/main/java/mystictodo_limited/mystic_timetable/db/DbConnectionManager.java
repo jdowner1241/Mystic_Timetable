@@ -113,7 +113,7 @@ public class DbConnectionManager {
 //   };
     
     // Create Log
-     public void CreateLog (String level, String message, SQLException e) {
+     public void CreateLog (String level, String message, Exception e) {
         //Logger log = LogManager.getLogger(DbUsers.class);
      
          String className = otherClassName;
@@ -121,38 +121,59 @@ public class DbConnectionManager {
         //Create Log String 
         String logString = "Class: " + className + " Action: " + message; 
          
+        Throwable cause = e.getCause();
          //Use Switch Statement to Save the log
          if(e != null) {
             switch(level){
                 case "debug" :
                     otherLogger.debug(logString);
-                    otherLogger.debug("\nDetail Debug: " + e);
+                    otherLogger.debug("\nDetail Debug: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+                    if (cause != null){
+                        otherLogger.debug("\nException Cause: " + cause);
+                        System.out.println("Exception Cause : " + cause); 
+                    }
                     break;
                 case "info" :
                     otherLogger.info(logString);
-                    otherLogger.info("\nDetail Info: " + e);
+                    otherLogger.info("\nDetail Info: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+                     if (cause != null){
+                        otherLogger.debug("\nException Cause: " + cause);
+                        System.out.println("Exception Cause : " + cause); 
+                    }
                     break;
                 case "warn" :
                     otherLogger.warn(logString);
-                    otherLogger.warn("\nDetail Warn: " + e);
+                    otherLogger.warn("\nDetail Warn: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+                     if (cause != null){
+                        otherLogger.debug("\nException Cause: " + cause);
+                        System.out.println("Exception Cause : " + cause); 
+                    }
                     break;
                 case "error" :
                     otherLogger.error(logString);
-                    otherLogger.error("\nDetail Error: " + e);
+                    otherLogger.error("\nDetail Error: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+                     if (cause != null){
+                        otherLogger.debug("\nException Cause: " + cause);
+                        System.out.println("Exception Cause : " + cause); 
+                    }
                     break;
                 case "fatal" :
                     otherLogger.fatal(logString);
-                    otherLogger.fatal("\nDetail Fatal: " + e);
+                    otherLogger.fatal("\nDetail Fatal: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+                     if (cause != null){
+                        otherLogger.debug("\nException Cause: " + cause);
+                        System.out.println("Exception Cause : " + cause); 
+                    }
                     break; 
             }
          }else{
