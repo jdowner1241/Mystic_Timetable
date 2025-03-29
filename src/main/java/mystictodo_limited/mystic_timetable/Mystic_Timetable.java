@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import mystictodo_limited.mystic_timetable.UI.*;
+import mystictodo_limited.mystic_timetable.config.ConfigStart;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
 import mystictodo_limited.mystic_timetable.db.DbUsers;
 import mystictodo_limited.mystic_timetable.db.DbFolder;
@@ -35,6 +36,8 @@ public class Mystic_Timetable {
         JTimetableLoginPage startApp = new JTimetableLoginPage();
         startApp.setVisible(true);
         
+        //LoadSettings
+        ConfigStart settings = new ConfigStart();
         
         //test ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //DbConnectionManager users = new DbConnectionManager();

@@ -26,7 +26,7 @@ public class JTimetableMain extends javax.swing.JFrame {
     public JTimetableMain(int userId, String userName){
         this();
         this.userId = userId;
-        jUserId.setText(String.valueOf(userId));
+        //jUserId.setText(String.valueOf(userId));
         this.userName = userName;
         jUserName.setText(userName);
     }
@@ -43,9 +43,13 @@ public class JTimetableMain extends javax.swing.JFrame {
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jBackToMain = new javax.swing.JButton();
         jUserName = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuBarMain = new javax.swing.JMenuBar();
+        jMenuFile = new javax.swing.JMenu();
+        jMenuFile_ItemExit = new javax.swing.JMenuItem();
+        jMenuEdit = new javax.swing.JMenu();
+        jMenuSettings = new javax.swing.JMenu();
+        jMenuSettings_ItemOptions = new javax.swing.JMenuItem();
+        jMenuSettings_ItemImportExportTool = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,7 +60,7 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
-        jUserName.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+        jUserName.setFont(new java.awt.Font("Vampire Wars", 1, 24)); // NOI18N
 
         jLayeredPane1.setLayer(jBackToMain, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jUserName, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -81,16 +85,50 @@ public class JTimetableMain extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                         .addComponent(jBackToMain)
                         .addGap(8, 8, 8)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        jMenuFile.setText("File");
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuFile_ItemExit.setText("Exit");
+        jMenuFile_ItemExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuFile_ItemExitActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuFile_ItemExit);
 
-        setJMenuBar(jMenuBar1);
+        jMenuBarMain.add(jMenuFile);
+
+        jMenuEdit.setText("Edit");
+        jMenuBarMain.add(jMenuEdit);
+
+        jMenuSettings.setText("Settings");
+        jMenuSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSettingsActionPerformed(evt);
+            }
+        });
+
+        jMenuSettings_ItemOptions.setText("Options");
+        jMenuSettings_ItemOptions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSettings_ItemOptionsActionPerformed(evt);
+            }
+        });
+        jMenuSettings.add(jMenuSettings_ItemOptions);
+
+        jMenuSettings_ItemImportExportTool.setText("Import/Export Tool");
+        jMenuSettings_ItemImportExportTool.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSettings_ItemImportExportToolActionPerformed(evt);
+            }
+        });
+        jMenuSettings.add(jMenuSettings_ItemImportExportTool);
+
+        jMenuBarMain.add(jMenuSettings);
+
+        setJMenuBar(jMenuBarMain);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,7 +143,7 @@ public class JTimetableMain extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 667, Short.MAX_VALUE))
+                .addGap(0, 677, Short.MAX_VALUE))
         );
 
         pack();
@@ -114,6 +152,22 @@ public class JTimetableMain extends javax.swing.JFrame {
     private void jBackToMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBackToMainActionPerformed
         backToMain();
     }//GEN-LAST:event_jBackToMainActionPerformed
+
+    private void jMenuFile_ItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFile_ItemExitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuFile_ItemExitActionPerformed
+
+    private void jMenuSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSettingsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuSettingsActionPerformed
+
+    private void jMenuSettings_ItemOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSettings_ItemOptionsActionPerformed
+        OpenOptions();
+    }//GEN-LAST:event_jMenuSettings_ItemOptionsActionPerformed
+
+    private void jMenuSettings_ItemImportExportToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSettings_ItemImportExportToolActionPerformed
+        OpenImportExportTool();
+    }//GEN-LAST:event_jMenuSettings_ItemImportExportToolActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,9 +208,13 @@ public class JTimetableMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBackToMain;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBarMain;
+    private javax.swing.JMenu jMenuEdit;
+    private javax.swing.JMenu jMenuFile;
+    private javax.swing.JMenuItem jMenuFile_ItemExit;
+    private javax.swing.JMenu jMenuSettings;
+    private javax.swing.JMenuItem jMenuSettings_ItemImportExportTool;
+    private javax.swing.JMenuItem jMenuSettings_ItemOptions;
     private javax.swing.JLabel jUserName;
     // End of variables declaration//GEN-END:variables
 
@@ -175,6 +233,20 @@ public class JTimetableMain extends javax.swing.JFrame {
      JTimetableLoginPage login = new JTimetableLoginPage();
      login.setVisible(true);
     }//End signSuccess
+    
+    private void OpenOptions(){
+        //Create and show Option frame
+        JTimetableOptions options = new JTimetableOptions();
+        options.setVisible(true);
+    
+    }//End OpenOptions
+    
+    private void OpenImportExportTool(){
+        //Create and show Import/Export Tool frame
+        JTimetableImportExportTool tool = new JTimetableImportExportTool();
+        tool.setVisible(true);
+    
+    }//End OpenImportExportTool
     
     
 }//End Class

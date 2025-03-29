@@ -4,46 +4,99 @@
  */
 package mystictodo_limited.mystic_timetable.util;
 
+import java.awt.Panel;
 import java.io.*;
 import java.io.IOException;
 import java.lang.*;
 import java.net.*;
-import mystictodo_limited.mystic_timetable.UI.JTimetableOptions;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
 
 /**
  *
  * @author Jamario_Downer
  */
-public class APIClient {
+public class APIClient extends SwingWorker<Void, Void> {
     
     //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
     public APIClient (){
-        
-        try{
-            StartClient();
-        }catch ( InterruptedException | IOException | ClassNotFoundException e) {
-            System.out.println(e);
-        }
-        
+//        try{
+//            StartTestClient();
+//        }catch ( InterruptedException | IOException | ClassNotFoundException e) {
+//            System.out.println(e);
+//        }
+        clientStarted = false;
     }//end default constructor
     
+    public APIClient (int hostPort) throws UnknownHostException {
+       this();
+       if(clientHostInfo == null){
+            this.clientHostInfo = InetAddress.getLocalHost();
+       }
+       this.clientPort = hostPort;
+    
+    }
+    
     //Feilds >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
-    //Declare Server Socket variables
-    private static ServerSocket serverSock;
+   
+    private InetAddress clientHostInfo;  //Host information
+    private int clientPort; //Declare and assign socket server port and which it listens
+    private final int defaultClientPort = 6366;
+    private boolean clientStarted;
+    private boolean clientException = false;
+    private DbConnectionManager logger = new DbConnectionManager(APIClient.class);
     
-    //Declare and assign socket server port and which it listens
-    private static int port = 6366;
+    //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public int getClientPort() {
+        return clientPort;
+    }
     
-    
-    //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
-    
-    
-    //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
+    public void setClientPort() {
+        this.clientPort = defaultClientPort;
+    }
 
-    //Start Client
-    public void StartClient() throws UnknownHostException, InterruptedException, 
-            IOException, ClassNotFoundException{
-        
+    public void setClientPort(int clientPort) {
+        //APIClient.clientPort = clientPort;
+        this.clientPort = clientPort;
+    }
+    
+    public InetAddress getClientHostInfo() {
+        return clientHostInfo;
+    }
+
+    public void setHostInfo()throws UnknownHostException {
+        try{
+            //APIClient.clientHostInfo = InetAddress.getLocalHost();
+            this.clientHostInfo = InetAddress.getLocalHost();
+        }catch (UnknownHostException e){
+            logger.CreateLog("error", "Failed to get Local host info.", e);
+        }
+    }
+    
+    public void setClientHostInfo(InetAddress clientHostInfo) {
+        this.clientHostInfo = clientHostInfo;
+        //APIClient.clientHostInfo = clientHostInfo;
+    }
+
+    public int getDefaultClientPort() {
+        return defaultClientPort;
+    }
+
+    public boolean isClientStarted() {
+        return clientStarted;
+    }
+
+    public boolean isClientException() {
+        return clientException;
+    }
+    
+    
+    
+    
+    //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    //Start test Client
+    public void StartTestClient() throws UnknownHostException, InterruptedException, IOException, ClassNotFoundException {
         //get the LocalHost IP address, and if the server is using the same ip then use that
         InetAddress host = InetAddress.getLocalHost();
         Socket senderSock = null;
@@ -53,7 +106,7 @@ public class APIClient {
         for (int i=0; i < 5; i++ ){
             
             //extablish a connection to the server 
-            senderSock = new Socket (host.getHostName(), port);
+            senderSock = new Socket (host.getHostName(), clientPort);
             
             //Write the socket for the ObjectOutputStream
             objOutStream = new ObjectOutputStream(senderSock.getOutputStream());
@@ -83,9 +136,142 @@ public class APIClient {
             senderSock.close();
             
         }// end for lopp
-        
+    } // end Client method
     
-    }// end Client method
+    @Override
+    protected Void doInBackground() throws Exception {
+        startClient();
+        return null;
+    }
+    
+    
+    //Start Client
+    public boolean startClient() {
+        
+        //Try starting the Client
+        try {
+            clientStarted = true;
+            
+            //Client keeps running when clientStarted status is true
+            while (clientStarted){
+               handleServerConnection();
+               return clientStarted;
+            }
+        }catch (Exception e) {
+            logger.CreateLog("error", "Server API : Failed to start.", e);
+            if(clientStarted){
+                stopClient();
+                clientStarted = false;
+                clientException = true;
+            }
+        }
+        return clientStarted;
+    }//End Server
+
+    
+    // Starts handleServerConnection
+    public void handleServerConnection(){
+        
+        // Loops 4 times until a file or response is received
+        for(int i = 0; i < 5; i++) {
+            
+            //Initialize Client Socket and Streams
+            Socket senderSock = null;
+            ObjectOutputStream objOutStream = null;
+            ObjectInputStream objInStream = null;
+            
+            try {
+                
+                //Extablish connection to server, write sockect for ObjectInputStream, read response from sender 
+                senderSock = new Socket(clientHostInfo.getHostName(), clientPort);
+                objOutStream = new ObjectOutputStream(senderSock.getOutputStream());
+                objInStream = new ObjectInputStream(senderSock.getInputStream());
+                
+                //Send Request to server for response
+                sendRequest(objOutStream, i);
+                Object response = receiveResponse(objInStream);
+                
+                //Check if response is a string or file
+                if (response instanceof String){
+                    //Output String response to constole 
+                    System.out.println("Message received: " + response);
+                    
+                    //server closed if Exit response is received
+                    if ("Exit".equals(response)){
+                        stopClient();
+                        break;
+                    }
+                } else if (response instanceof File){
+                    //File response
+                    File receivedFile = (File) response;
+                    saveFile(receivedFile); //saves file received 
+                    
+                    //Output file name to console
+                    System.out.println("File received: " + receivedFile.getName());                
+                    stopClient();
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                logger.CreateLog("error", "Client API : Failed to start. ", e);
+            }finally {
+                CloseResources(senderSock, objOutStream, objInStream);
+            }//End exception handling 
+        }//End for loop
+    }//End StartClient
+    
+    private void sendRequest(ObjectOutputStream objOutStream, int count) 
+    throws IOException {
+        System.out.println("Sending request to Server Socket");
+        
+        // Checks if 4 attempts are made, if so, use Exit to end close the client connection
+        if (count == 4) {
+            objOutStream.writeObject("Exit");
+        } else {
+            objOutStream.writeObject(String.valueOf(count));
+        }
+    }//End sendRequest
+    
+    
+    private Object receiveResponse(ObjectInputStream objInStream) throws
+    IOException, ClassNotFoundException{
+        
+        return objInStream.readObject();
+    }//End receiveResponse
+    
+    private void saveFile(File file) throws IOException {
+    try (
+        //saves received file    
+        InputStream fileInputStream = new FileInputStream(file);
+        OutputStream fileOutputStream = new FileOutputStream("received_" + file.getName())
+        ) {
+            byte[] buffer = new byte[1024]; 
+            int bytesRead;
+            
+            //reads the file and saves once fully read.
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                fileOutputStream.write(buffer, 0, bytesRead);
+            }//End whle loop
+            JOptionPane.showMessageDialog(null, "File Downloaded!", "information", JOptionPane.INFORMATION_MESSAGE );
+        }//End exception handling 
+    }//End saveFile
+    
+    //Close all resources
+        public void CloseResources(Socket senderSock, ObjectOutputStream objOutStream,
+    ObjectInputStream objInStream){
+        try{
+            if(objInStream != null) objInStream.close();
+            if(objOutStream != null) objOutStream.close();
+            if(senderSock != null) senderSock.close();
+            logger.CreateLog("info", "Client API : All Connection closed.", null);
+        }catch(IOException e){
+             logger.CreateLog("error", "Client API : Failed to close connection or no connection available.", e);
+        }
+    }
+    
+    //Stop Client
+    public void stopClient(){
+        this.clientStarted = false;
+    }
+    
     
     public static void main(String args[]) {
         
@@ -95,5 +281,7 @@ public class APIClient {
             }
         });
     }
+
+   
     
 } // End APIClient Class 
