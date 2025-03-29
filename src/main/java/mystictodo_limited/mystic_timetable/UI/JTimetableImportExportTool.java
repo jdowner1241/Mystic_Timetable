@@ -439,16 +439,16 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
     private void jTBToggleServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBToggleServerActionPerformed
       
         if(jTBToggleServer.isSelected()){
-            jRBServerStatus.setSelected(true);
-            jRBServerStatus.setForeground(Color.green);
             StartServer();
-            jTBToggleServer.setText("Stop Server");
+           
         }else{
-            if(serverStarted){
-                StopServer();
-                serverStarted = false;
-            }
-            jTBToggleServer.setText("Start Server");
+//            if(serverStarted){
+//                StopServer();
+//                serverStarted = false;
+//            }
+            
+            StopServer();
+
         }
     }//GEN-LAST:event_jTBToggleServerActionPerformed
 
@@ -456,15 +456,13 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
 
         
         if(jTBToggleClient.isSelected()){
-            jRBClientStatus.setSelected(true);
-            jRBClientStatus.setForeground(Color.green);
             StartClient();
-            jTBToggleClient.setText("Stop Client");
         }else{
-            if(clientStarted){
-                StopClient();
-                clientStarted = false;
-            }
+            StopClient();
+//            if(clientStarted){
+//                
+//                clientStarted = false;
+//            }
             jTBToggleClient.setText("Start Client");
         }
     }//GEN-LAST:event_jTBToggleClientActionPerformed
@@ -627,32 +625,50 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
         server = new APIServer(serverPort);
         server.execute();
         serverStarted = server.isServerStarted();
+                
+        //Visual Changes 
+         jRBServerStatus.setSelected(true);
+         jRBServerStatus.setForeground(Color.green);
+         jTBToggleServer.setText("Stop Server");
     }
         
     private void StopServer(){
-            if(server != null){
-                server.stopServer();
-                server.cancel(true);
-            }
-            
+        if(server != null){
+            server.stopServer();
+            server.cancel(true);
+        }
+        
+        //Visal Chanages
+        jTBToggleServer.setText("Start Server");
+        jRBServerStatus.setSelected(false);
+        jRBServerStatus.setForeground(Color.black);    
     }
     
     private void StartClient(){
         try{
             client = new APIClient(clientPort);
-        }catch (Exception E){
-        
+            client.execute();
+            clientStarted = client.isClientStarted();
+            
+            //Change the visuals
+            jRBClientStatus.setSelected(true);
+            jRBClientStatus.setForeground(Color.green);
+            jTBToggleClient.setText("Stop Client");
+        }catch (UnknownHostException e){
+            logger.CreateLog("error", "Error occured when trying to start server from GUI", e);
         }
-        client.execute();
-        clientStarted = client.isClientStarted();
+       
     }
         
     private void StopClient(){
-            if(client != null){
-                client.stopClient();
-                client.cancel(true);
-            }
-            
+        if(client != null){
+            client.stopClient();
+            client.cancel(true);  
+        }
+        //Change the visuals
+        jRBClientStatus.setSelected(false);
+        jRBClientStatus.setForeground(Color.black);
+        jTBToggleClient.setText("Start Client");   
     }
 
-}
+}//End Class
