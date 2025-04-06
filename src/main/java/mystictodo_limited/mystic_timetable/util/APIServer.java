@@ -11,6 +11,7 @@ import java.net.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
+import mystictodo_limited.mystic_timetable.tools.FileOpenSave;
 
 /**
  *
@@ -20,14 +21,10 @@ public class APIServer extends SwingWorker<Void, Void>{
     
     //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
     public APIServer (){
+        logger = new DbConnectionManager(APIServer.class);
+        fileOpenSave = new FileOpenSave();
          serverStarted = false;
-//        try{
-//            StartTestServer();
-//        }catch (IOException | ClassNotFoundException e) {
-//            System.out.println(e);
-//        }
-        
-        
+
     }//end default constructor
     
     public APIServer (int serverPort){
@@ -43,8 +40,8 @@ public class APIServer extends SwingWorker<Void, Void>{
     private final int defaultServerPort = 6366;
     private boolean serverStarted;
     private boolean serverException = false;
-    private DbConnectionManager logger = new DbConnectionManager(APIServer.class);
-    
+    private DbConnectionManager logger;
+    private FileOpenSave fileOpenSave;
     
     //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
 
@@ -79,54 +76,7 @@ public class APIServer extends SwingWorker<Void, Void>{
     
     
     //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
-  
-    //Start test Server
-    public void StartTestServer() throws IOException, ClassNotFoundException{
-    
-        //create the object for the server socket
-        serverSock = new ServerSocket (serverPort);
-    
-        //Listen indefinitely for "exit" call or program terminates
-        while (true){ 
-            System.out.println("Waiting for client request");
-        
-            //Create a socket to accept the request 
-            Socket acceptSock = serverSock.accept();
-            
-            //Read from the socket and send to ObjectInputStream
-            ObjectInputStream objInStream = new ObjectInputStream(acceptSock.getInputStream());
-        
-            //convert OpjectInputStream to a String
-            String objMessage = (String) objInStream.readObject();
-            
-            //Output the message that was received   
-            System.out.println("Message received :" + objMessage);
-            
-            //Create an ObjectOutputStream
-            ObjectOutputStream objOutStream = new ObjectOutputStream(acceptSock.getOutputStream());
-            
-            //Write object to the socket
-            objOutStream.writeObject("Hello, Friend, " + objMessage);
-            
-            //close all
-            objInStream.close();
-            objOutStream.close();
-            acceptSock.close();
-            
-            //Close the server if the client sends exit request
-            if(objMessage.equalsIgnoreCase("exit")){
-                break;
-            }
-            
-        }//end while loop 
-        
-        System.out.println("Shutting down the server now... ");
-        
-        //Close the Server Socket
-        serverSock.close();
-        
-    }// end TestServer method
-    
+
     @Override
     protected Void doInBackground() throws Exception {
        startServer();
@@ -176,9 +126,28 @@ public class APIServer extends SwingWorker<Void, Void>{
             if ("Exit".equals(request)){
                 objOutStream.writeObject("Exit"); //send exit response to client
             }else {
-                String path = "F:\\School\\Bsc Semester 1 (2025)\\Advanced Object Oriented Programming\\Projects\\Mystic_Timetable\\Transfer\\file.xml";
-                sendFile(objOutStream, path); //Send file to client
+                //Check if a present file  should be used or prompt to user to select a file
+                
+                boolean userPresetFile = true; // change this flage to contorl the behavior
+                
+                if (userPresetFile) {
+                    //use prset file method
+                    String path = "F:\\School\\Bsc Semester 1 (2025)\\Advanced Object Oriented Programming\\Projects\\Mystic_Timetable\\Transfer\\file.xml";
+                    sendFile(objOutStream, path); //Send file to client
+                    
+                } else {
+                    // User the fileOpenSave class to open a file to send
+                    FileOpenSave fileOpen = new FileOpenSave();
+                    File fileToSend = (File) fileOpenSave.openFromFile();
+                    
+                    if (fileToSend != null) {
+                        sendFile(objOutStream, fileToSend.getAbsolutePath());
+                    }else{
+                        objOutStream.writeObject("No file selected."); // Inform client no file was selected
+                    }
+                }
             }
+            
         }catch (IOException | ClassNotFoundException e){
             logger.CreateLog("error", "Server API : Server closed due to connection or missing file. ", e);
         } finally {
@@ -190,8 +159,16 @@ public class APIServer extends SwingWorker<Void, Void>{
     private void sendFile(ObjectOutputStream objOutStream, String filePath)
     throws IOException{
         File fileToSend = new File(filePath);
-        objOutStream.writeObject(fileToSend);
-        JOptionPane.showMessageDialog(null, "File Sent!", "information", JOptionPane.INFORMATION_MESSAGE );
+        
+        if (fileToSend.exists() && fileToSend.isFile()) {
+            objOutStream.writeObject(fileToSend);
+            logger.CreateLog("info", "File sent : " + filePath, null);
+            
+        } else {
+            objOutStream.writeObject("File not found");
+            logger.CreateLog("error", "File not found at : " + filePath, null);
+        }
+        
     }
     
     //Close all connection
@@ -223,6 +200,53 @@ public class APIServer extends SwingWorker<Void, Void>{
         });
     }
 
+    
+    //Start test Server
+//    public void StartTestServer() throws IOException, ClassNotFoundException{
+//    
+//        //create the object for the server socket
+//        serverSock = new ServerSocket (serverPort);
+//    
+//        //Listen indefinitely for "exit" call or program terminates
+//        while (true){ 
+//            System.out.println("Waiting for client request");
+//        
+//            //Create a socket to accept the request 
+//            Socket acceptSock = serverSock.accept();
+//            
+//            //Read from the socket and send to ObjectInputStream
+//            ObjectInputStream objInStream = new ObjectInputStream(acceptSock.getInputStream());
+//        
+//            //convert OpjectInputStream to a String
+//            String objMessage = (String) objInStream.readObject();
+//            
+//            //Output the message that was received   
+//            System.out.println("Message received :" + objMessage);
+//            
+//            //Create an ObjectOutputStream
+//            ObjectOutputStream objOutStream = new ObjectOutputStream(acceptSock.getOutputStream());
+//            
+//            //Write object to the socket
+//            objOutStream.writeObject("Hello, Friend, " + objMessage);
+//            
+//            //close all
+//            objInStream.close();
+//            objOutStream.close();
+//            acceptSock.close();
+//            
+//            //Close the server if the client sends exit request
+//            if(objMessage.equalsIgnoreCase("exit")){
+//                break;
+//            }
+//            
+//        }//end while loop 
+//        
+//        System.out.println("Shutting down the server now... ");
+//        
+//        //Close the Server Socket
+//        serverSock.close();
+//        
+//    }// end TestServer method
  
     
 } // End APIServer Class 

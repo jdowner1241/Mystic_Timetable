@@ -4,7 +4,23 @@
  */
 package mystictodo_limited.mystic_timetable.UI;
 
+import java.awt.Button;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.util.List;
+import javax.swing.AbstractButton;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
+import mystictodo_limited.mystic_timetable.hibernate.*;
 
 /**
  *
@@ -29,6 +45,9 @@ public class JTimetableMain extends javax.swing.JFrame {
         //jUserId.setText(String.valueOf(userId));
         this.userName = userName;
         jUserName.setText(userName);
+        
+        UpdateFolderList();
+
     }
 
     /**
@@ -40,9 +59,47 @@ public class JTimetableMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        NotificationRadio = new javax.swing.ButtonGroup();
+        EventColorSelectorDialog = new javax.swing.JDialog();
+        EventColorSelector = new javax.swing.JColorChooser();
+        jPanel3 = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jBackToMain = new javax.swing.JButton();
         jUserName = new javax.swing.JLabel();
+        MainLeft = new javax.swing.JLayeredPane();
+        jLabel1 = new javax.swing.JLabel();
+        FolderControls = new javax.swing.JPanel();
+        jBFolderRemove = new javax.swing.JButton();
+        jBFolderAdd = new javax.swing.JButton();
+        jScrollPaneFolder = new javax.swing.JScrollPane();
+        MainRight = new javax.swing.JLayeredPane();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        TbSetColor = new javax.swing.JToggleButton();
+        TBColor = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        MainMiddle = new javax.swing.JLayeredPane();
+        jBHideMainLeft = new javax.swing.JButton();
+        TimetableDatePanel = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        TimetablePanel = new javax.swing.JLayeredPane();
+        jBHideMainRight = new javax.swing.JButton();
         jMenuBarMain = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuFile_ItemExit = new javax.swing.JMenuItem();
@@ -50,6 +107,30 @@ public class JTimetableMain extends javax.swing.JFrame {
         jMenuSettings = new javax.swing.JMenu();
         jMenuSettings_ItemOptions = new javax.swing.JMenuItem();
         jMenuSettings_ItemImportExportTool = new javax.swing.JMenuItem();
+
+        EventColorSelectorDialog.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        EventColorSelectorDialog.setType(java.awt.Window.Type.POPUP);
+
+        javax.swing.GroupLayout EventColorSelectorDialogLayout = new javax.swing.GroupLayout(EventColorSelectorDialog.getContentPane());
+        EventColorSelectorDialog.getContentPane().setLayout(EventColorSelectorDialogLayout);
+        EventColorSelectorDialogLayout.setHorizontalGroup(
+            EventColorSelectorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 640, Short.MAX_VALUE)
+            .addGroup(EventColorSelectorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(EventColorSelectorDialogLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(EventColorSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        EventColorSelectorDialogLayout.setVerticalGroup(
+            EventColorSelectorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 327, Short.MAX_VALUE)
+            .addGroup(EventColorSelectorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(EventColorSelectorDialogLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(EventColorSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,7 +152,7 @@ public class JTimetableMain extends javax.swing.JFrame {
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addComponent(jUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBackToMain)
                 .addGap(12, 12, 12))
@@ -86,6 +167,383 @@ public class JTimetableMain extends javax.swing.JFrame {
                         .addComponent(jBackToMain)
                         .addGap(8, 8, 8)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        MainLeft.setPreferredSize(new java.awt.Dimension(195, 850));
+
+        jLabel1.setFont(new java.awt.Font("Vampire Wars", 1, 14)); // NOI18N
+        jLabel1.setText("Folders");
+
+        jBFolderRemove.setText("Remove");
+
+        jBFolderAdd.setText("Add");
+
+        javax.swing.GroupLayout FolderControlsLayout = new javax.swing.GroupLayout(FolderControls);
+        FolderControls.setLayout(FolderControlsLayout);
+        FolderControlsLayout.setHorizontalGroup(
+            FolderControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FolderControlsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBFolderAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBFolderRemove)
+                .addContainerGap())
+        );
+        FolderControlsLayout.setVerticalGroup(
+            FolderControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FolderControlsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(FolderControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBFolderRemove)
+                    .addComponent(jBFolderAdd))
+                .addContainerGap())
+        );
+
+        MainLeft.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainLeft.setLayer(FolderControls, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainLeft.setLayer(jScrollPaneFolder, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout MainLeftLayout = new javax.swing.GroupLayout(MainLeft);
+        MainLeft.setLayout(MainLeftLayout);
+        MainLeftLayout.setHorizontalGroup(
+            MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainLeftLayout.createSequentialGroup()
+                .addGroup(MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MainLeftLayout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MainLeftLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(FolderControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPaneFolder))))
+                .addGap(15, 15, 15))
+        );
+        MainLeftLayout.setVerticalGroup(
+            MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainLeftLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPaneFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                .addComponent(FolderControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+        );
+
+        MainRight.setMaximumSize(new java.awt.Dimension(220, 220));
+        MainRight.setPreferredSize(new java.awt.Dimension(195, 850));
+
+        jLabel2.setFont(new java.awt.Font("Vampire Wars", 1, 14)); // NOI18N
+        jLabel2.setText("Event Info");
+
+        jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
+        jPanel1.setAutoscrolls(true);
+
+        jLabel3.setText("Name");
+
+        jTextField2.setText("Event Name");
+
+        jLabel4.setText("Category");
+
+        jLabel5.setText("Day");
+
+        jLabel6.setText("Start Time");
+
+        jTextField5.setText("Event Name");
+
+        jLabel7.setText("End Time");
+
+        jTextField6.setText("Event Name");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel8.setText("Enable Notification");
+
+        jLabel9.setText("Color");
+
+        NotificationRadio.add(jRadioButton1);
+        jRadioButton1.setText("No");
+
+        NotificationRadio.add(jRadioButton2);
+        jRadioButton2.setText("Yes");
+
+        TbSetColor.setText("Set Color");
+        TbSetColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TbSetColorActionPerformed(evt);
+            }
+        });
+
+        TBColor.setEditable(false);
+        TBColor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TBColor.setToolTipText("");
+        TBColor.setAutoscrolls(false);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField2)
+                    .addComponent(jTextField5)
+                    .addComponent(jTextField6)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(TBColor, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addComponent(TbSetColor)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jComboBox2, 0, 160, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jRadioButton1, jRadioButton2});
+
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2))
+                .addGap(13, 13, 13)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TbSetColor)
+                    .addComponent(TBColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(118, 118, 118)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(604, Short.MAX_VALUE)))
+        );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jRadioButton1, jRadioButton2});
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 168, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 44, Short.MAX_VALUE)
+        );
+
+        MainRight.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainRight.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainRight.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout MainRightLayout = new javax.swing.GroupLayout(MainRight);
+        MainRight.setLayout(MainRightLayout);
+        MainRightLayout.setHorizontalGroup(
+            MainRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainRightLayout.createSequentialGroup()
+                .addGroup(MainRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(MainRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(MainRightLayout.createSequentialGroup()
+                            .addGap(54, 54, 54)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(MainRightLayout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20))
+        );
+        MainRightLayout.setVerticalGroup(
+            MainRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainRightLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        MainMiddle.setPreferredSize(new java.awt.Dimension(195, 850));
+        MainMiddle.setRequestFocusEnabled(false);
+
+        jBHideMainLeft.setText("<<");
+        jBHideMainLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBHideMainLeftActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setText("Mar 10 to  Mar 17");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("<<");
+
+        jButton4.setText(">>");
+
+        javax.swing.GroupLayout TimetableDatePanelLayout = new javax.swing.GroupLayout(TimetableDatePanel);
+        TimetableDatePanel.setLayout(TimetableDatePanelLayout);
+        TimetableDatePanelLayout.setHorizontalGroup(
+            TimetableDatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TimetableDatePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        TimetableDatePanelLayout.setVerticalGroup(
+            TimetableDatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TimetableDatePanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(TimetableDatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addGap(15, 15, 15))
+        );
+
+        TimetablePanel.setPreferredSize(new java.awt.Dimension(195, 850));
+
+        javax.swing.GroupLayout TimetablePanelLayout = new javax.swing.GroupLayout(TimetablePanel);
+        TimetablePanel.setLayout(TimetablePanelLayout);
+        TimetablePanelLayout.setHorizontalGroup(
+            TimetablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 619, Short.MAX_VALUE)
+        );
+        TimetablePanelLayout.setVerticalGroup(
+            TimetablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 745, Short.MAX_VALUE)
+        );
+
+        jBHideMainRight.setText(">>");
+        jBHideMainRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBHideMainRightActionPerformed(evt);
+            }
+        });
+
+        MainMiddle.setLayer(jBHideMainLeft, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainMiddle.setLayer(TimetableDatePanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainMiddle.setLayer(TimetablePanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainMiddle.setLayer(jBHideMainRight, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout MainMiddleLayout = new javax.swing.GroupLayout(MainMiddle);
+        MainMiddle.setLayout(MainMiddleLayout);
+        MainMiddleLayout.setHorizontalGroup(
+            MainMiddleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainMiddleLayout.createSequentialGroup()
+                .addGroup(MainMiddleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MainMiddleLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(TimetableDatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(MainMiddleLayout.createSequentialGroup()
+                        .addComponent(jBHideMainLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(TimetablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBHideMainRight, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        MainMiddleLayout.setVerticalGroup(
+            MainMiddleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MainMiddleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TimetableDatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(MainMiddleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MainMiddleLayout.createSequentialGroup()
+                        .addGap(240, 240, 240)
+                        .addComponent(jBHideMainLeft))
+                    .addGroup(MainMiddleLayout.createSequentialGroup()
+                        .addGap(240, 240, 240)
+                        .addComponent(jBHideMainRight))
+                    .addGroup(MainMiddleLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(TimetablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(514, 514, 514)
+                        .addComponent(jLayeredPane1)
+                        .addGap(500, 500, 500))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(MainLeft, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(MainMiddle, javax.swing.GroupLayout.DEFAULT_SIZE, 757, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(MainRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(MainLeft, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MainRight, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MainMiddle, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jMenuFile.setText("File");
@@ -135,15 +593,15 @@ public class JTimetableMain extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(520, 520, 520)
-                .addComponent(jLayeredPane1)
-                .addGap(520, 520, 520))
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 677, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,6 +626,40 @@ public class JTimetableMain extends javax.swing.JFrame {
     private void jMenuSettings_ItemImportExportToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSettings_ItemImportExportToolActionPerformed
         OpenImportExportTool();
     }//GEN-LAST:event_jMenuSettings_ItemImportExportToolActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void TbSetColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TbSetColorActionPerformed
+       if(TbSetColor.isSelected()){
+           EventColorSelectorDialog.setVisible(true);
+           EventColorSelectorDialog.setSize(400, 200);
+       }else{
+           EventColorSelectorDialog.setVisible(false);
+           
+       }
+    }//GEN-LAST:event_TbSetColorActionPerformed
+
+    private void jBHideMainLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHideMainLeftActionPerformed
+        if(MainLeft.isVisible() == true){
+            MainLeft.setVisible(false); 
+            jBHideMainLeft.setText(">>");
+        }else{
+            MainLeft.setVisible(true); 
+            jBHideMainLeft.setText("<<");
+        }
+    }//GEN-LAST:event_jBHideMainLeftActionPerformed
+
+    private void jBHideMainRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHideMainRightActionPerformed
+        if(MainRight.isVisible() == true){
+            MainRight.setVisible(false); 
+            jBHideMainRight.setText("<<");
+        }else{
+            MainRight.setVisible(true); 
+            jBHideMainRight.setText(">>");
+        }
+    }//GEN-LAST:event_jBHideMainRightActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,7 +698,35 @@ public class JTimetableMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JColorChooser EventColorSelector;
+    private javax.swing.JDialog EventColorSelectorDialog;
+    private javax.swing.JPanel FolderControls;
+    private javax.swing.JLayeredPane MainLeft;
+    private javax.swing.JLayeredPane MainMiddle;
+    private javax.swing.JLayeredPane MainRight;
+    private javax.swing.ButtonGroup NotificationRadio;
+    private javax.swing.JTextField TBColor;
+    private javax.swing.JToggleButton TbSetColor;
+    private javax.swing.JPanel TimetableDatePanel;
+    private javax.swing.JLayeredPane TimetablePanel;
+    private javax.swing.JButton jBFolderAdd;
+    private javax.swing.JButton jBFolderRemove;
+    private javax.swing.JButton jBHideMainLeft;
+    private javax.swing.JButton jBHideMainRight;
     private javax.swing.JButton jBackToMain;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenuBar jMenuBarMain;
     private javax.swing.JMenu jMenuEdit;
@@ -215,13 +735,37 @@ public class JTimetableMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuSettings;
     private javax.swing.JMenuItem jMenuSettings_ItemImportExportTool;
     private javax.swing.JMenuItem jMenuSettings_ItemOptions;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JScrollPane jScrollPaneFolder;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel jUserName;
     // End of variables declaration//GEN-END:variables
 
     //Feilds >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
     private DbConnectionManager logger;
     private String userName;
+    private int userAndFolderId;
     private int userId;
+    
+    //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
+
+    public int getUserAndFolderId() {
+        return userAndFolderId;
+    }
+
+    public void setUserAndFolderId(int userAndFolderId) {
+        this.userAndFolderId = userAndFolderId;
+    }
+    
+    
+    
     
     //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
 
@@ -247,6 +791,81 @@ public class JTimetableMain extends javax.swing.JFrame {
         tool.setVisible(true);
     
     }//End OpenImportExportTool
+    
+    private void UpdateFolderList(){
+    
+        //Get list of folder for specific user
+        HUsersDAOImpl usersDao = new HUsersDAOImpl();
+        HUsers user = new HUsers();
+        HFolderDAOImpl foldersDao = new HFolderDAOImpl();
+        HFolder folder = new HFolder();
+        HFolderPerUserDAOImpl userFolderDao = new HFolderPerUserDAOImpl();
+        HFolderPerUser userFolder = new HFolderPerUser();       
+        
+        int maxUserCount = 17;
+                
+        HUsers currentUser = usersDao.findById(userId);
+        List<HFolderPerUser> userFolderList = currentUser.getFolderPerUserList();
+        
+        if (userFolderList != null){
+            int rowCount = userFolderList.size();
+            //JPanel userFolderListUI = new JPanel();
+            //userFolderListUI.setLayout(new BoxLayout(userFolderListUI, BoxLayout.Y_AXIS)); 
+            
+            JPanel UI = new JPanel();    
+            if(rowCount > maxUserCount ){
+                UI.setLayout(new GridLayout(rowCount, 5, 10, 5));
+            }else{
+                UI.setLayout(new GridLayout(maxUserCount, 5, 10, 5));
+            }
+            
+            
+            //SetButton Group for single click
+            ButtonGroup userFolderListGroup = new ButtonGroup();
+            
+            //ilterate between folders then create and add a button with its events
+            for (HFolderPerUser userFolder1 : userFolderList){
+                int userFolderId =  userFolder1.getFolderPerUserId();
+                String folderName = userFolder1.getFolder().getFolderName();
+                
+                //Create button to Switch tables
+                    
+                JButton button = new JButton(folderName);
+                button.setPreferredSize(new Dimension(30, 25));
+                
+                
+                //add event to button
+                button.addActionListener((ActionEvent e) -> {
+                    UpdateEventList(userFolderId);
+                    JOptionPane.showMessageDialog(null, "Current FolderPerUserId : " + userFolderId);
+                });
+                
+                //Add button to ButtonGroup
+                userFolderListGroup.add(button);
+                
+                //Add button to UI
+                //userFolderListUI.add(Box.createRigidArea(new Dimension(5, 5)));
+                //userFolderListUI.add(button);
+                //userFolderListUI.add(Box.createRigidArea(new Dimension(5, 5)));
+
+                UI.add(button);
+                // Add button to Box container
+                //buttonBox.add(button);
+                //buttonBox.add(Box.createVerticalStrut(5)); // Add spacing between buttons
+            }
+            //UI.add(userFolderListUI);
+             // Add Box container to panel
+            //userFolderListUI.add(buttonBox, gbc);
+            
+            // add panel to scrollablepanel
+            jScrollPaneFolder.setViewportView(UI);
+        }
+
+    }//End UpdateFolderList
+    
+    private void UpdateEventList(int folderPerUserId){
+        setUserAndFolderId(folderPerUserId);
+    }
     
     
 }//End Class

@@ -12,6 +12,7 @@ import java.net.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
+import mystictodo_limited.mystic_timetable.tools.FileOpenSave;
 
 /**
  *
@@ -21,11 +22,8 @@ public class APIClient extends SwingWorker<Void, Void> {
     
     //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
     public APIClient (){
-//        try{
-//            StartTestClient();
-//        }catch ( InterruptedException | IOException | ClassNotFoundException e) {
-//            System.out.println(e);
-//        }
+        logger = new DbConnectionManager(APIClient.class);
+        fileOpenSave = new FileOpenSave();
         clientStarted = false;
     }//end default constructor
     
@@ -45,7 +43,8 @@ public class APIClient extends SwingWorker<Void, Void> {
     private final int defaultClientPort = 6366;
     private boolean clientStarted;
     private boolean clientException = false;
-    private DbConnectionManager logger = new DbConnectionManager(APIClient.class);
+    private DbConnectionManager logger;
+    private FileOpenSave fileOpenSave;
     
     //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     public int getClientPort() {
@@ -95,49 +94,6 @@ public class APIClient extends SwingWorker<Void, Void> {
     
     
     //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    //Start test Client
-    public void StartTestClient() throws UnknownHostException, InterruptedException, IOException, ClassNotFoundException {
-        //get the LocalHost IP address, and if the server is using the same ip then use that
-        InetAddress host = InetAddress.getLocalHost();
-        Socket senderSock = null;
-        ObjectOutputStream objOutStream = null;
-        ObjectInputStream objInStream = null;
-        
-        for (int i=0; i < 5; i++ ){
-            
-            //extablish a connection to the server 
-            senderSock = new Socket (host.getHostName(), clientPort);
-            
-            //Write the socket for the ObjectOutputStream
-            objOutStream = new ObjectOutputStream(senderSock.getOutputStream());
-            
-            //Print a Message to send a request to the server socket
-            System.out.println("Sending request to Server Socket");
-            
-            //if count is equal to 5, then exit
-            if (i == 4 || senderSock.isConnected()){
-                objOutStream.writeObject("Exit");
-            }else{
-                objOutStream.writeObject("" + i);
-            }
-            
-            //Read the response message from the sender
-            objInStream = new ObjectInputStream(senderSock.getInputStream());
-            
-            //Convert ObjectInputStream to String
-            String objMessage = (String) objInStream.readObject();
-           
-            //Print the Message on host
-            System.out.println("Message received : " + objMessage);
-            
-            //Close all
-            objInStream.close();
-            objOutStream.close();
-            senderSock.close();
-            
-        }// end for lopp
-    } // end Client method
-    
     @Override
     protected Void doInBackground() throws Exception {
         startClient();
@@ -238,20 +194,16 @@ public class APIClient extends SwingWorker<Void, Void> {
     }//End receiveResponse
     
     private void saveFile(File file) throws IOException {
-    try (
-        //saves received file    
-        InputStream fileInputStream = new FileInputStream(file);
-        OutputStream fileOutputStream = new FileOutputStream("received_" + file.getName())
-        ) {
-            byte[] buffer = new byte[1024]; 
-            int bytesRead;
-            
-            //reads the file and saves once fully read.
-            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                fileOutputStream.write(buffer, 0, bytesRead);
-            }//End whle loop
+    try {
+             //saves received file 
+            String destinationPath = null; // will use default location if not set
+            fileOpenSave.saveToFileDirect(file, destinationPath);
             JOptionPane.showMessageDialog(null, "File Downloaded!", "information", JOptionPane.INFORMATION_MESSAGE );
-        }//End exception handling 
+
+        } catch (IOException e){
+            logger.CreateLog("error", "Failed to save file", e);
+        }
+    
     }//End saveFile
     
     //Close all resources
@@ -283,5 +235,48 @@ public class APIClient extends SwingWorker<Void, Void> {
     }
 
    
+//   public void StartTestClient() throws UnknownHostException, InterruptedException, IOException, ClassNotFoundException {
+//        //get the LocalHost IP address, and if the server is using the same ip then use that
+//        InetAddress host = InetAddress.getLocalHost();
+//        Socket senderSock = null;
+//        ObjectOutputStream objOutStream = null;
+//        ObjectInputStream objInStream = null;
+//        
+//        for (int i=0; i < 5; i++ ){
+//            
+//            //extablish a connection to the server 
+//            senderSock = new Socket (host.getHostName(), clientPort);
+//            
+//            //Write the socket for the ObjectOutputStream
+//            objOutStream = new ObjectOutputStream(senderSock.getOutputStream());
+//            
+//            //Print a Message to send a request to the server socket
+//            System.out.println("Sending request to Server Socket");
+//            
+//            //if count is equal to 5, then exit
+//            if (i == 4 || senderSock.isConnected()){
+//                objOutStream.writeObject("Exit");
+//            }else{
+//                objOutStream.writeObject("" + i);
+//            }
+//            
+//            //Read the response message from the sender
+//            objInStream = new ObjectInputStream(senderSock.getInputStream());
+//            
+//            //Convert ObjectInputStream to String
+//            String objMessage = (String) objInStream.readObject();
+//           
+//            //Print the Message on host
+//            System.out.println("Message received : " + objMessage);
+//            
+//            //Close all
+//            objInStream.close();
+//            objOutStream.close();
+//            senderSock.close();
+//            
+//        }// end for lopp
+//    } // end Client method
+    
+    
     
 } // End APIClient Class 
