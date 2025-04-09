@@ -145,7 +145,7 @@ public class DbConnectionManager {
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
                      if (cause != null){
-                        otherLogger.debug("\nException Cause: " + cause);
+                        otherLogger.info("\nException Cause: " + cause);
                         System.out.println("Exception Cause : " + cause); 
                     }
                     break;
@@ -155,7 +155,7 @@ public class DbConnectionManager {
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
                      if (cause != null){
-                        otherLogger.debug("\nException Cause: " + cause);
+                        otherLogger.warn("\nException Cause: " + cause);
                         System.out.println("Exception Cause : " + cause); 
                     }
                     break;
@@ -175,7 +175,7 @@ public class DbConnectionManager {
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
                      if (cause != null){
-                        otherLogger.debug("\nException Cause: " + cause);
+                        otherLogger.fatal("\nException Cause: " + cause);
                         System.out.println("Exception Cause : " + cause); 
                     }
                     break; 

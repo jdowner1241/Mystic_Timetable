@@ -40,62 +40,38 @@ import org.hibernate.Transaction;
 public class Mystic_Timetable {
 
     public static void main(String[] args) throws SQLException {
-        
         //Start splash Screen +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//        java.awt.SplashScreen splash = java.awt.SplashScreen.getSplashScreen();
-//        if(splash != null){
-//            Graphics2D g = splash.createGraphics();
-//            if(g != null){
-//                //Load the image
-//                Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/Assets/Images/Splash1.png");
-//                g.drawImage(image1, 0, 0, splash.getSize().width, splash.getSize().height, null);
-//                
-//
-//                g.setColor(Color.RED);
-//                g.drawString("Loading...", 20, 20);
-//                splash.update();
-//            }
-//        }
-        // Create the spash screen frame
-        JFrame splashFrame = new JFrame();
-        splashFrame.setUndecorated(true); // removed borders and titles bar
-        
-        //load the spash screen image
-        ImageIcon splashImage = new ImageIcon("src/main/resources/Assets/Images/Splash1.png");
-        JLabel splashLabel = new JLabel(splashImage);
-
-        splashFrame.getContentPane().add(splashLabel);
-        
-        //Set the size of the frame to match the image size
-        //splashFrame.setSize(400, 300);
-        splashFrame.pack();
-        
-        splashFrame.setLocationRelativeTo(null); // Center the frame on the screen
-        
-        //Display the splash screen
-        splashFrame.setVisible(true);
-        
-        // Simulate loading time
-        try {
-            Thread.sleep(5000); // 5 seconds
-        } catch (InterruptedException e){
-            e.printStackTrace();
+        // Create Threads
+        Thread splashThread = new Thread(new StartSplashScreen());
+        splashThread.start();
+   
+        // wait for both threads to comlete
+        try{
+           splashThread.join();
+           //mainAppThread.join();
+        } catch (InterruptedException e) {
+           e.printStackTrace();
         }
         
-        //Close the splash screen
-        splashFrame.dispose();
+        //Start main app after the splash screen
+        Thread mainAppThread = new Thread(new StartMainApp());
+        mainAppThread.start();
         
-        // Launch the main application window
-        SwingUtilities.invokeLater(() -> {
-            JTimetableLoginPage startApp = new JTimetableLoginPage();
-            startApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            startApp.setVisible(true);
-        });
+        //Wait for the main app to complete
+        try{
+           mainAppThread.join();
+        } catch (InterruptedException e) {
+           e.printStackTrace();
+        }
+        
+        // Start the main app after the splash screen
+//        SwingUtilities.invokeLater(() -> {
+//            new JTimetableLoginPage().setVisible(true);
+//        });
         
         
-        
-        
-        //Start App +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+        //Start App directly +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //JTimetableLoginPage startApp = new JTimetableLoginPage();
         //startApp.setVisible(true);
         

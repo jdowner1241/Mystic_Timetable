@@ -24,6 +24,9 @@ public class SplashScreenStart {
         if(splash != null){
             Graphics2D g = splash.createGraphics();
             if(g != null){
+                
+                
+                
                 //Load the image
                 Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/Assets/Images/Splash1.png");
                 g.drawImage(image1, 0, 0, splash.getSize().width, splash.getSize().height, null);
