@@ -103,27 +103,27 @@ public class Mystic_Timetable {
         
         //test hibernate2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //Save Entiry
-        //HFolderDAOImpl folderDao = new HFolderDAOImpl();
-        //HFolder folder = new HFolder();
-        //HUsersDAOImpl UserDAO = new HUsersDAOImpl();
-        //HUsers users = new HUsers();
-       
-        //folder.setFolderName("School");
-        //folderDao.save(folder);
-        //System.out.println("Folder saved");
-        
-        // find entry by id
-        //HFolder foundFolder = folderDao.findById(folder.getFolderId());
-        //HFolder foundFolder = folderDao.findById(1);
-        //HUsers foundUser = UserDAO.findById(1);
-        //System.out.println("Found Folder Id : " + foundFolder);
-        
-        // update entry
-        //foundFolder.setFolderName("SchoolTimetable");
-        //folderDao.update(foundFolder);
-        
-        // delete entry
-        //folderDao.delete(foundFolder);
+//        HFolderDAOImpl folderDao = new HFolderDAOImpl();
+//        HFolder folder = new HFolder();
+//        HUsersDAOImpl UserDAO = new HUsersDAOImpl();
+//        HUsers users = new HUsers();
+//       
+//        folder.setFolderName("School");
+//        folderDao.save(folder);
+//        System.out.println("Folder saved");
+//        
+//        // find entry by id
+//        HFolder foundFolder = folderDao.findById(folder.getFolderId());
+//        // foundFolder = folderDao.findById(1);
+//        HUsers foundUser = UserDAO.findById(1);
+//        System.out.println("Found Folder Id : " + foundFolder);
+//        
+//        // update entry
+//        foundFolder.setFolderName("SchoolTimetable");
+//        folderDao.update(foundFolder);
+//        
+//        // delete entry
+//        folderDao.delete(foundFolder);
         
         //get all related table info
         //foundFolder.setFolderPerUserList();

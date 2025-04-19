@@ -4,21 +4,44 @@
  */
 package mystictodo_limited.mystic_timetable.UI;
 
+import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.Field;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
+import java.time.temporal.WeekFields;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
 import mystictodo_limited.mystic_timetable.hibernate.*;
 
@@ -37,16 +60,43 @@ public class JTimetableMain extends javax.swing.JFrame {
         logger.CreateLog("info", "Default Constructor Triggered.", null); //user logger method from DbConnectionManager to create logs.
         
         initComponents();//default method from JTimetableMain
+        
+        ChooseInitailValue(1, "Guest");
+        
+        
+        UpdateFolderList();
+        initialCreateTable();
+        
+        ChooseFolder(1, 1);
+        getTimetable(1);
+        populateTimetableData(1, 1);
+        //getTimetableList();
+        //setListOfTableIndexEventId(timetableInfo);
+ 
+
+        
+        
+//        //testing
+//        LocalTime startTime = LocalTime.of(10, 45);
+//        LocalTime endTime = LocalTime.of(12, 30);
+//        Timeframe task = getTimeframe("Monday", "Wednesday", startTime, endTime);
+//        
+//        System.out.println("\n\nTimeframe :: \nHours  : " + task.hours + "\nMinutes : " 
+//                + task.minutes + "\nSeconds : " + task.seconds );
+//        
+//     
+//        HTimetable timetableData = getTimetableData();
+//        
+        
+        System.out.println("test");
     }
     
     public JTimetableMain(int userId, String userName){
         this();
-        this.userId = userId;
-        //jUserId.setText(String.valueOf(userId));
-        this.userName = userName;
-        jUserName.setText(userName);
+        ChooseInitailValue(userId, userName);
         
-        UpdateFolderList();
+        //UpdateFolderList();
+        //populateTableData();
 
     }
 
@@ -62,6 +112,27 @@ public class JTimetableMain extends javax.swing.JFrame {
         NotificationRadio = new javax.swing.ButtonGroup();
         EventColorSelectorDialog = new javax.swing.JDialog();
         EventColorSelector = new javax.swing.JColorChooser();
+        TimetablePanel = new javax.swing.JLayeredPane();
+        jScrollPaneTimetable = new javax.swing.JScrollPane();
+        jtest = new javax.swing.JDialog();
+        jLabel10 = new javax.swing.JLabel();
+        testTimetableId = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        testEventStart = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        testEventName = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        testEventEnd = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        testEventCategory = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        testFrequency = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        testDay = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        testColor = new javax.swing.JTextField();
+        HasNotification = new javax.swing.JLabel();
+        testHasNotification = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel4 = new javax.swing.JPanel();
@@ -73,6 +144,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         jBFolderRemove = new javax.swing.JButton();
         jBFolderAdd = new javax.swing.JButton();
         jScrollPaneFolder = new javax.swing.JScrollPane();
+        jButton1 = new javax.swing.JButton();
         MainRight = new javax.swing.JLayeredPane();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -99,10 +171,8 @@ public class JTimetableMain extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        TimetablePanel = new javax.swing.JLayeredPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jBHideMainRight = new javax.swing.JButton();
+        jPTimetableRoot = new javax.swing.JPanel();
         jMenuBarMain = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuFile_ItemExit = new javax.swing.JMenuItem();
@@ -133,6 +203,132 @@ public class JTimetableMain extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(EventColorSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        TimetablePanel.setAutoscrolls(true);
+        TimetablePanel.setPreferredSize(new java.awt.Dimension(195, 850));
+
+        TimetablePanel.setLayer(jScrollPaneTimetable, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout TimetablePanelLayout = new javax.swing.GroupLayout(TimetablePanel);
+        TimetablePanel.setLayout(TimetablePanelLayout);
+        TimetablePanelLayout.setHorizontalGroup(
+            TimetablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TimetablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(TimetablePanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPaneTimetable, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        TimetablePanelLayout.setVerticalGroup(
+            TimetablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TimetablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(TimetablePanelLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneTimetable, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        jtest.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel10.setText("TimetableId");
+
+        jLabel11.setText("EventStart");
+
+        jLabel12.setText("EventName");
+
+        jLabel13.setText("EventEnd");
+
+        jLabel14.setText("EventCategory");
+
+        jLabel15.setText("Frequency");
+
+        jLabel16.setText("Day");
+
+        jLabel17.setText("Color");
+
+        HasNotification.setText("HasNotification");
+
+        javax.swing.GroupLayout jtestLayout = new javax.swing.GroupLayout(jtest.getContentPane());
+        jtest.getContentPane().setLayout(jtestLayout);
+        jtestLayout.setHorizontalGroup(
+            jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jtestLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jtestLayout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(testDay, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jtestLayout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(testEventCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jtestLayout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(testEventName, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jtestLayout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(testTimetableId, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(35, 35, 35)
+                .addGroup(jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jtestLayout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(testEventStart, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jtestLayout.createSequentialGroup()
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(testColor, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jtestLayout.createSequentialGroup()
+                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(testFrequency, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jtestLayout.createSequentialGroup()
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(testEventEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jtestLayout.createSequentialGroup()
+                            .addComponent(HasNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(testHasNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+        jtestLayout.setVerticalGroup(
+            jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jtestLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(testTimetableId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(testEventStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(testEventName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(testEventEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(testEventCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(testFrequency, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(testDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17)
+                    .addComponent(testColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jtestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(HasNotification)
+                    .addComponent(testHasNotification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -219,9 +415,17 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton1.setText("Test Data Window");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         MainLeft.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         MainLeft.setLayer(FolderControls, javax.swing.JLayeredPane.DEFAULT_LAYER);
         MainLeft.setLayer(jScrollPaneFolder, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainLeft.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout MainLeftLayout = new javax.swing.GroupLayout(MainLeft);
         MainLeft.setLayout(MainLeftLayout);
@@ -234,10 +438,12 @@ public class JTimetableMain extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(MainLeftLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addGroup(MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(FolderControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPaneFolder))))
-                .addGap(5, 5, 5))
+                        .addGroup(MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addGroup(MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(FolderControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPaneFolder)))))
+                .addGap(3, 3, 3))
         );
         MainLeftLayout.setVerticalGroup(
             MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,7 +452,9 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                .addGap(52, 52, 52)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addComponent(FolderControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
@@ -475,63 +683,6 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addGap(10, 10, 10))
         );
 
-        TimetablePanel.setPreferredSize(new java.awt.Dimension(195, 850));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"12a - 1a", null, null, null, null, null, null, null},
-                {"1a - 2a", null, null, null, null, null, null, null},
-                {"2a - 3a", null, null, null, null, null, null, null},
-                {"3a - 4a", null, null, null, null, null, null, null},
-                {"5a - 6a", null, null, null, null, null, null, null},
-                {"6a - 7a", null, null, null, null, null, null, null},
-                {"8a - 9a", null, null, null, null, null, null, null},
-                {"10a - 11a", null, null, null, null, null, null, null},
-                {"11a - 12p", null, null, null, null, null, null, null},
-                {"12p - 1p", null, null, null, null, null, null, null},
-                {"1p - 2p", null, null, null, null, null, null, null},
-                {"2p - 3p", null, null, null, null, null, null, null},
-                {"", null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "TimeFrame", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
-            }
-        ));
-        jTable1.setShowHorizontalLines(true);
-        jTable1.setShowVerticalLines(true);
-        jScrollPane1.setViewportView(jTable1);
-
-        TimetablePanel.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout TimetablePanelLayout = new javax.swing.GroupLayout(TimetablePanel);
-        TimetablePanel.setLayout(TimetablePanelLayout);
-        TimetablePanelLayout.setHorizontalGroup(
-            TimetablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TimetablePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        TimetablePanelLayout.setVerticalGroup(
-            TimetablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TimetablePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         jBHideMainRight.setText(">>");
         jBHideMainRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -539,10 +690,21 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPTimetableRootLayout = new javax.swing.GroupLayout(jPTimetableRoot);
+        jPTimetableRoot.setLayout(jPTimetableRootLayout);
+        jPTimetableRootLayout.setHorizontalGroup(
+            jPTimetableRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 678, Short.MAX_VALUE)
+        );
+        jPTimetableRootLayout.setVerticalGroup(
+            jPTimetableRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 759, Short.MAX_VALUE)
+        );
+
         MainMiddle.setLayer(jBHideMainLeft, javax.swing.JLayeredPane.DEFAULT_LAYER);
         MainMiddle.setLayer(TimetableDatePanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        MainMiddle.setLayer(TimetablePanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
         MainMiddle.setLayer(jBHideMainRight, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainMiddle.setLayer(jPTimetableRoot, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout MainMiddleLayout = new javax.swing.GroupLayout(MainMiddle);
         MainMiddle.setLayout(MainMiddleLayout);
@@ -555,9 +717,9 @@ public class JTimetableMain extends javax.swing.JFrame {
                         .addComponent(TimetableDatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(MainMiddleLayout.createSequentialGroup()
                         .addComponent(jBHideMainLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(TimetablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
-                        .addGap(10, 10, 10)
+                        .addGap(5, 5, 5)
+                        .addComponent(jPTimetableRoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(5, 5, 5)
                         .addComponent(jBHideMainRight, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -574,9 +736,9 @@ public class JTimetableMain extends javax.swing.JFrame {
                         .addGap(240, 240, 240)
                         .addComponent(jBHideMainRight))
                     .addGroup(MainMiddleLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(TimetablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPTimetableRoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(13, 13, 13))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -697,10 +859,9 @@ public class JTimetableMain extends javax.swing.JFrame {
     private void TbSetColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TbSetColorActionPerformed
        if(TbSetColor.isSelected()){
            EventColorSelectorDialog.setVisible(true);
-           EventColorSelectorDialog.setSize(400, 200);
+           EventColorSelectorDialog.setSize(600, 200);
        }else{
-           EventColorSelectorDialog.setVisible(false);
-           
+           EventColorSelectorDialog.setVisible(false);    
        }
     }//GEN-LAST:event_TbSetColorActionPerformed
 
@@ -723,6 +884,11 @@ public class JTimetableMain extends javax.swing.JFrame {
             jBHideMainRight.setText(">>");
         }
     }//GEN-LAST:event_jBHideMainRightActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       jtest.setSize(1000, 600);
+       jtest.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -764,6 +930,7 @@ public class JTimetableMain extends javax.swing.JFrame {
     private javax.swing.JColorChooser EventColorSelector;
     private javax.swing.JDialog EventColorSelectorDialog;
     private javax.swing.JPanel FolderControls;
+    private javax.swing.JLabel HasNotification;
     private javax.swing.JLayeredPane MainLeft;
     private javax.swing.JLayeredPane MainMiddle;
     private javax.swing.JLayeredPane MainRight;
@@ -777,11 +944,20 @@ public class JTimetableMain extends javax.swing.JFrame {
     private javax.swing.JButton jBHideMainLeft;
     private javax.swing.JButton jBHideMainRight;
     private javax.swing.JButton jBackToMain;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -798,43 +974,219 @@ public class JTimetableMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuSettings;
     private javax.swing.JMenuItem jMenuSettings_ItemImportExportTool;
     private javax.swing.JMenuItem jMenuSettings_ItemOptions;
+    private javax.swing.JPanel jPTimetableRoot;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneFolder;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPaneTimetable;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel jUserName;
+    private javax.swing.JDialog jtest;
+    private javax.swing.JTextField testColor;
+    private javax.swing.JTextField testDay;
+    private javax.swing.JTextField testEventCategory;
+    private javax.swing.JTextField testEventEnd;
+    private javax.swing.JTextField testEventName;
+    private javax.swing.JTextField testEventStart;
+    private javax.swing.JTextField testFrequency;
+    private javax.swing.JTextField testHasNotification;
+    private javax.swing.JTextField testTimetableId;
     // End of variables declaration//GEN-END:variables
 
     //Feilds >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
     private DbConnectionManager logger;
     private String userName;
-    private int userAndFolderId;
-    private int userId;
+    private int activeUserId;
+    private int activeFolderId;
+    private int activeUserAndFolderId;
+    //private int activeTimetableLinkerId;
+    private int activeTimetableId;
+    private int activeWeekIndex;
+    private HUsers userInfo;
+    private HUsersDAOImpl userInfoDAO;
+    private List<HTimetableLinker> timetableLinkerList;
+    private HTimetableLinkerDAOImpl timetableLinkerInfoDAO;
+    private HTimetable timetableInfo;
+    private HTimetableDAOImpl timetableInfoDAO;
+    private DefaultTableModel tableModel;
+    private JTable jTimetable;
     
+    
+//    private void ChooseFolder(int folderID) {
+//        
+//        setActiveFolderId(folderID);
+//        
+//        List<HFolderPerUser> userFolderList = userInfo.getFolderPerUserList();
+//        for (HFolderPerUser current : userFolderList){
+//            if(current.getFolderId() == folderID ){
+//                setActiveUserAndFolderId(current.getFolderPerUserId());
+//                
+//                List<HTimetableLinker> linkListAll = current.getTimetableLinkerList();
+//                for(HTimetableLinker currentLink : linkListAll){
+//                    if(currentLink.getUserAndFolderId() == getActiveUserAndFolderId()){
+//                        setActiveTimetableLinkerId(currentLink.getTimetableLinkerId()); 
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
+    
+    private void ChooseFolder(int folderID, int folderPerUserId) {
+        
+        setActiveFolderId(folderID);
+        setActiveUserAndFolderId(folderPerUserId);    
+            
+        getTimetableLinkerList(folderPerUserId);
+
+    }
+    
+    private void getTimetableLinkerList(int userAndFolderId){
+        
+        timetableLinkerList.clear();
+        
+        List<HTimetableLinker> linkListAll = timetableLinkerInfoDAO.findAll();
+        for(HTimetableLinker currentLink : linkListAll){
+                    if(currentLink.getUserAndFolderId() == userAndFolderId){
+                        timetableLinkerList.add(currentLink);
+                    }
+        }
+        
+    }
+    
+    private List<HTimetable> getTimetableList(){
+        
+        List<Integer> timetableIdList = new ArrayList<>();
+        List<HTimetable> timetableList = new ArrayList<>();
+        
+        for (HTimetableLinker currentLink : timetableLinkerList){
+            timetableIdList.add(currentLink.getEventId());
+        }
+
+        List<HTimetable> timetableListAll = timetableInfoDAO.findAll();       
+        for (HTimetable timetable : timetableListAll){
+            for (Integer currentId : timetableIdList){
+                if (timetable.getTimetableId() == currentId ){
+                    timetableList.add(timetable);
+                }
+            }
+        }
+        
+        return timetableList;
+    }
+    
+    private void getTimetable(int eventId){
+        timetableInfo = timetableInfoDAO.findById(eventId);         
+    }
+    
+//    private void populateTimetableData( HTimetable timetableData){
+//        
+//        try{
+//            if(timetableData != null){
+//                testColor.setText(timetableData.getColor());
+//                testDay.setText(timetableData.getDay().toString());
+//                testEventCategory.setText(timetableData.getEventCategory());
+//                testEventEnd.setText(timetableData.getEventEnd().toString());
+//                testEventName.setText(timetableData.getEventName());
+//                testEventStart.setText(timetableData.getEventStart().toString());
+//                testFrequency.setText(String.valueOf(timetableData.getFrequency()));
+//                testHasNotification.setText(String.valueOf(timetableData.isHasNotification()));
+//                testTimetableId.setText(String.valueOf(timetableData.getTimetableId()));  
+//            }
+//        } catch (Exception ex) {
+//            logger.CreateLog("error", "Exception caught", ex);
+//        }
+//    }
+     
+    private void populateTimetableData(int userAndFolderId, int weekIndex){
+        
+
+        try{
+            getTimetableLinkerList(userAndFolderId);
+            List<HTimetable> timetableList = getTimetableList();
+            for ( HTimetable current : timetableList){
+                setListOfTableIndexEventId(current);
+            }
+            System.out.println("test");
+        } catch (Exception ex) {
+            logger.CreateLog("error", "Exception caught", ex);
+        }
+    }
+    
+    
+    
+    
+    private void updateTimetableData(){
+        
+    }
+    
+     
     //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
 
-    public int getUserAndFolderId() {
-        return userAndFolderId;
+    public int getActiveUserAndFolderId() {
+        return activeUserAndFolderId;
     }
 
-    public void setUserAndFolderId(int userAndFolderId) {
-        this.userAndFolderId = userAndFolderId;
+    public void setActiveUserAndFolderId(int activeUserAndFolderId) {
+        this.activeUserAndFolderId = activeUserAndFolderId;
     }
+
+    public int getActiveFolderId() {
+        return activeFolderId;
+    }
+
+    public void setActiveFolderId(int activeFolderId) {
+        this.activeFolderId = activeFolderId;
+    }
+
+    public int getActiveUserId() {
+        return activeUserId;
+    }
+
+    public void setActiveUserId(int activeUserId) {
+        this.activeUserId = activeUserId;
+    }
+
+//    public int getActiveTimetableLinkerId() {
+//        return activeTimetableLinkerId;
+//    }
+//
+//    public void setActiveTimetableLinkerId(int activeTimetableLinkerId) {
+//        this.activeTimetableLinkerId = activeTimetableLinkerId;
+//    }
     
     
     
     
     //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
 
+    private void ChooseInitailValue(int userId, String userName){
+        //Initialize Variables
+        userInfoDAO = new HUsersDAOImpl();
+        userInfo = new HUsers();
+        timetableInfoDAO = new HTimetableDAOImpl();
+        timetableInfo = new HTimetable();
+        timetableLinkerList = new ArrayList<>();
+        timetableLinkerInfoDAO = new HTimetableLinkerDAOImpl();
+        
+        //Assign default values
+        this.activeUserId = userId;
+        this.userName = userName;
+        jUserName.setText(userName);
+        this.activeFolderId = 1;
+        this.activeUserAndFolderId = 1;
+        //this.activeTimetableLinkerId = 1;
+        
+    }
+    
+    
     private void backToMain(){
     //Switch to the Guest UserAccount
      this.setVisible(false); //hide current Frame
@@ -861,16 +1213,11 @@ public class JTimetableMain extends javax.swing.JFrame {
     private void UpdateFolderList(){
     
         //Get list of folder for specific user
-        HUsersDAOImpl usersDao = new HUsersDAOImpl();
-        HUsers user = new HUsers();
-        HFolderDAOImpl foldersDao = new HFolderDAOImpl();
-        HFolder folder = new HFolder();
-        HFolderPerUserDAOImpl userFolderDao = new HFolderPerUserDAOImpl();
-        HFolderPerUser userFolder = new HFolderPerUser();       
+        HUsersDAOImpl usersDao = new HUsersDAOImpl();  
         
         int maxUserCount = 17;
                 
-        HUsers currentUser = usersDao.findById(userId);
+        HUsers currentUser = usersDao.findById(activeUserId);
         List<HFolderPerUser> userFolderList = currentUser.getFolderPerUserList();
         
         if (userFolderList != null){
@@ -891,6 +1238,7 @@ public class JTimetableMain extends javax.swing.JFrame {
             
             //ilterate between folders then create and add a button with its events
             for (HFolderPerUser userFolder1 : userFolderList){
+                int folderId = userFolder1.getFolderId();
                 int userFolderId =  userFolder1.getFolderPerUserId();
                 String folderName = userFolder1.getFolder().getFolderName();
                 
@@ -902,7 +1250,8 @@ public class JTimetableMain extends javax.swing.JFrame {
                 
                 //add event to button
                 button.addActionListener((ActionEvent e) -> {
-                    UpdateEventList(userFolderId);
+                    //UpdateEventList(folderId, userFolderId);
+                    ChooseFolder(folderId, userFolderId);
                     JOptionPane.showMessageDialog(null, "Current FolderPerUserId : " + userFolderId);
                 });
                 
@@ -929,9 +1278,659 @@ public class JTimetableMain extends javax.swing.JFrame {
 
     }//End UpdateFolderList
     
-    private void UpdateEventList(int folderPerUserId){
-        setUserAndFolderId(folderPerUserId);
+    
+    private void initialCreateTable(){
+    
+        String[] header = {"TimeFrame","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    
+        tableModel = new DefaultTableModel(header, 0);
+        
+        Object[][] data = {
+            {"12:00am - 1:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"1:00am - 2:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"2:00am - 3:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"3:00am - 4:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"4:00am - 5:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"5:00am - 6:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"6:00am - 7:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"7:00am - 8:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"8:00am - 9:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"9:00am - 10:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"10:00am - 11:00am", "_", "_", "_", "_", "_", "_", "_" },
+            {"11:00am - 12:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"12:00pm - 1:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"1:00pm - 2:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"2:00pm - 3:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"3:00pm - 4:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"4:00pm - 5:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"5:00pm - 6:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"6:00pm - 7:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"7:00pm - 8:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"8:00pm - 9:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"9:00pm - 10:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"10:00pm - 11:00pm", "_", "_", "_", "_", "_", "_", "_" },
+            {"11:00pm - 12:00pm", "_", "_", "_", "_", "_", "_", "_" }
+        };
+        
+        for(Object[] row : data){
+            tableModel.addRow(row);
+        }
+        
+        //Update table with data
+        jTimetable = new JTable(tableModel); 
+        
+        JScrollPane jScrollPaneTimetable1 = new JScrollPane(jTimetable);
+
+        jPTimetableRoot.setLayout(new BorderLayout());
+        jPTimetableRoot.add(jScrollPaneTimetable1, BorderLayout.CENTER);
+        
+        jPTimetableRoot.revalidate();
+        jPTimetableRoot.repaint();
+   
+        
+        setRowHeightAndColumnWidth(jTimetable);
+        removeCellLines(jTimetable);
+
+        //Adjust table property
+        jTimetable.setCellSelectionEnabled(true);
+        jTimetable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        jTimetable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, 
+            boolean isSelected, boolean hasFocus, int row, int column){
+                
+                Component cellComponent = super.getTableCellRendererComponent(table, value,
+                isSelected, hasFocus, row, column);
+            
+                if(isSelected){
+                    cellComponent.setBackground(table.getSelectionBackground());
+                    cellComponent.setForeground(table.getSelectionForeground());
+                }else {
+                    cellComponent.setBackground(new Color(0,0,0,0));
+                    cellComponent.setForeground(table.getForeground());
+                }
+                return cellComponent;
+            }
+        });
     }
     
+    
+    
+    
+    
+//    private void addEvent(DefaultTableModel tableModel, String day, String timeframe, 
+//            String event) {
+//        
+//        for (int i = 0; i < tableModel.getRowCount(); i++) {
+//            if (tableModel.getValueAt(i, 0).equals(timeframe)) {
+//                int columnIndex = getColumnIndex(day);
+//                
+//                if (columnIndex != 1){
+//                    tableModel.setValueAt(event, i, columnIndex);
+//                }
+//                break;
+//            }
+//            
+//        }
+//    }// Method : addEvent 
+    
+//    private void addEventToTimetable(String day, String timeframe, String event){
+//        addEvent(tableModel, day, timeframe, event);
+//        
+//        jTimetable.revalidate();
+//        jTimetable.repaint();
+//
+//    }
+    
+    private boolean isCellInRange(int row, int column, int startRow, int endRow,
+    int startColumn, int endColumn){
+        return row >= startRow && row <= endRow && column >= startColumn && column <= endColumn;
+    }
+    
+    
+    private int getColumnIndex(String day){
+        switch (day.toLowerCase()) {
+            case "sunday" : return 1;
+            case "monday" : return 2;
+            case "tuesday" : return 3;
+            case "wednesday" : return 4;
+            case "thursday" : return 5;
+            case "friday" : return 6;
+            case "saturday" : return 7;
+            default : return -1;
+        }
+    }// Method : getColumnIndex
+    
+    private int getTimeframeIndex(String timeframe){
+        switch (timeframe.toLowerCase()) {
+            case "12:00am - 1:00am" : return 0;
+            case "1:00am - 2:00am" : return 1;
+            case "2:00am - 3:00am" : return 2;
+            case "3:00am - 4:00am" : return 3;
+            case "4:00am - 5:00am" : return 4;
+            case "5:00am - 6:00am" : return 5;
+            case "6:00am - 7:00am" : return 6;
+            case "7:00am - 8:00am" : return 7;
+            case "8:00am - 9:00am" : return 8;
+            case "9:00am - 10:00am" : return 9;
+            case "10:00am - 11:00am" : return 10;
+            case "11:00am - 12:00pm" : return 11;
+            case "12:00pm - 1:00pm" : return 12;
+            case "1:00pm - 2:00pm" : return 13;
+            case "2:00pm - 3:00pm" : return 14;
+            case "3:00pm - 4:00pm" : return 15;
+            case "4:00pm - 5:00pm" : return 16;
+            case "5:00pm - 6:00pm" : return 17;
+            case "6:00pm - 7:00pm" : return 18;
+            case "7:00pm - 8:00pm" : return 19;
+            case "8:00pm - 9:00pm" : return 20;
+            case "9:00pm - 10:00pm" : return 21;
+            case "10:00pm - 11:00pm" : return 22;
+            case "11:00pm - 12:00pm" : return 23;
+
+            default : return -1;
+        }
+    }// Method : getTimeframeIndex
+        
+    private String getTimeframeString(int hour){
+        switch (hour) {
+            case 0 : return "12:00am - 1:00am";
+            case 1 : return "1:00am - 2:00am";
+            case 2 : return "2:00am - 3:00am";
+            case 3 : return "3:00am - 4:00am";
+            case 4 : return "4:00am - 5:00am";
+            case 5 : return "5:00am - 6:00am";
+            case 6 : return "6:00am - 7:00am";
+            case 7 : return "7:00am - 8:00am";
+            case 8 : return "8:00am - 9:00am";
+            case 9 : return "9:00am - 10:00am";
+            case 10 : return "10:00am - 11:00am";
+            case 11 : return "11:00am - 12:00pm";
+            case 12 : return "12:00pm - 1:00pm";
+            case 13 : return "1:00pm - 2:00pm";
+            case 14 : return "2:00pm - 3:00pm";
+            case 15 : return "3:00pm - 4:00pm";
+            case 16 : return "4:00pm - 5:00pm";
+            case 17 : return "5:00pm - 6:00pm";
+            case 18 : return "6:00pm - 7:00pm";
+            case 19 : return "7:00pm - 8:00pm";
+            case 20 : return "8:00pm - 9:00pm";
+            case 21 : return "9:00pm - 10:00pm";
+            case 22 : return "10:00pm - 11:00pm";
+            case 23 : return "11:00pm - 12:00pm";
+
+            default : return "invalid";
+        }
+
+    }// Method : getTimeframeString
+    
+    private Timeframe getTimeframe(String startDay, String endDay, LocalTime start,
+    LocalTime end){
+  
+        // Check if the time is AM or PM
+        //String period = start.getHour() < 12 ? "AM" : "PM";
+        
+        int startDayIndex = getColumnIndex(startDay);
+        int endDayIndex = getColumnIndex(endDay);
+        
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
+        
+        try{
+         if(startDayIndex == endDayIndex){
+                if (start.isBefore(end)) {
+                    LocalTime timeSpan = end.minusHours(start.getHour())
+                            .minusMinutes(start.getMinute()).minusSeconds(start.getSecond());
+                    hours = timeSpan.getHour();
+                    minutes = timeSpan.getMinute();
+                    seconds = timeSpan.getSecond();
+                }
+            }else if(startDayIndex < endDayIndex ) {
+                int days = endDayIndex - startDayIndex;
+                int addedHours = days * 24; 
+                hours = (addedHours + end.getHour()) - start.getHour();
+                minutes = end.getMinute() - start.getMinute();
+                seconds = end.getSecond() - start.getSecond();
+                
+                // adjust hours, minutes and seconds to ensure its within a valid range
+                if (seconds < 0){
+                    seconds += 60;
+                    minutes -= 1;
+                }else if (seconds >= 60){
+                    seconds -= 60;
+                    minutes += 1;
+                }
+                
+                if (minutes < 0) {
+                    minutes += 60;
+                    hours -= 1;
+                }else if (minutes >= 60) {
+                    minutes -= 60;
+                    hours += 1;
+                }
+                
+            }
+        } catch (Exception e){
+           logger.CreateLog("error", "Exception caught when doing calculation.", e);
+        }
+        
+          
+        return new Timeframe(hours, minutes, seconds);
+
+    }// Method : getTimeframe  
+
+  
+    
+    //Internal Class to store timeframe
+    public class Timeframe {
+        private int hours;
+        private int minutes;
+        private int seconds;
+        
+        
+        public Timeframe(int hours, int minutes, int seconds){
+            this.hours = hours;
+            this.minutes = minutes;
+            this.seconds = seconds;
+        }
+        
+        public int getHours() {
+            return hours;
+        }
+        
+        public int getMinutes() {
+            return minutes;
+        }
+        
+        public int getSeconds(){
+            return seconds;
+        }
+    }
+    
+    //change cell color older
+    private void changeCellColorByString(JTable table, String startDay, String endDay, String startTimeframe,
+    String endTimeframe, Color color) {
+        
+        int startDayIndex = getColumnIndex(startDay);
+        int endDayIndex = getColumnIndex(endDay);
+        int startTimeIndex = getRowIndex(table, startTimeframe);
+        int endTimeIndex = getRowIndex(table, endTimeframe);
+        
+        if (startDayIndex == -1 || endDayIndex == -1 || startTimeIndex == -1 || 
+        endTimeIndex == -1) {
+            return;// invalid values, exit method
+        }
+        
+        
+        for(int row = startTimeIndex; row <= endTimeIndex; row++) {
+            for (int col = startDayIndex; col <= endDayIndex; col++){
+                table.prepareRenderer(new DefaultTableCellRenderer(){
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, 
+                    Object value, boolean isSelected, boolean hasFocus, int row,
+                    int column) {
+                        Component c = super.getTableCellRendererComponent(table, value,
+                        isSelected, hasFocus, row, column);
+                        
+                        if (row >= startTimeIndex && row <= endTimeIndex && column >=
+                        startDayIndex && column <= endDayIndex){
+                            
+                            if(color != null){
+                                 c.setBackground(color);
+                            }else{
+                                 c.setBackground(Color.GREEN); //default color when none is set
+                            }  
+                        }
+                        return c;
+                    }
+                }, row, col);
+            }
+        }
+    }// Method : changeCellColorByString
+    
+    //change cell color 
+    private void changeCell(JTable table, List<EventDayRange> eventRangeList){
+        for (EventDayRange range : eventRangeList) {
+            int startDayIndex = range.getDayColumn();
+            int startTimeIndex = range.getStartRow();
+            int endTimeIndex = range.getEndRow();
+            Color newColor = range.getColor();
+            
+            //for (int row = startTimeIndex; row <= endTimeIndex; row++){
+                
+                DefaultTableCellRenderer intialRenderer = new DefaultTableCellRenderer(){
+                @Override
+                    public Component getTableCellRendererComponent(JTable table,
+                    Object value, boolean isSelected, boolean hasFocus, int row, 
+                    int column) { 
+            
+                        return super.getTableCellRendererComponent(table, value, isSelected,
+                        hasFocus, row, column);
+                    }
+                };
+                
+                
+                DefaultTableCellRenderer renderer = new DefaultTableCellRenderer(){
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table,
+                    Object value, boolean isSelected, boolean hasFocus, int row, 
+                    int column) { 
+                        
+                       Component intialC = intialRenderer.getTableCellRendererComponent(table,
+                       value, isSelected, hasFocus, row, column);
+                        
+                        if (row >= startTimeIndex && row <= endTimeIndex &&
+                        column == startDayIndex){
+                            
+                            Component c = super.getTableCellRendererComponent(table,
+                            value, isSelected, hasFocus, row, column);
+             
+                            c.setBackground(newColor != null ? newColor : newColor.GREEN);
+  
+                            ((JLabel) c).setText(""); // Clear the text in the cell
+                            
+                            //add borders based on the cell position in range
+                            if (row == startTimeIndex){
+                                //Top, left, right
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK)); 
+                                ((JLabel) c).setText(range.eventName);
+                                //c.setForeground(Color.LIGHT_GRAY);
+                                
+                            } else if (row == endTimeIndex){
+                                //Bottom, left, right
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+                            } else {
+                                //Left, right
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
+                            }
+                            
+                            return c;
+                        }else {
+                            return intialC;
+                        }
+                    }
+                }; 
+                table.getColumnModel().getColumn(startDayIndex).setCellRenderer(renderer);
+                
+                //for (int row1 = startTimeIndex; row1 <= endTimeIndex; row1++){
+                //    table.getColumnModel().getColumn(startDayIndex).setCellRenderer(renderer);
+                //}
+            }
+            table.repaint();
+        //}    
+    }//End changeCellColor
+    
+//    //change cell color 
+//    private void changeCellColor(JTable table, List<EventDayRange> eventRangeList,
+//    Color color){
+//        for (EventDayRange range : eventRangeList) {
+//            int startDayIndex = range.getDayColumn();
+//            int startTimeIndex = range.getStartRow();
+//            int endTimeIndex = range.getEndRow();
+//            
+//            for (int row = startTimeIndex; row <= endTimeIndex; row++){
+//                table.prepareRenderer(new DefaultTableCellRenderer(){
+//                    @Override
+//                    public Component getTableCellRendererComponent(JTable table,
+//                    Object value, boolean isSelected, boolean hasFocus, int row, 
+//                    int column) {
+//                            
+//                        Component c = super.getTableCellRendererComponent(table,
+//                            value, isSelected, hasFocus, row, column);
+//                           
+//                        if (row >= startTimeIndex && row <= endTimeIndex &&
+//                        column == startDayIndex){
+//                               
+//                               if(color != null){
+//                                   c.setBackground(color);
+//                               }else {
+//                                   c.setBackground(Color.GREEN);// Default Color when none is set
+//                               }
+//                           
+//                        }
+//                        return c;
+//                    }
+//                }, row, startDayIndex);
+//            }
+//        }
+//    }//End changeCellColor
+    
+    
+    private int getRowIndex(JTable table, String timeframe){
+        for (int i = 0; i < table.getRowCount(); i++) {
+            if(table.getValueAt(i, 0).equals(timeframe)){
+                return i;
+            }
+        }
+        return -1; // not found
+    }
+    
+    
+    // Remove lines between cells
+    private void removeCellLines(JTable table){
+        table.setShowGrid(false);
+        table.setIntercellSpacing(new Dimension(0,0));
+    }// Method : removeCellLines
+    
+    //Set row height and column width
+    private void setRowHeightAndColumnWidth(JTable table){
+        table.setRowHeight(40); // increase row height
+        
+        table.getColumnModel().getColumn(0).setPreferredWidth(130); // set width for the timeframe column
+    
+    }// Method : setRowHeightAndColumnWidth
+    
+    public class EventDayRange {
+        private int startRow;
+        private int endRow;
+        private int dayColumn;
+        private int weekIndex;
+        private int yearIndex;
+        private int eventId;
+        private String eventName;
+        private Color color;
+        
+        public EventDayRange(int startRow, int endRow, int dayColumn, int weekIndex,
+        int yearIndex, int eventId, String eventName, Color color){
+            this.startRow = startRow;
+            this.endRow = endRow;
+            this.dayColumn = dayColumn;
+            this.weekIndex = weekIndex;
+            this.yearIndex = yearIndex;
+            this.eventId = eventId;
+            this.eventName = eventName;
+            this.color = color;
+        }
+        
+        //Getters and setters
+        public int getStartRow(){return startRow; }
+        public int getEndRow() {return endRow; }
+        public int getDayColumn() {return dayColumn; }
+        public int getWeekIndex() {return weekIndex; }
+        public int getYearIndex() {return yearIndex; }
+        public int getEventId() {return eventId; }
+        public String getEventName() {return eventName; }
+        public Color getColor() {return color; }
+    
+    }
+  
+    private void setListOfTableIndexEventId(HTimetable event){
+        int eventId = event.getTimetableId();
+        String eventName = event.getEventName();
+        String eventCategory = event.getEventCategory();
+        String eventColorStr = event.getColor();
+        Color eventColor = convertStringToColor(eventColorStr);
+        String startDay = convertDateToDayOfWeek(event.getEventStart()); 
+        String endDay = convertDateToDayOfWeek(event.getEventEnd());
+        int startDayIndex = getColumnIndex(startDay);
+        int endDayIndex = getColumnIndex (endDay);
+        int startWeekIndex = getWeekIndex(event.getEventStart());
+        int endWeekIndex = getWeekIndex(event.getEventEnd());
+        LocalTime startTime = getLocalTimeFromDate(event.getEventStart());
+        LocalTime endTime = getLocalTimeFromDate(event.getEventEnd());
+        int startTimeIndex = getHoursFromLocalTime(startTime);
+        int endTimeIndex = getHoursFromLocalTime(endTime);
+        String startTimeString = getTimeframeString(startTimeIndex);
+        String endTimeString = getTimeframeString(endTimeIndex);
+        int startYear = getYear(event.getEventStart());
+        int endYear = getYear(event.getEventEnd());
+    
+        int eventFrequency = event.getFrequency();        
+        boolean hasNotification = event.isHasNotification();
+        
+        Timeframe timeframe =  getTimeframe(startDay, endDay, startTime, endTime);
+        int maxRow = 23;
+        int maxCol = 7;
+        int maxWeekForYear = getMaxWeekIndex(startYear);
+        
+        List<EventDayRange> eventRangeList = new ArrayList<>();
+        
+        for (int startWeek = startWeekIndex; startWeek <= endWeekIndex; startWeek++){
+            if(startWeek <= maxWeekForYear){
+                for(int startCol = startDayIndex; startCol <= endDayIndex; startCol++ ){
+                    if(startCol <= maxCol ){
+                        if(timeframe.hours <= maxRow && startDayIndex == endDayIndex){
+                            // logic for single day
+                            EventDayRange eventRange = new EventDayRange(startTimeIndex, endTimeIndex,
+                                startCol, startWeek, startYear, eventId, eventName, eventColor );
+                            
+                            eventRangeList.add(eventRange);
+                        }else{
+                                // logic for mutiple days
+                                int InitalRowIndex = startTimeIndex;
+                                int requiredRows =  timeframe.hours;
+                                int startRow = InitalRowIndex;
+                                int endRow = maxRow;
+                            
+                                while (requiredRows > 0) {
+                                    if(requiredRows < maxRow - startRow){
+                                        endRow = startRow + requiredRows;
+                                        requiredRows = 0;
+                                    } else {
+                                        endRow = maxRow;
+                                        requiredRows = (maxRow - startRow);
+                                    }
+                                
+                                    EventDayRange eventRange = new EventDayRange(startRow, endRow,
+                                        startCol, startWeek, startYear, eventId, eventName, eventColor );
+                            
+                                    eventRangeList.add(eventRange);
+                                
+                                    startRow = 0; // Reset startRow for the next day
+                                }
+                            }
+                    }else{
+                        // logic for other weeks
+                        //handle events that spam across weeks
+                    }
+                }
+            }else {
+                // Logic for next year
+                //handle events that spam across weeks
+            }
+        }
+        
+        updateTimeTableRanges(eventRangeList);
+        
+        System.out.println("test");
+    }//End setListOfTableIndexEventId
+    
+    private void updateTimeTableRanges(List<EventDayRange> eventRangeList){
+        
+        changeCell(jTimetable, eventRangeList);
+        
+//        for(EventDayRange range : eventRangeList){
+//            //Logic for updating timetable ranges, example cell colors and adding events 
+//        }
+    
+    }
+    
+    private String convertDateToDayOfWeek(Date date){
+        try {
+            //Convert Date to LocalDate
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+            // Get the day of the week as a string
+            return localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        } catch (Exception e){
+            logger.CreateLog("error", "Error converting date", e);
+            return "NotSet";
+            
+        }
+    }
+    
+    private LocalDateTime convertDateToLocalDateTime(Date date){
+       // Convert Date to LocalDateTime 
+       LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+       
+       return localDateTime;
+    }
+    
+    private LocalDate convertDateToLocalDate(Date date){
+       // Convert Date to LocalDate
+       LocalDateTime dateTime = convertDateToLocalDateTime(date);
+       LocalDate localDate = dateTime.toLocalDate();
+       
+       return localDate;
+    }
+    
+    private LocalTime getLocalTimeFromDate(Date date){
+        //Covert Date to LocalDateTime
+        LocalDateTime dateTime = convertDateToLocalDateTime(date);
+    
+        //Extract LocalTime from localDateTime
+        LocalTime localTime = dateTime.toLocalTime();
+        
+        return localTime;
+    }
+
+    private int getHoursFromLocalTime(LocalTime time){
+        //get  the hour from localTime
+        return time.getHour();
+    }
+    
+    private int getWeekIndex(Date date) {
+        //Convert Date to localDate
+        LocalDate localDate = convertDateToLocalDate(date);
+
+        // Get the week index number
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        return localDate.get(weekFields.weekOfWeekBasedYear());
+    }
+    
+    private int getYear(Date date) {
+        // Convert Date to local Date
+        LocalDate localDate = convertDateToLocalDate(date);
+       
+        //get the year
+        return localDate.getYear();
+    }
+    
+    private int getMaxWeekIndex(int year){
+        // Get the last date of the year
+        LocalDate lastDayOfYear = LocalDate.of(year, 12, 31);
+        
+        //Get the week Index number
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        return lastDayOfYear.get(weekFields.weekOfYear());
+        
+    }
+    
+    public Color convertStringToColor(String colorStr){
+        try {
+            Field field = Color.class.getField(colorStr.toLowerCase());
+            return (Color) field.get(null);
+        } catch (Exception e) {
+            logger.CreateLog("error", "Error trying convert String to Color. ", e);
+            return Color.white;
+        } 
+    
+    }
+    
+    private void reloadTimetableData(){
+    
+    }
     
 }//End Class
