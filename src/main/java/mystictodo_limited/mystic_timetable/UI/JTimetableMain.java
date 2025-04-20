@@ -4,6 +4,7 @@
  */
 package mystictodo_limited.mystic_timetable.UI;
 
+import jakarta.persistence.criteria.TemporalField;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
@@ -19,6 +20,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.format.TextStyle;
 import java.time.temporal.WeekFields;
@@ -70,6 +72,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         ChooseFolder(1, 1);
         getTimetable(1);
         populateTimetableData(1, 1);
+        updateTimeTableForWeek(eventWeekList, activeWeekIndex);
         //getTimetableList();
         //setListOfTableIndexEventId(timetableInfo);
  
@@ -168,9 +171,9 @@ public class JTimetableMain extends javax.swing.JFrame {
         MainMiddle = new javax.swing.JLayeredPane();
         jBHideMainLeft = new javax.swing.JButton();
         TimetableDatePanel = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jTFCurrentWeekRange = new javax.swing.JTextField();
+        jBPreviousWeek = new javax.swing.JButton();
+        jBNextWeek = new javax.swing.JButton();
         jBHideMainRight = new javax.swing.JButton();
         jPTimetableRoot = new javax.swing.JPanel();
         jMenuBarMain = new javax.swing.JMenuBar();
@@ -647,17 +650,32 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("Mar 10 to  Mar 17");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTFCurrentWeekRange.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTFCurrentWeekRange.setText("Mar 10 to  Mar 17");
+        jTFCurrentWeekRange.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                jTFCurrentWeekRangeComponentAdded(evt);
+            }
+        });
+        jTFCurrentWeekRange.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTFCurrentWeekRangeActionPerformed(evt);
             }
         });
 
-        jButton3.setText("<<");
+        jBPreviousWeek.setText("<<");
+        jBPreviousWeek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBPreviousWeekActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText(">>");
+        jBNextWeek.setText(">>");
+        jBNextWeek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBNextWeekActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout TimetableDatePanelLayout = new javax.swing.GroupLayout(TimetableDatePanel);
         TimetableDatePanel.setLayout(TimetableDatePanelLayout);
@@ -665,11 +683,11 @@ public class JTimetableMain extends javax.swing.JFrame {
             TimetableDatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TimetableDatePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBPreviousWeek, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTFCurrentWeekRange, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBNextWeek, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         TimetableDatePanelLayout.setVerticalGroup(
@@ -677,9 +695,9 @@ public class JTimetableMain extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TimetableDatePanelLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(TimetableDatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jTFCurrentWeekRange, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBPreviousWeek)
+                    .addComponent(jBNextWeek))
                 .addGap(10, 10, 10))
         );
 
@@ -698,7 +716,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         );
         jPTimetableRootLayout.setVerticalGroup(
             jPTimetableRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 759, Short.MAX_VALUE)
+            .addGap(0, 757, Short.MAX_VALUE)
         );
 
         MainMiddle.setLayer(jBHideMainLeft, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -852,9 +870,9 @@ public class JTimetableMain extends javax.swing.JFrame {
         OpenImportExportTool();
     }//GEN-LAST:event_jMenuSettings_ItemImportExportToolActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTFCurrentWeekRangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFCurrentWeekRangeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTFCurrentWeekRangeActionPerformed
 
     private void TbSetColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TbSetColorActionPerformed
        if(TbSetColor.isSelected()){
@@ -889,6 +907,22 @@ public class JTimetableMain extends javax.swing.JFrame {
        jtest.setSize(1000, 600);
        jtest.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTFCurrentWeekRangeComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTFCurrentWeekRangeComponentAdded
+        
+    }//GEN-LAST:event_jTFCurrentWeekRangeComponentAdded
+
+    private void jBNextWeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNextWeekActionPerformed
+
+        int newWeekIndex = activeWeekIndex + 1;
+        changeCurrentWeekRange(newWeekIndex);
+    }//GEN-LAST:event_jBNextWeekActionPerformed
+
+    private void jBPreviousWeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBPreviousWeekActionPerformed
+
+        int newWeekIndex = activeWeekIndex - 1;
+        changeCurrentWeekRange(newWeekIndex);
+    }//GEN-LAST:event_jBPreviousWeekActionPerformed
 
     /**
      * @param args the command line arguments
@@ -943,10 +977,10 @@ public class JTimetableMain extends javax.swing.JFrame {
     private javax.swing.JButton jBFolderRemove;
     private javax.swing.JButton jBHideMainLeft;
     private javax.swing.JButton jBHideMainRight;
+    private javax.swing.JButton jBNextWeek;
+    private javax.swing.JButton jBPreviousWeek;
     private javax.swing.JButton jBackToMain;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -983,7 +1017,7 @@ public class JTimetableMain extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPaneFolder;
     private javax.swing.JScrollPane jScrollPaneTimetable;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTFCurrentWeekRange;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -1017,7 +1051,7 @@ public class JTimetableMain extends javax.swing.JFrame {
     private HTimetableDAOImpl timetableInfoDAO;
     private DefaultTableModel tableModel;
     private JTable jTimetable;
-    
+    private List<EventDayRange> eventWeekList;
     
 //    private void ChooseFolder(int folderID) {
 //        
@@ -1069,7 +1103,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         for (HTimetableLinker currentLink : timetableLinkerList){
             timetableIdList.add(currentLink.getEventId());
         }
-
+        
         List<HTimetable> timetableListAll = timetableInfoDAO.findAll();       
         for (HTimetable timetable : timetableListAll){
             for (Integer currentId : timetableIdList){
@@ -1086,24 +1120,6 @@ public class JTimetableMain extends javax.swing.JFrame {
         timetableInfo = timetableInfoDAO.findById(eventId);         
     }
     
-//    private void populateTimetableData( HTimetable timetableData){
-//        
-//        try{
-//            if(timetableData != null){
-//                testColor.setText(timetableData.getColor());
-//                testDay.setText(timetableData.getDay().toString());
-//                testEventCategory.setText(timetableData.getEventCategory());
-//                testEventEnd.setText(timetableData.getEventEnd().toString());
-//                testEventName.setText(timetableData.getEventName());
-//                testEventStart.setText(timetableData.getEventStart().toString());
-//                testFrequency.setText(String.valueOf(timetableData.getFrequency()));
-//                testHasNotification.setText(String.valueOf(timetableData.isHasNotification()));
-//                testTimetableId.setText(String.valueOf(timetableData.getTimetableId()));  
-//            }
-//        } catch (Exception ex) {
-//            logger.CreateLog("error", "Exception caught", ex);
-//        }
-//    }
      
     private void populateTimetableData(int userAndFolderId, int weekIndex){
         
@@ -1111,22 +1127,87 @@ public class JTimetableMain extends javax.swing.JFrame {
         try{
             getTimetableLinkerList(userAndFolderId);
             List<HTimetable> timetableList = getTimetableList();
+            eventWeekList.clear();
             for ( HTimetable current : timetableList){
                 setListOfTableIndexEventId(current);
             }
-            System.out.println("test");
+            
+            updateTimeTableForWeek(eventWeekList, weekIndex);
+            
         } catch (Exception ex) {
             logger.CreateLog("error", "Exception caught", ex);
         }
     }
     
+    private void setCurrentWeekRange(){
+        //Update variables
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentWeekIndex = getWeekIndex(currentDate);        
+        activeWeekIndex = currentWeekIndex;
+        
+        LocalDate firstDayOfWeek = getFirstDayOfWeek(currentWeekIndex, currentYear);
+        LocalDate lastDayOfWeek = getLastDayOfWeek(currentWeekIndex, currentYear);
+        int firstDay = firstDayOfWeek.getDayOfMonth();
+        int lastDay = lastDayOfWeek.getDayOfMonth();
+        String firstMonth = firstDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        String lastMonth = lastDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        //Update UI
+        jTFCurrentWeekRange.setText(firstMonth + " " + firstDay + " - " + lastMonth + " " + lastDay );
+        
+        if (!eventWeekList.isEmpty()){
+            updateTimeTableForWeek(eventWeekList, currentWeekIndex);
+        }else{
+            logger.CreateLog("error", "eventWeekList is empty", null);
+        }
+    }
     
-    
+    private void changeCurrentWeekRange(int weekIndex){
+        //Update variables
+        //LocalDate currentYear = LocalDate.now().getYear()
+        int currentYear = LocalDate.now().getYear();
+        activeWeekIndex = weekIndex;
+        
+        LocalDate firstDayOfWeek = getFirstDayOfWeek(weekIndex, currentYear);
+        LocalDate lastDayOfWeek = getLastDayOfWeek(weekIndex, currentYear);
+        int firstDay = firstDayOfWeek.getDayOfMonth();
+        int lastDay = lastDayOfWeek.getDayOfMonth();
+        String firstMonth = firstDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        String lastMonth = lastDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        
+        //Update UI
+        jTFCurrentWeekRange.setText(firstMonth + " " + firstDay + " - " + lastMonth + " " + lastDay );
+        
+        
+        if (!eventWeekList.isEmpty()){
+            updateTimeTableForWeek(eventWeekList, weekIndex);
+        }else{
+            logger.CreateLog("error", "eventWeekList is empty", null);
+        }
+        
+    }
     
     private void updateTimetableData(){
         
     }
     
+    private LocalDate getFirstDayOfWeek(int weekIndex, int year){
+        java.time.temporal.TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfYear();
+        LocalDate firstDayOfYear = LocalDate.of(year,1, 1);
+        LocalDate firstDayOfWeek = firstDayOfYear.with(weekOfYear, weekIndex).with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 1);
+    
+        return firstDayOfWeek;
+    }
+    
+    private LocalDate getLastDayOfWeek(int weekIndex, int year){
+        java.time.temporal.TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfYear();
+        LocalDate firstDayOfYear = LocalDate.of(year, 1, 1);
+        LocalDate lastDayOfWeek = firstDayOfYear.with(weekOfYear, weekIndex).with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 7);
+        
+        return lastDayOfWeek;
+    }
+    
+        
      
     //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
 
@@ -1175,6 +1256,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         timetableInfo = new HTimetable();
         timetableLinkerList = new ArrayList<>();
         timetableLinkerInfoDAO = new HTimetableLinkerDAOImpl();
+        eventWeekList = new ArrayList<>();
         
         //Assign default values
         this.activeUserId = userId;
@@ -1183,6 +1265,8 @@ public class JTimetableMain extends javax.swing.JFrame {
         this.activeFolderId = 1;
         this.activeUserAndFolderId = 1;
         //this.activeTimetableLinkerId = 1;
+        
+        
         
     }
     
@@ -1279,80 +1363,86 @@ public class JTimetableMain extends javax.swing.JFrame {
     }//End UpdateFolderList
     
     
-    private void initialCreateTable(){
-    
-        String[] header = {"TimeFrame","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-    
+    private void initialCreateTable() {
+        String[] header = {"TimeFrame", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
         tableModel = new DefaultTableModel(header, 0);
-        
+
         Object[][] data = {
-            {"12:00am - 1:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"1:00am - 2:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"2:00am - 3:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"3:00am - 4:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"4:00am - 5:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"5:00am - 6:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"6:00am - 7:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"7:00am - 8:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"8:00am - 9:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"9:00am - 10:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"10:00am - 11:00am", "_", "_", "_", "_", "_", "_", "_" },
-            {"11:00am - 12:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"12:00pm - 1:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"1:00pm - 2:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"2:00pm - 3:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"3:00pm - 4:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"4:00pm - 5:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"5:00pm - 6:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"6:00pm - 7:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"7:00pm - 8:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"8:00pm - 9:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"9:00pm - 10:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"10:00pm - 11:00pm", "_", "_", "_", "_", "_", "_", "_" },
-            {"11:00pm - 12:00pm", "_", "_", "_", "_", "_", "_", "_" }
+            {"12:00am - 1:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"1:00am - 2:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"2:00am - 3:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"3:00am - 4:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"4:00am - 5:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"5:00am - 6:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"6:00am - 7:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"7:00am - 8:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"8:00am - 9:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"9:00am - 10:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"10:00am - 11:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"11:00am - 12:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"12:00pm - 1:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"1:00pm - 2:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"2:00pm - 3:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"3:00pm - 4:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"4:00pm - 5:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"5:00pm - 6:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"6:00pm - 7:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"7:00pm - 8:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"8:00pm - 9:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"9:00pm - 10:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"10:00pm - 11:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"11:00pm - 12:00pm", "_", "_", "_", "_", "_", "_", "_"}
         };
-        
-        for(Object[] row : data){
+
+        for (Object[] row : data) {
             tableModel.addRow(row);
         }
-        
-        //Update table with data
-        jTimetable = new JTable(tableModel); 
-        
+
+        // Update table with data
+        jTimetable = new JTable(tableModel);
+
         JScrollPane jScrollPaneTimetable1 = new JScrollPane(jTimetable);
 
         jPTimetableRoot.setLayout(new BorderLayout());
         jPTimetableRoot.add(jScrollPaneTimetable1, BorderLayout.CENTER);
-        
+
         jPTimetableRoot.revalidate();
         jPTimetableRoot.repaint();
-   
-        
+
         setRowHeightAndColumnWidth(jTimetable);
         removeCellLines(jTimetable);
 
-        //Adjust table property
+        // Adjust table property
         jTimetable.setCellSelectionEnabled(true);
         jTimetable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
-        jTimetable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
+
+        jTimetable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, 
-            boolean isSelected, boolean hasFocus, int row, int column){
-                
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                                                           boolean isSelected, boolean hasFocus, int row, int column) {
+
                 Component cellComponent = super.getTableCellRendererComponent(table, value,
-                isSelected, hasFocus, row, column);
-            
-                if(isSelected){
+                        isSelected, hasFocus, row, column);
+
+                if (isSelected) {
                     cellComponent.setBackground(table.getSelectionBackground());
                     cellComponent.setForeground(table.getSelectionForeground());
-                }else {
-                    cellComponent.setBackground(new Color(0,0,0,0));
+                } else {
+                    cellComponent.setBackground(new Color(0, 0, 0, 0));
                     cellComponent.setForeground(table.getForeground());
                 }
                 return cellComponent;
             }
         });
+
+        // Set the default week index to the current day
+        setCurrentWeekRange();
+
+        // Populate timetable data for the current week index
+        populateTimetableData(activeUserAndFolderId, activeWeekIndex);
+        
+        
     }
     
     
@@ -1465,11 +1555,8 @@ public class JTimetableMain extends javax.swing.JFrame {
 
     }// Method : getTimeframeString
     
-    private Timeframe getTimeframe(String startDay, String endDay, LocalTime start,
-    LocalTime end){
-  
-        // Check if the time is AM or PM
-        //String period = start.getHour() < 12 ? "AM" : "PM";
+    private Timeframe getTimeframe(String startDay, String endDay, LocalDateTime start,
+    LocalDateTime end) {
         
         int startDayIndex = getColumnIndex(startDay);
         int endDayIndex = getColumnIndex(endDay);
@@ -1478,48 +1565,54 @@ public class JTimetableMain extends javax.swing.JFrame {
         int minutes = 0;
         int seconds = 0;
         
-        try{
-         if(startDayIndex == endDayIndex){
+        try {
+            if (startDayIndex == endDayIndex) {
                 if (start.isBefore(end)) {
-                    LocalTime timeSpan = end.minusHours(start.getHour())
+                    LocalDateTime timeSpan = end.minusHours(start.getHour())
                             .minusMinutes(start.getMinute()).minusSeconds(start.getSecond());
                     hours = timeSpan.getHour();
                     minutes = timeSpan.getMinute();
                     seconds = timeSpan.getSecond();
                 }
-            }else if(startDayIndex < endDayIndex ) {
+            } else if (startDayIndex < endDayIndex) {
                 int days = endDayIndex - startDayIndex;
-                int addedHours = days * 24; 
+                int addedHours = days * 24;
                 hours = (addedHours + end.getHour()) - start.getHour();
                 minutes = end.getMinute() - start.getMinute();
                 seconds = end.getSecond() - start.getSecond();
-                
-                // adjust hours, minutes and seconds to ensure its within a valid range
-                if (seconds < 0){
-                    seconds += 60;
-                    minutes -= 1;
-                }else if (seconds >= 60){
-                    seconds -= 60;
-                    minutes += 1;
-                }
-                
-                if (minutes < 0) {
-                    minutes += 60;
-                    hours -= 1;
-                }else if (minutes >= 60) {
-                    minutes -= 60;
-                    hours += 1;
-                }
-                
+            } else if (startDayIndex > endDayIndex) {
+                // Handle cases where the event spans across weeks
+                int days = (7 - startDayIndex) + endDayIndex; // Remaining days in the week + days in the next week
+                int addedHours = days * 24;
+                hours = (addedHours + end.getHour()) - start.getHour();
+                minutes = end.getMinute() - start.getMinute();
+                seconds = end.getSecond() - start.getSecond();
             }
-        } catch (Exception e){
-           logger.CreateLog("error", "Exception caught when doing calculation.", e);
+
+            // Adjust hours, minutes, and seconds to ensure they are within valid ranges
+            if (seconds < 0) {
+                seconds += 60;
+                minutes -= 1;
+            } else if (seconds >= 60) {
+                seconds -= 60;
+                minutes += 1;
+            }
+
+            if (minutes < 0) {
+                minutes += 60;
+                hours -= 1;
+            } else if (minutes >= 60) {
+                minutes -= 60;
+                hours += 1;
+            }
+
+        } catch (Exception e) {
+            logger.CreateLog("error", "Exception caught when doing calculation.", e);
         }
-        
-          
+
         return new Timeframe(hours, minutes, seconds);
 
-    }// Method : getTimeframe  
+    } // Method : getTimeframe
 
   
     
@@ -1597,6 +1690,7 @@ public class JTimetableMain extends javax.swing.JFrame {
             int startTimeIndex = range.getStartRow();
             int endTimeIndex = range.getEndRow();
             Color newColor = range.getColor();
+            Color textColor = getContrastingColor(newColor);
             
             //for (int row = startTimeIndex; row <= endTimeIndex; row++){
                 
@@ -1636,7 +1730,7 @@ public class JTimetableMain extends javax.swing.JFrame {
                                 //Top, left, right
                                 ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK)); 
                                 ((JLabel) c).setText(range.eventName);
-                                //c.setForeground(Color.LIGHT_GRAY);
+                                c.setForeground(textColor);
                                 
                             } else if (row == endTimeIndex){
                                 //Bottom, left, right
@@ -1662,41 +1756,15 @@ public class JTimetableMain extends javax.swing.JFrame {
         //}    
     }//End changeCellColor
     
-//    //change cell color 
-//    private void changeCellColor(JTable table, List<EventDayRange> eventRangeList,
-//    Color color){
-//        for (EventDayRange range : eventRangeList) {
-//            int startDayIndex = range.getDayColumn();
-//            int startTimeIndex = range.getStartRow();
-//            int endTimeIndex = range.getEndRow();
-//            
-//            for (int row = startTimeIndex; row <= endTimeIndex; row++){
-//                table.prepareRenderer(new DefaultTableCellRenderer(){
-//                    @Override
-//                    public Component getTableCellRendererComponent(JTable table,
-//                    Object value, boolean isSelected, boolean hasFocus, int row, 
-//                    int column) {
-//                            
-//                        Component c = super.getTableCellRendererComponent(table,
-//                            value, isSelected, hasFocus, row, column);
-//                           
-//                        if (row >= startTimeIndex && row <= endTimeIndex &&
-//                        column == startDayIndex){
-//                               
-//                               if(color != null){
-//                                   c.setBackground(color);
-//                               }else {
-//                                   c.setBackground(Color.GREEN);// Default Color when none is set
-//                               }
-//                           
-//                        }
-//                        return c;
-//                    }
-//                }, row, startDayIndex);
-//            }
-//        }
-//    }//End changeCellColor
-    
+    private void resetTable(JTable table){
+        // iterate trhough all colouns and reset there cell renderers to default
+        for (int column = 1; column < table.getColumnCount(); column++){
+            table.getColumnModel().getColumn(column).setCellRenderer(new DefaultTableCellRenderer());
+        }
+        
+        //Repaint the table to apply the changes
+        table.repaint();
+    }
     
     private int getRowIndex(JTable table, String timeframe){
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -1756,95 +1824,205 @@ public class JTimetableMain extends javax.swing.JFrame {
     
     }
   
-    private void setListOfTableIndexEventId(HTimetable event){
+    private void setListOfTableIndexEventId(HTimetable event) {
         int eventId = event.getTimetableId();
         String eventName = event.getEventName();
         String eventCategory = event.getEventCategory();
         String eventColorStr = event.getColor();
         Color eventColor = convertStringToColor(eventColorStr);
-        String startDay = convertDateToDayOfWeek(event.getEventStart()); 
+        String startDay = convertDateToDayOfWeek(event.getEventStart());
         String endDay = convertDateToDayOfWeek(event.getEventEnd());
         int startDayIndex = getColumnIndex(startDay);
-        int endDayIndex = getColumnIndex (endDay);
+        int endDayIndex = getColumnIndex(endDay);
         int startWeekIndex = getWeekIndex(event.getEventStart());
         int endWeekIndex = getWeekIndex(event.getEventEnd());
-        LocalTime startTime = getLocalTimeFromDate(event.getEventStart());
-        LocalTime endTime = getLocalTimeFromDate(event.getEventEnd());
+        //LocalTime startTime = getLocalTimeFromDate(event.getEventStart());
+        //LocalTime endTime = getLocalTimeFromDate(event.getEventEnd());
+        LocalDateTime startTime = convertDateToLocalDateTime(event.getEventStart());
+        LocalDateTime endTime = convertDateToLocalDateTime(event.getEventEnd());
         int startTimeIndex = getHoursFromLocalTime(startTime);
         int endTimeIndex = getHoursFromLocalTime(endTime);
         String startTimeString = getTimeframeString(startTimeIndex);
         String endTimeString = getTimeframeString(endTimeIndex);
         int startYear = getYear(event.getEventStart());
         int endYear = getYear(event.getEventEnd());
-    
-        int eventFrequency = event.getFrequency();        
+
+        int eventFrequency = event.getFrequency();
         boolean hasNotification = event.isHasNotification();
-        
-        Timeframe timeframe =  getTimeframe(startDay, endDay, startTime, endTime);
+
+        Timeframe timeframe = getTimeframe(startDay, endDay, startTime, endTime);
         int maxRow = 23;
         int maxCol = 7;
         int maxWeekForYear = getMaxWeekIndex(startYear);
-        
+
         List<EventDayRange> eventRangeList = new ArrayList<>();
+
         
-        for (int startWeek = startWeekIndex; startWeek <= endWeekIndex; startWeek++){
-            if(startWeek <= maxWeekForYear){
-                for(int startCol = startDayIndex; startCol <= endDayIndex; startCol++ ){
-                    if(startCol <= maxCol ){
-                        if(timeframe.hours <= maxRow && startDayIndex == endDayIndex){
-                            // logic for single day
-                            EventDayRange eventRange = new EventDayRange(startTimeIndex, endTimeIndex,
-                                startCol, startWeek, startYear, eventId, eventName, eventColor );
-                            
-                            eventRangeList.add(eventRange);
-                        }else{
-                                // logic for mutiple days
-                                int InitalRowIndex = startTimeIndex;
-                                int requiredRows =  timeframe.hours;
-                                int startRow = InitalRowIndex;
-                                int endRow = maxRow;
-                            
-                                while (requiredRows > 0) {
-                                    if(requiredRows < maxRow - startRow){
-                                        endRow = startRow + requiredRows;
-                                        requiredRows = 0;
-                                    } else {
-                                        endRow = maxRow;
-                                        requiredRows = (maxRow - startRow);
-                                    }
-                                
-                                    EventDayRange eventRange = new EventDayRange(startRow, endRow,
-                                        startCol, startWeek, startYear, eventId, eventName, eventColor );
-                            
-                                    eventRangeList.add(eventRange);
-                                
-                                    startRow = 0; // Reset startRow for the next day
-                                }
-                            }
-                    }else{
-                        // logic for other weeks
-                        //handle events that spam across weeks
-                    }
+        if (startWeekIndex == endWeekIndex) {
+            // Single week logic
+            int currentDayIndex = startDayIndex;
+            int remainingDays = (endDayIndex >= startDayIndex) 
+                ? endDayIndex - startDayIndex + 1 
+                : (maxCol - startDayIndex + 1) + endDayIndex + 1;
+            int currentWeek = startWeekIndex;
+            while (remainingDays > 0) {
+            int daysToProcess = Math.min(maxCol - currentDayIndex + 1, remainingDays);
+            int startRow = startTimeIndex;
+            int remainingRows = timeframe.hours;
+
+            for (int day = 0; day < daysToProcess; day++) {
+                if (currentDayIndex <= maxCol) {
+                int endRow;
+
+                if (day == 0) {
+                    // First day logic
+                    endRow = maxRow; // End at the last index of 23
+                    remainingRows -= (maxRow - startRow + 1); // Adjusted to include the current row
+                } else if (day == daysToProcess - 1 && remainingDays == daysToProcess) {
+                    // Last day logic
+                    endRow = startRow + remainingRows;
+                    remainingRows = 0;
+                } else {
+                    // Intermediate days logic
+                    startRow = 0; // Start from index 0
+                    endRow = maxRow; // End at the last index of 23
+                    remainingRows -= (maxRow - startRow);
                 }
-            }else {
-                // Logic for next year
-                //handle events that spam across weeks
+
+                EventDayRange eventRange = new EventDayRange(startRow, endRow,
+                    currentDayIndex, currentWeek, startYear, eventId, eventName, eventColor);
+
+                eventRangeList.add(eventRange);
+
+                startRow = 0; // Reset startRow for the next day
+                }
+                currentDayIndex++;
+            }
+
+            remainingDays -= daysToProcess;
+            currentDayIndex = 1; // Reset to Sunday for the next week
+            }
+        } else {
+            // Multiple weeks logic
+            int currentStartTimeIndex = 0; // Declare and initialize currentStartTimeIndex
+            int remainingRows = 0; // Declare remainingRows outside the loop
+            for (int startWeek = startWeekIndex; startWeek <= endWeekIndex; startWeek++) {
+            if (startWeek <= maxWeekForYear) {
+                int currentDayIndex = (startWeek == startWeekIndex) ? startDayIndex : 1;
+                int remainingDays = (startWeek == endWeekIndex) 
+                    ? endDayIndex 
+                    : maxCol - currentDayIndex + 1;
+                int currentWeek = startWeek;
+                currentStartTimeIndex = (startWeek == startWeekIndex) ? startTimeIndex : 0;
+
+                while (remainingDays > 0) {
+                int daysToProcess = Math.min(maxCol - currentDayIndex + 1, remainingDays);
+                int startRow = currentStartTimeIndex;
+                if (startWeek == startWeekIndex) {
+                    remainingRows = timeframe.hours; // Initialize only for the first week
+                }
+
+                for (int day = 0; day < daysToProcess; day++) {
+                    if (currentDayIndex <= maxCol) {
+                    int endRow;
+
+                    if (day == 0 && startWeek == startWeekIndex) {
+                        // First day logic for the first week
+                        endRow = maxRow; // End at the last index of 23
+                        remainingRows -= ((maxRow + 1) - startRow);
+                    } else if (day == daysToProcess - 1 && remainingDays == daysToProcess && startWeek == endWeekIndex) {
+                        // Last day logic for the last week
+                        endRow = startRow + remainingRows;
+                        remainingRows = 0;
+                    } else {
+                        // Intermediate days logic
+                        startRow = 0; // Start from index 0
+                        endRow = maxRow; // End at the last index of 23
+                        remainingRows -= ((maxRow + 1) - startRow);
+                    }
+
+                    EventDayRange eventRange = new EventDayRange(startRow, endRow,
+                        currentDayIndex, currentWeek, startYear, eventId, eventName, eventColor);
+
+                    eventRangeList.add(eventRange);
+
+                    startRow = 0; // Reset startRow for the next day
+                    }
+                    currentDayIndex++;
+                }
+
+                remainingDays -= daysToProcess;
+                currentDayIndex = 1; // Reset to Sunday for the next week
+                currentStartTimeIndex = 0; // Reset start time for subsequent weeks
+                }
+            } else {
+                // Handle events that span across years
+                int nextYear = startYear + 1;
+                int maxWeekForNextYear = getMaxWeekIndex(nextYear);
+                for (int nextYearWeek = 1; nextYearWeek <= maxWeekForNextYear; nextYearWeek++) {
+                int currentDayIndex = 1; // Reset to Sunday
+                int remainingDays = endDayIndex; // Remaining days in the next year
+                int currentWeek = nextYearWeek;
+
+                while (remainingDays > 0) {
+                    int daysToProcess = Math.min(maxCol - currentDayIndex + 1, remainingDays);
+                    int startRow = 0; // Start from the beginning of the day
+                    if (startWeek == startWeekIndex) {
+                        remainingRows = timeframe.hours; // Initialize only for the first week
+                    }
+
+                    for (int day = 0; day < daysToProcess; day++) {
+                    if (currentDayIndex <= maxCol) {
+                        int endRow;
+
+                        if (day == daysToProcess - 1 && remainingDays == daysToProcess) {
+                        // Last day logic
+                        endRow = startRow + remainingRows;
+                        remainingRows = 0;
+                        } else {
+                        // Intermediate days logic
+                        endRow = maxRow; // End at the last index of 23
+                        remainingRows -= ((maxRow + 1) - startRow);
+                        }
+
+                        EventDayRange eventRange = new EventDayRange(startRow, endRow,
+                            currentDayIndex, currentWeek, nextYear, eventId, eventName, eventColor);
+
+                        eventRangeList.add(eventRange);
+
+                        startRow = 0; // Reset startRow for the next day
+                    }
+                    currentDayIndex++;
+                    }
+
+                    remainingDays -= daysToProcess;
+                    currentDayIndex = 1; // Reset to Sunday for the next week
+                    currentStartTimeIndex = 0; // Reset start time for subsequent weeks
+                }
+                }
+            }
             }
         }
-        
-        updateTimeTableRanges(eventRangeList);
-        
-        System.out.println("test");
-    }//End setListOfTableIndexEventId
+
+        // add list to main list of event ranges
+        for (EventDayRange currentRange : eventRangeList) {
+            eventWeekList.add(currentRange);
+        }    
+    }// End setListOfTableIndexEventId
     
-    private void updateTimeTableRanges(List<EventDayRange> eventRangeList){
+    private void updateTimeTableForWeek(List<EventDayRange> eventRangeList, int weekIndex){
         
-        changeCell(jTimetable, eventRangeList);
+        List<EventDayRange> currentWeekList = new ArrayList<>();
         
-//        for(EventDayRange range : eventRangeList){
-//            //Logic for updating timetable ranges, example cell colors and adding events 
-//        }
-    
+        //Locate only ranges from the same week
+        for(EventDayRange range : eventRangeList){
+            if (range.weekIndex == weekIndex){
+               currentWeekList.add(range);
+            }
+       }
+        
+       resetTable(jTimetable); //Reset the table
+       changeCell(jTimetable, currentWeekList); // Apply renderer using a list of objects
     }
     
     private String convertDateToDayOfWeek(Date date){
@@ -1891,6 +2069,11 @@ public class JTimetableMain extends javax.swing.JFrame {
         return time.getHour();
     }
     
+    private int getHoursFromLocalTime(LocalDateTime time){
+        //get  the hour from localTime
+        return time.getHour();
+    }
+    
     private int getWeekIndex(Date date) {
         //Convert Date to localDate
         LocalDate localDate = convertDateToLocalDate(date);
@@ -1898,6 +2081,14 @@ public class JTimetableMain extends javax.swing.JFrame {
         // Get the week index number
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
         return localDate.get(weekFields.weekOfWeekBasedYear());
+    }
+    
+    private int getWeekIndex(LocalDate date) {
+        //Convert LocalDate to week index number
+        java.time.temporal.TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfYear();
+        int weekIndex = date.get(weekOfYear);
+                
+        return weekIndex;
     }
     
     private int getYear(Date date) {
@@ -1927,6 +2118,21 @@ public class JTimetableMain extends javax.swing.JFrame {
             return Color.white;
         } 
     
+    }
+    
+    public Color getContrastingColor(Color color){
+        
+        try {
+           //Invert the color
+            int red = 255 - color.getRGB();
+            int green = 255 - color.getGreen();
+            int blue = 255 - color.getBlue();
+            return new Color(red, green, blue);
+            
+        } catch (Exception e) {
+            logger.CreateLog("error", "Error trying to get contrasting color. ", e);
+           return Color.WHITE;
+        }
     }
     
     private void reloadTimetableData(){
