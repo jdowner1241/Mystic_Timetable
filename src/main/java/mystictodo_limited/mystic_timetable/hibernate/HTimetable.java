@@ -14,6 +14,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -47,15 +49,18 @@ public class HTimetable {
  @Column(name = "Color", nullable = true)
  private String color;
  
- @Column(name = "Frequency", nullable = false)
- private int frequency;
+ @Column(name = "FrequencyType", nullable = false, insertable = false, updatable = false)
+ private int frequencyType;
+ 
+ @Column(name = "FrequencyAmount", nullable = false)
+ private int frequencyAmount;
  
  @Column(name = "HasNotification", nullable = false)
  private boolean hasNotification;
  
- @Temporal(TemporalType.DATE)
- @Column(name = "Day", nullable = false)
- private Date day;
+
+ @Column(name = "Day", nullable = false, insertable = false, updatable = false)
+ private int day;
  
  @Temporal(TemporalType.TIMESTAMP)
  @Column(name = "EventStart", nullable = false)
@@ -67,6 +72,15 @@ public class HTimetable {
  
 @OneToMany(mappedBy = "timetable", fetch = FetchType.EAGER)
 private List<HTimetableLinker> timetableLinkerList = new ArrayList<>();
+
+ @ManyToOne
+ @JoinColumn(name = "Day", nullable = false)
+ private HDayOfTheWeek dayoftheweek;
+ 
+ @ManyToOne
+ @JoinColumn(name = "FrequencyType", nullable = false)
+ private HFrequencyType frequencytype;
+ 
  
 //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
   
@@ -102,14 +116,22 @@ private List<HTimetableLinker> timetableLinkerList = new ArrayList<>();
         this.color = color;
     }
 
-    public int getFrequency() {
-        return frequency;
+    public int getFrequencyType() {
+        return frequencyType;
     }
 
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
+    public void setFrequencyType(int frequencyType) {
+        this.frequencyType = frequencyType;
     }
 
+    public int getFrequencyAmount() {
+        return frequencyAmount;
+    }
+
+    public void setFrequencyAmount(int frequencyAmount) {
+        this.frequencyAmount = frequencyAmount;
+    }
+    
     public boolean isHasNotification() {
         return hasNotification;
     }
@@ -118,11 +140,11 @@ private List<HTimetableLinker> timetableLinkerList = new ArrayList<>();
         this.hasNotification = hasNotification;
     }
 
-    public Date getDay() {
+    public int getDay() {
         return day;
     }
 
-    public void setDay(Date day) {
+    public void setDay(int day) {
         this.day = day;
     }
 
@@ -142,22 +164,22 @@ private List<HTimetableLinker> timetableLinkerList = new ArrayList<>();
         this.eventEnd = eventEnd;
     }
     
-    public List<HTimetableLinker> getTimetableLinkerList() {
-        return timetableLinkerList;
-    }
-
-    public void setTimetableLinkerList() {
-        //Method not required 
-        
-        HTimetableLinkerDAOImpl timetableLinkerDAO = new HTimetableLinkerDAOImpl();
-        List<HTimetableLinker> timetableLinkers = timetableLinkerDAO.findAll();
-        
-        for (HTimetableLinker timetableLinker : timetableLinkers){
-            if(timetableLinker.getEventId() == this.timetableId){
-                timetableLinkerList.add(timetableLinker);
-            }
-        }
-    }
+//    public List<HTimetableLinker> getTimetableLinkerList() {
+//        return timetableLinkerList;
+//    }
+//
+//    public void setTimetableLinkerList() {
+//        //Method not required 
+//        
+//        HTimetableLinkerDAOImpl timetableLinkerDAO = new HTimetableLinkerDAOImpl();
+//        List<HTimetableLinker> timetableLinkers = timetableLinkerDAO.findAll();
+//        
+//        for (HTimetableLinker timetableLinker : timetableLinkers){
+//            if(timetableLinker.getEventId() == this.timetableId){
+//                timetableLinkerList.add(timetableLinker);
+//            }
+//        }
+//    }
  
 //Method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
 

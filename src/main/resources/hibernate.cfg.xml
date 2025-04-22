@@ -23,6 +23,8 @@
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLogType"/>
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLogEntry"/>
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HFolderPerUser"/>
-        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HFolder"/>   
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HFolder"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HDayOfTheWeek"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HFrequencyType"/>   
     </session-factory>
 </hibernate-configuration>

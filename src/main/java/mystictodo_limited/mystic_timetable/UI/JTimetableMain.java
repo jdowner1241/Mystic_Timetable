@@ -1129,7 +1129,7 @@ public class JTimetableMain extends javax.swing.JFrame {
             List<HTimetable> timetableList = getTimetableList();
             eventWeekList.clear();
             for ( HTimetable current : timetableList){
-                setListOfTableIndexEventId(current);
+                setListOfTableIndex(current);
             }
             
             updateTimeTableForWeek(eventWeekList, weekIndex);
@@ -1614,7 +1614,47 @@ public class JTimetableMain extends javax.swing.JFrame {
 
     } // Method : getTimeframe
 
-  
+    private Timeframe getTimeframePerDay(LocalDateTime start,
+    LocalDateTime end) {
+        
+        
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
+        
+        try {
+            if (start.isBefore(end)) {
+                    LocalDateTime timeSpan = end.minusHours(start.getHour())
+                            .minusMinutes(start.getMinute()).minusSeconds(start.getSecond());
+                    hours = timeSpan.getHour();
+                    minutes = timeSpan.getMinute();
+                    seconds = timeSpan.getSecond();
+            } 
+            
+            // Adjust hours, minutes, and seconds to ensure they are within valid ranges
+            if (seconds < 0) {
+                seconds += 60;
+                minutes -= 1;
+            } else if (seconds >= 60) {
+                seconds -= 60;
+                minutes += 1;
+            }
+
+            if (minutes < 0) {
+                minutes += 60;
+                hours -= 1;
+            } else if (minutes >= 60) {
+                minutes -= 60;
+                hours += 1;
+            }
+
+        } catch (Exception e) {
+            logger.CreateLog("error", "Exception caught when doing calculation.", e);
+        }
+
+        return new Timeframe(hours, minutes, seconds);
+
+    } // Method : getTimeframe
     
     //Internal Class to store timeframe
     public class Timeframe {
@@ -1684,87 +1724,218 @@ public class JTimetableMain extends javax.swing.JFrame {
     }// Method : changeCellColorByString
     
     //change cell color 
-    private void changeCell(JTable table, List<EventDayRange> eventRangeList){
-        for (EventDayRange range : eventRangeList) {
-            int startDayIndex = range.getDayColumn();
-            int startTimeIndex = range.getStartRow();
-            int endTimeIndex = range.getEndRow();
-            Color newColor = range.getColor();
-            Color textColor = getContrastingColor(newColor);
-            
-            //for (int row = startTimeIndex; row <= endTimeIndex; row++){
-                
-                DefaultTableCellRenderer intialRenderer = new DefaultTableCellRenderer(){
-                @Override
-                    public Component getTableCellRendererComponent(JTable table,
-                    Object value, boolean isSelected, boolean hasFocus, int row, 
-                    int column) { 
-            
-                        return super.getTableCellRendererComponent(table, value, isSelected,
-                        hasFocus, row, column);
-                    }
-                };
-                
-                
-                DefaultTableCellRenderer renderer = new DefaultTableCellRenderer(){
-                    @Override
-                    public Component getTableCellRendererComponent(JTable table,
-                    Object value, boolean isSelected, boolean hasFocus, int row, 
-                    int column) { 
-                        
-                       Component intialC = intialRenderer.getTableCellRendererComponent(table,
-                       value, isSelected, hasFocus, row, column);
-                        
-                        if (row >= startTimeIndex && row <= endTimeIndex &&
-                        column == startDayIndex){
-                            
-                            Component c = super.getTableCellRendererComponent(table,
-                            value, isSelected, hasFocus, row, column);
-             
-                            c.setBackground(newColor != null ? newColor : newColor.GREEN);
-  
-                            ((JLabel) c).setText(""); // Clear the text in the cell
-                            
-                            //add borders based on the cell position in range
-                            if (row == startTimeIndex){
-                                //Top, left, right
-                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK)); 
-                                ((JLabel) c).setText(range.eventName);
-                                c.setForeground(textColor);
-                                
-                            } else if (row == endTimeIndex){
-                                //Bottom, left, right
-                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
-                            } else {
-                                //Left, right
-                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
-                            }
-                            
-                            return c;
-                        }else {
-                            return intialC;
-                        }
-                    }
-                }; 
-                table.getColumnModel().getColumn(startDayIndex).setCellRenderer(renderer);
-                
-                //for (int row1 = startTimeIndex; row1 <= endTimeIndex; row1++){
-                //    table.getColumnModel().getColumn(startDayIndex).setCellRenderer(renderer);
-                //}
-            }
-            table.repaint();
-        //}    
-    }//End changeCellColor
+//    private void changeCell(JTable table, List<EventDayRange> eventRangeList){
+//        for (EventDayRange range : eventRangeList) {
+//            int startDayIndex = range.getDayIndex();
+//            int startTimeIndex = range.getStartRow();
+//            int endTimeIndex = range.getEndRow();
+//            Color newColor = range.getColor();
+//            Color textColor = getContrastingColor(newColor);
+//            
+//            //for (int row = startTimeIndex; row <= endTimeIndex; row++){
+//                
+//                DefaultTableCellRenderer intialRenderer = new DefaultTableCellRenderer(){
+//                @Override
+//                    public Component getTableCellRendererComponent(JTable table,
+//                    Object value, boolean isSelected, boolean hasFocus, int row, 
+//                    int column) { 
+//            
+//                        return super.getTableCellRendererComponent(table, value, isSelected,
+//                        hasFocus, row, column);
+//                    }
+//                };
+//                
+//                
+//                DefaultTableCellRenderer renderer = new DefaultTableCellRenderer(){
+//                    @Override
+//                    public Component getTableCellRendererComponent(JTable table,
+//                    Object value, boolean isSelected, boolean hasFocus, int row, 
+//                    int column) { 
+//                        
+//                    Component initialC = initialRenderer.getTableCellRendererComponent(table,
+//                       value, isSelected, hasFocus, row, column);
+//                        
+//                        if (row >= startTimeIndex && row <= endTimeIndex &&
+//                        column == startDayIndex){
+//                            
+//                            Component c = super.getTableCellRendererComponent(table,
+//                            value, isSelected, hasFocus, row, column);
+//             
+//                            c.setBackground(newColor != null ? newColor : newColor.GREEN);
+//  
+//                            ((JLabel) c).setText(""); // Clear the text in the cell
+//                            
+//                            //add borders based on the cell position in range
+//                            if (row == startTimeIndex){
+//                                //Top, left, right
+//                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK)); 
+//                                ((JLabel) c).setText(range.eventName);
+//                                c.setForeground(textColor);
+//                                
+//                            } else if (row == endTimeIndex){
+//                                //Bottom, left, right
+//                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+//                            } else {
+//                                //Left, right
+//                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
+//                            }
+//                            
+//                            return c;
+//                        }else {
+//                            return initialC;
+//                        }
+//                    }
+//                }; 
+//                for (int row = startTimeIndex; row <= endTimeIndex; row++) {
+//                    table.getColumnModel().getColumn(startDayIndex).setCellRenderer(new DefaultTableCellRenderer() {
+//                        @Override
+//                        public Component getTableCellRendererComponent(JTable table,
+//                                Object value, boolean isSelected, boolean hasFocus, int rowIndex,
+//                                int columnIndex) {
+//                            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, columnIndex);
+//                            if (rowIndex == row && columnIndex == startDayIndex) {
+//                                c.setBackground(newColor != null ? newColor : Color.GREEN);
+//                                ((JLabel) c).setText(range.eventName);
+//                                c.setForeground(textColor);
+//                                if (rowIndex == startTimeIndex) {
+//                                    ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
+//                                } else if (rowIndex == endTimeIndex) {
+//                                    ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+//                                } else {
+//                                    ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
+//                                }
+//                            }
+//                            return c;
+//                        }
+//                    });
+//                }
+//                
+//                //for (int row1 = startTimeIndex; row1 <= endTimeIndex; row1++){
+//                //    table.getColumnModel().getColumn(startDayIndex).setCellRenderer(renderer);
+//                //}
+//            }
+//            table.repaint();
+//        //}    
+//    }//End changeCellColor
     
     private void resetTable(JTable table){
         // iterate trhough all colouns and reset there cell renderers to default
         for (int column = 1; column < table.getColumnCount(); column++){
             table.getColumnModel().getColumn(column).setCellRenderer(new DefaultTableCellRenderer());
         }
-        
+            
         //Repaint the table to apply the changes
         table.repaint();
+
     }
+
+   
+    
+    
+    private void changeCellByRow(JTable table, List<EventDayRange> eventRangeList) {
+        List<Integer> daysWithEntries = new ArrayList<>();
+
+        for (EventDayRange range : eventRangeList) {
+            if (!daysWithEntries.contains(range.getDayIndex())) {
+                daysWithEntries.add(range.getDayIndex());
+            }
+        }
+
+        // Iterate through each day and then each sameDayRange to apply the renderer to only those cells
+        for (int dayIndex : daysWithEntries) {
+            List<EventDayRange> sameDayRanges = new ArrayList<>();
+            for (EventDayRange range : eventRangeList) {
+                if (range.getDayIndex() == dayIndex) {
+                    sameDayRanges.add(range);
+                }
+            }
+
+
+            // create default renderer 
+            DefaultTableCellRenderer initialRenderer = new DefaultTableCellRenderer(){
+               @Override
+                   public Component getTableCellRendererComponent(JTable table,
+                   Object value, boolean isSelected, boolean hasFocus, int row, 
+                   int column) { 
+           
+                       return super.getTableCellRendererComponent(table, value, isSelected,
+                       hasFocus, row, column);
+                   }
+            };
+
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    Component initialC = initialRenderer.getTableCellRendererComponent(table,
+                                           value, isSelected, hasFocus, row, column);
+
+                    for (EventDayRange range : sameDayRanges) {
+                        
+
+                        if (row >= range.getStartRow() && row <= range.getEndRow() && column == range.getDayIndex()) {
+                            c.setBackground(range.getColor() != null ? range.getColor() : Color.GREEN);
+                            
+                            if (row == range.getStartRow()) {
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
+                                ((JLabel) c).setText(range.getEventName());
+                                c.setForeground(getContrastingColor(range.getColor()));
+
+                            } else if (row == range.getEndRow()) {
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+                            } else {
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
+                            }
+                            return c;
+                        }
+                    }
+
+                    // Reset to default for cells not in the range
+                    c.setBackground(Color.WHITE);
+                    
+                    ((JLabel) c).setBorder(null);
+                    ((JLabel) c).setText(value != null ? value.toString() : "");
+                     // create a list of rowIndex that is not within the range of the sameDayRanges
+                    List<Integer> activeRowIndexList = new ArrayList<>();
+                    // iterate through the sameDayRanges and add the rowIndex to the activeRowIndexList
+                    for (EventDayRange range : sameDayRanges) {
+                        for (int i = range.getStartRow(); i <= range.getEndRow(); i++) {
+                            activeRowIndexList.add(i);
+                        }
+                    }
+                    // create a inactive rowIndex list thats no in activeRowIndexList
+                    List<Integer> inactiveRowIndexList = new ArrayList<>();
+                    for (int i = 0; i < table.getRowCount(); i++) {
+                        if (!activeRowIndexList.contains(i)) {
+                            inactiveRowIndexList.add(i);
+                        }
+                    }
+
+                    // if currect row is in the inactiveRowIndexList then set the initialC
+                    if (inactiveRowIndexList.contains(row)) {
+                        return initialC;
+                    }
+
+                    return c;
+                }
+            };
+
+            // Apply the renderer to the column for the day
+            table.getColumnModel().getColumn(dayIndex).setCellRenderer(renderer);
+
+            // find the range of cells that did not get a custom renderer then apply the initialC component
+            // for (int row = 0; row < table.getRowCount(); row++) {
+            //     if (!isCellInRange(row, dayIndex, sameDayRanges.get(0).getStartRow(), sameDayRanges.get(sameDayRanges.size() - 1).getEndRow(), dayIndex, dayIndex)) {
+            //         table.getColumnModel().getColumn(dayIndex).setCellRenderer(initialRenderer);
+            //     }
+            // }
+        }
+
+        // Repaint the table to apply the changes
+        table.repaint();
+    }// End changeCellColor
+    
     
     private int getRowIndex(JTable table, String timeframe){
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -1793,38 +1964,49 @@ public class JTimetableMain extends javax.swing.JFrame {
     public class EventDayRange {
         private int startRow;
         private int endRow;
-        private int dayColumn;
+        private List<Integer> rowRange = new ArrayList<>(); 
+        private int dayIndex;
         private int weekIndex;
+        private int monthIndex;
         private int yearIndex;
         private int eventId;
         private String eventName;
         private Color color;
         
-        public EventDayRange(int startRow, int endRow, int dayColumn, int weekIndex,
-        int yearIndex, int eventId, String eventName, Color color){
+        public EventDayRange(int startRow, int endRow, int dayIndex, int weekIndex,
+        int monthIndex, int yearIndex, int eventId, String eventName, Color color){
             this.startRow = startRow;
             this.endRow = endRow;
-            this.dayColumn = dayColumn;
+            this.dayIndex = dayIndex;
             this.weekIndex = weekIndex;
+            this.monthIndex = monthIndex;
             this.yearIndex = yearIndex;
             this.eventId = eventId;
             this.eventName = eventName;
             this.color = color;
+            
+            rowRange = new ArrayList<>(); 
         }
         
         //Getters and setters
         public int getStartRow(){return startRow; }
         public int getEndRow() {return endRow; }
-        public int getDayColumn() {return dayColumn; }
+        public List<Integer> getRowRange() {return rowRange; }
+        public int getDayIndex() {return dayIndex; }
         public int getWeekIndex() {return weekIndex; }
+        public int getMonthIndex() {return monthIndex; }
         public int getYearIndex() {return yearIndex; }
         public int getEventId() {return eventId; }
         public String getEventName() {return eventName; }
         public Color getColor() {return color; }
+        
+        public void setRowRange( Integer newRowId){
+            rowRange.add(newRowId);
+        }
     
     }
   
-    private void setListOfTableIndexEventId(HTimetable event) {
+    private void setListOfTableIndexEventIdFullRange(HTimetable event) {
         int eventId = event.getTimetableId();
         String eventName = event.getEventName();
         String eventCategory = event.getEventCategory();
@@ -1836,8 +2018,6 @@ public class JTimetableMain extends javax.swing.JFrame {
         int endDayIndex = getColumnIndex(endDay);
         int startWeekIndex = getWeekIndex(event.getEventStart());
         int endWeekIndex = getWeekIndex(event.getEventEnd());
-        //LocalTime startTime = getLocalTimeFromDate(event.getEventStart());
-        //LocalTime endTime = getLocalTimeFromDate(event.getEventEnd());
         LocalDateTime startTime = convertDateToLocalDateTime(event.getEventStart());
         LocalDateTime endTime = convertDateToLocalDateTime(event.getEventEnd());
         int startTimeIndex = getHoursFromLocalTime(startTime);
@@ -1847,163 +2027,331 @@ public class JTimetableMain extends javax.swing.JFrame {
         int startYear = getYear(event.getEventStart());
         int endYear = getYear(event.getEventEnd());
 
-        int eventFrequency = event.getFrequency();
+        int eventFrequency = event.getFrequencyType();
         boolean hasNotification = event.isHasNotification();
 
         Timeframe timeframe = getTimeframe(startDay, endDay, startTime, endTime);
-        int maxRow = 23;
-        int maxCol = 7;
+        int maxRowPerDay = 23;
+        int maxRowPerWeek = 168;
+        int maxColPerDay = 7;
         int maxWeekForYear = getMaxWeekIndex(startYear);
 
         List<EventDayRange> eventRangeList = new ArrayList<>();
 
-        
         if (startWeekIndex == endWeekIndex) {
             // Single week logic
             int currentDayIndex = startDayIndex;
             int remainingDays = (endDayIndex >= startDayIndex) 
                 ? endDayIndex - startDayIndex + 1 
-                : (maxCol - startDayIndex + 1) + endDayIndex + 1;
+                : (maxColPerDay - startDayIndex + 1) + endDayIndex + 1;
             int currentWeek = startWeekIndex;
             while (remainingDays > 0) {
-            int daysToProcess = Math.min(maxCol - currentDayIndex + 1, remainingDays);
-            int startRow = startTimeIndex;
-            int remainingRows = timeframe.hours;
-
-            for (int day = 0; day < daysToProcess; day++) {
-                if (currentDayIndex <= maxCol) {
-                int endRow;
-
-                if (day == 0) {
-                    // First day logic
-                    endRow = maxRow; // End at the last index of 23
-                    remainingRows -= (maxRow - startRow + 1); // Adjusted to include the current row
-                } else if (day == daysToProcess - 1 && remainingDays == daysToProcess) {
-                    // Last day logic
-                    endRow = startRow + remainingRows;
-                    remainingRows = 0;
-                } else {
-                    // Intermediate days logic
-                    startRow = 0; // Start from index 0
-                    endRow = maxRow; // End at the last index of 23
-                    remainingRows -= (maxRow - startRow);
-                }
-
-                EventDayRange eventRange = new EventDayRange(startRow, endRow,
-                    currentDayIndex, currentWeek, startYear, eventId, eventName, eventColor);
-
-                eventRangeList.add(eventRange);
-
-                startRow = 0; // Reset startRow for the next day
-                }
-                currentDayIndex++;
-            }
-
-            remainingDays -= daysToProcess;
-            currentDayIndex = 1; // Reset to Sunday for the next week
-            }
-        } else {
-            // Multiple weeks logic
-            int currentStartTimeIndex = 0; // Declare and initialize currentStartTimeIndex
-            int remainingRows = 0; // Declare remainingRows outside the loop
-            for (int startWeek = startWeekIndex; startWeek <= endWeekIndex; startWeek++) {
-            if (startWeek <= maxWeekForYear) {
-                int currentDayIndex = (startWeek == startWeekIndex) ? startDayIndex : 1;
-                int remainingDays = (startWeek == endWeekIndex) 
-                    ? endDayIndex 
-                    : maxCol - currentDayIndex + 1;
-                int currentWeek = startWeek;
-                currentStartTimeIndex = (startWeek == startWeekIndex) ? startTimeIndex : 0;
-
-                while (remainingDays > 0) {
-                int daysToProcess = Math.min(maxCol - currentDayIndex + 1, remainingDays);
-                int startRow = currentStartTimeIndex;
-                if (startWeek == startWeekIndex) {
-                    remainingRows = timeframe.hours; // Initialize only for the first week
-                }
+                int daysToProcess = Math.min(maxColPerDay - currentDayIndex + 1, remainingDays);
+                int startRow = startTimeIndex;
+                int remainingRows = timeframe.hours;
 
                 for (int day = 0; day < daysToProcess; day++) {
-                    if (currentDayIndex <= maxCol) {
-                    int endRow;
+                    if (currentDayIndex <= maxColPerDay) {
+                        int endRow;
 
-                    if (day == 0 && startWeek == startWeekIndex) {
-                        // First day logic for the first week
-                        endRow = maxRow; // End at the last index of 23
-                        remainingRows -= ((maxRow + 1) - startRow);
-                    } else if (day == daysToProcess - 1 && remainingDays == daysToProcess && startWeek == endWeekIndex) {
-                        // Last day logic for the last week
-                        endRow = startRow + remainingRows;
-                        remainingRows = 0;
-                    } else {
-                        // Intermediate days logic
-                        startRow = 0; // Start from index 0
-                        endRow = maxRow; // End at the last index of 23
-                        remainingRows -= ((maxRow + 1) - startRow);
-                    }
+                        if (day == 0) {
+                            // First day logic
+                            endRow = maxRowPerDay; // End at the last index of 23
+                            remainingRows -= (maxRowPerDay - startRow + 1); // Adjusted to include the current row
+                        } else if (day == daysToProcess - 1 && remainingDays == daysToProcess) {
+                            // Last day logic
+                            endRow = startRow + remainingRows;
+                            remainingRows = 0;
+                        } else {
+                            // Intermediate days logic
+                            startRow = 0; // Start from index 0
+                            endRow = maxRowPerDay; // End at the last index of 23
+                            remainingRows -= (maxRowPerDay - startRow);
+                        }
+                        
+                        List<Integer> rowRange = new ArrayList<>();
 
-                    EventDayRange eventRange = new EventDayRange(startRow, endRow,
-                        currentDayIndex, currentWeek, startYear, eventId, eventName, eventColor);
+                        EventDayRange eventRange = new EventDayRange(startRow, endRow,
+                            currentDayIndex, currentWeek, 1 ,startYear, eventId, eventName, eventColor);
+                        
+                        
+                        eventRange.setRowRange(endRow);
+                        
+                        eventRangeList.add(eventRange);
 
-                    eventRangeList.add(eventRange);
-
-                    startRow = 0; // Reset startRow for the next day
+                        startRow = 0; // Reset startRow for the next day
                     }
                     currentDayIndex++;
                 }
 
                 remainingDays -= daysToProcess;
                 currentDayIndex = 1; // Reset to Sunday for the next week
-                currentStartTimeIndex = 0; // Reset start time for subsequent weeks
-                }
-            } else {
-                // Handle events that span across years
-                int nextYear = startYear + 1;
-                int maxWeekForNextYear = getMaxWeekIndex(nextYear);
-                for (int nextYearWeek = 1; nextYearWeek <= maxWeekForNextYear; nextYearWeek++) {
-                int currentDayIndex = 1; // Reset to Sunday
-                int remainingDays = endDayIndex; // Remaining days in the next year
-                int currentWeek = nextYearWeek;
+            }
+        } else {
+            // Multiple weeks logic
+            int currentStartTimeIndex = 0; // Declare and initialize currentStartTimeIndex
+            int remainingRows = 0; // Declare remainingRows outside the loop
+            for (int startWeek = startWeekIndex; startWeek <= endWeekIndex; startWeek++) {
+                if (startWeek <= maxWeekForYear) {
+                    int currentDayIndex = (startWeek == startWeekIndex) ? startDayIndex : 1;
+                    int remainingDays = (startWeek == endWeekIndex) 
+                        ? endDayIndex 
+                        : maxColPerDay - currentDayIndex + 1;
+                    int currentWeek = startWeek;
+                    currentStartTimeIndex = (startWeek == startWeekIndex) ? startTimeIndex : 0;
 
-                while (remainingDays > 0) {
-                    int daysToProcess = Math.min(maxCol - currentDayIndex + 1, remainingDays);
-                    int startRow = 0; // Start from the beginning of the day
-                    if (startWeek == startWeekIndex) {
-                        remainingRows = timeframe.hours; // Initialize only for the first week
-                    }
+                    while (remainingDays > 0) {
+                        int daysToProcess = Math.min(maxColPerDay - currentDayIndex + 1, remainingDays);
+                        int startRow = currentStartTimeIndex;
+                        
+                        // if (day == 0) {
+                        //     remainingRows = Math.min(timeframe.hours, remainingDays * maxRowPerDay); // Adjust rows for the week
+                        // }
 
-                    for (int day = 0; day < daysToProcess; day++) {
-                    if (currentDayIndex <= maxCol) {
-                        int endRow;
+                        for (int day = 0; day < daysToProcess; day++) {
+                            if (day == 0 && startWeek == startWeekIndex && startWeekIndex == endWeekIndex ) {
+                                //remainingRows = Math.min(timeframe.hours, remainingDays * maxRowPerDay); // Adjust rows for the week
+                                 remainingRows = ((daysToProcess - 2) * (maxRowPerDay + 1)) + endTimeIndex + ( 24 - startTimeIndex );
+                            } else if (day == 0 && startWeek == startWeekIndex && startWeekIndex != endWeekIndex) {
+                                remainingRows = ((daysToProcess - 1) * (maxRowPerDay + 1)) + ( 24 - startTimeIndex );
+                            } else if (day == 0 && startWeek == endWeekIndex && startWeekIndex != endWeekIndex ) {
+                                remainingRows = ((daysToProcess - 1) * (maxRowPerDay + 1)) + endTimeIndex;
+                            } else {
+                              // no action
+                            }
 
-                        if (day == daysToProcess - 1 && remainingDays == daysToProcess) {
-                        // Last day logic
-                        endRow = startRow + remainingRows;
-                        remainingRows = 0;
-                        } else {
-                        // Intermediate days logic
-                        endRow = maxRow; // End at the last index of 23
-                        remainingRows -= ((maxRow + 1) - startRow);
+                            if (currentDayIndex <= maxColPerDay) {
+                                int endRow;
+
+                                if (day == 0 && startWeek == startWeekIndex) {
+                                    // First day logic for the first week
+                                    endRow = maxRowPerDay; // End at the last index of 23
+                                    remainingRows -= ((maxRowPerDay + 1) - startRow);
+                                } else if (day == daysToProcess - 1 && remainingDays == daysToProcess && startWeek == endWeekIndex) {
+                                    // Last day logic for the last week
+                                    endRow = startRow + remainingRows;
+                                    remainingRows = 0;
+                                } else {
+                                    // Intermediate days logic
+                                    startRow = 0; // Start from index 0
+                                    endRow = maxRowPerDay; // End at the last index of 23
+                                    remainingRows -= ((maxRowPerDay + 1) - startRow);
+                                }
+
+                                List<Integer> rowRange = new ArrayList<>();
+                                
+                                EventDayRange eventRange = new EventDayRange(startRow, endRow,
+                                    currentDayIndex, currentWeek, 1 ,startYear, eventId, eventName, eventColor);
+
+                                eventRange.setRowRange(endRow);
+                                eventRangeList.add(eventRange);
+
+                                startRow = 0; // Reset startRow for the next day
+                            }
+                            currentDayIndex++;
                         }
 
-                        EventDayRange eventRange = new EventDayRange(startRow, endRow,
-                            currentDayIndex, currentWeek, nextYear, eventId, eventName, eventColor);
-
-                        eventRangeList.add(eventRange);
-
-                        startRow = 0; // Reset startRow for the next day
+                        remainingDays -= daysToProcess;
+                        currentDayIndex = 1; // Reset to Sunday for the next week
+                        currentStartTimeIndex = 0; // Reset start time for subsequent weeks
                     }
-                    currentDayIndex++;
-                    }
+                } else {
+                    // Handle events that span across years
+                    int nextYear = startYear + 1;
+                    int maxWeekForNextYear = getMaxWeekIndex(nextYear);
+                    for (int nextYearWeek = 1; nextYearWeek <= maxWeekForNextYear; nextYearWeek++) {
+                        int currentDayIndex = 1; // Reset to Sunday
+                        int remainingDays = endDayIndex; // Remaining days in the next year
+                        int currentWeek = nextYearWeek;
 
-                    remainingDays -= daysToProcess;
-                    currentDayIndex = 1; // Reset to Sunday for the next week
-                    currentStartTimeIndex = 0; // Reset start time for subsequent weeks
+                        while (remainingDays > 0) {
+                            int daysToProcess = Math.min(maxColPerDay - currentDayIndex + 1, remainingDays);
+                            int startRow = 0; // Start from the beginning of the day
+                            if (startWeek == startWeekIndex) {
+                                remainingRows = Math.min(timeframe.hours, remainingDays * maxRowPerDay); // Adjust rows for the week
+                            }
+
+                            for (int day = 0; day < daysToProcess; day++) {
+                                if (currentDayIndex <= maxColPerDay) {
+                                    int endRow;
+
+                                    if (day == daysToProcess - 1 && remainingDays == daysToProcess) {
+                                        // Last day logic
+                                        endRow = startRow + remainingRows;
+                                        remainingRows = 0;
+                                    } else {
+                                        // Intermediate days logic
+                                        endRow = maxRowPerDay; // End at the last index of 23
+                                        remainingRows -= ((maxRowPerDay + 1) - startRow);
+                                    }
+                                    
+                                    List<Integer> rowRange = new ArrayList<>();
+
+                                    EventDayRange eventRange = new EventDayRange(startRow, endRow,
+                                        currentDayIndex, currentWeek, 1 ,nextYear, eventId, eventName, eventColor);
+
+                                     eventRange.setRowRange(endRow);
+                                    eventRangeList.add(eventRange);
+
+                                    startRow = 0; // Reset startRow for the next day
+                                }
+                                currentDayIndex++;
+                            }
+
+                            remainingDays -= daysToProcess;
+                            currentDayIndex = 1; // Reset to Sunday for the next week
+                            currentStartTimeIndex = 0; // Reset start time for subsequent weeks
+                        }
+                    }
                 }
-                }
-            }
             }
         }
 
+        // add list to main list of event ranges
+        for (EventDayRange currentRange : eventRangeList) {
+            eventWeekList.add(currentRange);
+        }    
+    }// End setListOfTableIndexEventIdFullRange
+    
+    
+    private void setListOfTableIndex(HTimetable event) {
+        int eventId = event.getTimetableId();
+        String eventName = event.getEventName();
+        String eventCategory = event.getEventCategory();
+        boolean hasNotification = event.isHasNotification();
+        String eventColorStr = event.getColor();
+        Color eventColor = convertStringToColor(eventColorStr);
+        LocalDate day = convertDateToLocalDate(event.getEventStart());
+        String dayStr = convertDateToDayOfWeek(event.getEventStart());
+        int dayOfMonth = event.getDay();
+
+        int dayIndex =  getColumnIndex(dayStr); 
+        int dayIndex1 = event.getDay();
+        int frequencyType = event.getFrequencyType();
+        int frequencyAmount = event.getFrequencyAmount();
+        int weekIndex = getWeekIndex(event.getEventStart());
+        int monthIndex = day.getMonthValue();
+        int year = day.getYear();
+        LocalDateTime startTime = convertDateToLocalDateTime(event.getEventStart());
+        LocalDateTime endTime = convertDateToLocalDateTime(event.getEventEnd());
+        int startTimeIndex = getHoursFromLocalTime(startTime);
+        int endTimeIndex = getHoursFromLocalTime(endTime);
+        Timeframe timeframe = getTimeframePerDay(startTime, endTime);
+        
+         int maxRowPerDay = 23;
+         int maxRowPerWeek = 168;
+         int maxDayPerWeek = 7;
+         int maxWeekForYear = getMaxWeekIndex(year);
+         int maxMonth = 12;
+         
+         List<EventDayRange> eventRangeList = new ArrayList<>();
+         EventDayRange eventRange = null;
+         
+         //Store the list of rows used from 23
+         List<Integer> rowRange = new ArrayList<>();  
+         for (Integer row = startTimeIndex; row <= endTimeIndex; row++  ){
+             rowRange.add(row);
+         }
+         
+//        String startDay = convertDateToDayOfWeek(event.getEventStart());
+//        String endDay = convertDateToDayOfWeek(event.getEventEnd());
+//        int startDayIndex = getColumnIndex(startDay);
+//        int endDayIndex = getColumnIndex(endDay);
+//        String startTimeString = getTimeframeString(startTimeIndex);
+//        String endTimeString = getTimeframeString(endTimeIndex);
+        
+        switch(frequencyType) {
+            case 0 : 
+                // Add Event once 
+                
+                eventRange = new EventDayRange(startTimeIndex, endTimeIndex,
+                                    dayIndex, weekIndex, monthIndex, year, eventId, eventName, eventColor);
+                
+                for(Integer cell :  rowRange){
+                    eventRange.setRowRange(cell);
+                }
+                
+                eventRangeList.add(eventRange);
+                                    
+                break;
+            case 1 :
+                // Add Event Daily 
+                int maxRepeats = 3; // 0 repeat once, 1 repeat everyday, 2 repeats every other day etc 
+       
+                //Prevents a infinite loop
+                if(frequencyAmount == 0) {
+                    frequencyAmount = 1;
+                }
+                
+                //Monthly
+                for (int month = monthIndex; month <= maxMonth; month++ ){
+                    //Weekly
+                    for (int week = weekIndex; week <= maxWeekForYear; week++ ) {
+                         //Daily 
+                         for(int currentDay = dayIndex; currentDay <= maxDayPerWeek; currentDay += frequencyAmount ){
+                                eventRange = new EventDayRange(startTimeIndex, endTimeIndex,
+                                    currentDay, week, month, year, eventId, eventName, eventColor);
+                                
+                                for(Integer cell :  rowRange){
+                                    eventRange.setRowRange(cell);
+                                }
+                                
+                                eventRangeList.add(eventRange);
+                         }
+                    }
+                }
+                break;
+            case 2 :
+                // Add Event Weekly 
+                
+                //Prevents a infinite loop
+                if(frequencyAmount == 0) {
+                    frequencyAmount = 1;
+                }
+                
+                //Monthly
+                for (int month = monthIndex; month <= maxMonth; month++ ){
+                    //Weekly
+                    for (int week = weekIndex; week <= maxWeekForYear; week += frequencyAmount ) {
+               
+                        eventRange = new EventDayRange(startTimeIndex, endTimeIndex,
+                            dayIndex, week, month, year, eventId, eventName, eventColor);
+                                
+                        for(Integer cell :  rowRange){
+                            eventRange.setRowRange(cell);
+                        }
+                        
+                        eventRangeList.add(eventRange);
+                    }
+                }
+                
+                
+                break;
+            case 3 :
+                // Add Event Monthly 
+                
+                //Prevents a infinite loop
+                if(frequencyAmount == 0) {
+                    frequencyAmount = 1;
+                }
+                
+                for (int month = monthIndex; month <= maxMonth; month += frequencyAmount ){
+     
+                        eventRange = new EventDayRange(startTimeIndex, endTimeIndex,
+                            dayIndex, weekIndex, month, year, eventId, eventName, eventColor);
+                                
+                        for(Integer cell :  rowRange){
+                            eventRange.setRowRange(cell);
+                        }
+                        
+                        eventRangeList.add(eventRange);
+                }
+                break;
+            default: 
+              logger.CreateLog("error", "eventWeekList not populated due to invalid frequency entry. ", null);
+        }
+
+        
         // add list to main list of event ranges
         for (EventDayRange currentRange : eventRangeList) {
             eventWeekList.add(currentRange);
@@ -2022,8 +2370,20 @@ public class JTimetableMain extends javax.swing.JFrame {
        }
         
        resetTable(jTimetable); //Reset the table
-       changeCell(jTimetable, currentWeekList); // Apply renderer using a list of objects
+       //changeCell(jTimetable, currentWeekList); // Apply renderer using a list of objects
+       changeCellByRow(jTimetable, currentWeekList); // Apply renderer using a list of objects
     }
+    
+    
+    
+    // public enum frequencyType{
+    //     Once, //FrequencyType 0
+    //     Weekly, //FrequencyType 1
+    //     Monthly //FrequencyType 2
+    // }
+    
+    
+    
     
     private String convertDateToDayOfWeek(Date date){
         try {
