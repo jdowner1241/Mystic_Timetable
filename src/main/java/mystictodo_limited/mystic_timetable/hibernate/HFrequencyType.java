@@ -36,17 +36,17 @@ public class HFrequencyType {
  @Column(name = "FTName", nullable = false)
  private String fTName;   
  
- @OneToMany(mappedBy = "frequencytype", fetch = FetchType.EAGER)
-private List<HTimetable> timetableList = new ArrayList<>();
+//  @OneToMany(mappedBy = "frequencytype", fetch = FetchType.EAGER)
+// private List<HTimetable> timetableList = new ArrayList<>();
     
 //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
     
- 
-    public int getFTId() {
+     
+    public int getfTId() {
         return fTId;
     }
 
-    public void setFTId(int fTId) {
+    public void setfTId(int fTId) {
         this.fTId = fTId;
     }
 
@@ -58,9 +58,15 @@ private List<HTimetable> timetableList = new ArrayList<>();
         this.fTName = fTName;
     }
     
-    public List<HTimetable> getTimetableList() {
-        return timetableList;
-    }
+    // public List<HTimetable> getTimetableList() {
+    //     return timetableList;
+    // }
+
+    // public void setTimetableList(List<HTimetable> timetableList) {
+    //     this.timetableList = timetableList;
+    // }
+    
+
 
 //    public void setFolderPerUserList() {
 //        //This method is not required anymore
@@ -81,6 +87,8 @@ private List<HTimetable> timetableList = new ArrayList<>();
 //    }
  
 //Method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
+
+    
 
 
 }

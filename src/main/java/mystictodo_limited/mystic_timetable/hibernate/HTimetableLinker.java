@@ -35,7 +35,7 @@ public class HTimetableLinker {
  private int eventId;
  
  @ManyToOne
- @JoinColumn(name = "EventId", nullable = false)
+ @JoinColumn(name = "EventId", nullable = true)
  private HTimetable timetable;
  
  @Column(name = "UserAndFolderId", nullable = false, insertable = false, updatable = false)

@@ -15,6 +15,8 @@ import javax.swing.JTextField;
  */
 public class validCheck {
     
+    public validCheck() {}
+    
     //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
     
        

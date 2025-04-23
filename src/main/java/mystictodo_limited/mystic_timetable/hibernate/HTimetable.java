@@ -49,8 +49,8 @@ public class HTimetable {
  @Column(name = "Color", nullable = true)
  private String color;
  
- @Column(name = "FrequencyType", nullable = false, insertable = false, updatable = false)
- private int frequencyType;
+ @Column(name = "FrequencyType", nullable = false)
+ private int frequencyTypeId;
  
  @Column(name = "FrequencyAmount", nullable = false)
  private int frequencyAmount;
@@ -77,9 +77,9 @@ private List<HTimetableLinker> timetableLinkerList = new ArrayList<>();
  @JoinColumn(name = "Day", nullable = false)
  private HDayOfTheWeek dayoftheweek;
  
- @ManyToOne
- @JoinColumn(name = "FrequencyType", nullable = false)
- private HFrequencyType frequencytype;
+//  @ManyToOne
+//  @JoinColumn(name = "FrequencyType", nullable = true)
+//  private HFrequencyType frequencytype;
  
  
 //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
@@ -116,12 +116,12 @@ private List<HTimetableLinker> timetableLinkerList = new ArrayList<>();
         this.color = color;
     }
 
-    public int getFrequencyType() {
-        return frequencyType;
+    public int getFrequencyTypeId() {
+        return frequencyTypeId;
     }
 
-    public void setFrequencyType(int frequencyType) {
-        this.frequencyType = frequencyType;
+    public void setFrequencyTypeId(int frequencyType) {
+        this.frequencyTypeId = frequencyType;
     }
 
     public int getFrequencyAmount() {
@@ -164,24 +164,51 @@ private List<HTimetableLinker> timetableLinkerList = new ArrayList<>();
         this.eventEnd = eventEnd;
     }
     
-//    public List<HTimetableLinker> getTimetableLinkerList() {
-//        return timetableLinkerList;
-//    }
-//
-//    public void setTimetableLinkerList() {
-//        //Method not required 
-//        
-//        HTimetableLinkerDAOImpl timetableLinkerDAO = new HTimetableLinkerDAOImpl();
-//        List<HTimetableLinker> timetableLinkers = timetableLinkerDAO.findAll();
-//        
-//        for (HTimetableLinker timetableLinker : timetableLinkers){
-//            if(timetableLinker.getEventId() == this.timetableId){
-//                timetableLinkerList.add(timetableLinker);
-//            }
-//        }
-//    }
+    //     public List<HTimetableLinker> getTimetableLinkerList() {
+    //     return timetableLinkerList;
+    // }
+
+    // public void setTimetableLinkerList(List<HTimetableLinker> timetableLinkerList) {
+    //     this.timetableLinkerList = timetableLinkerList;
+    // }
+
+    public HDayOfTheWeek getDayoftheweek() {
+        return dayoftheweek;
+    }
+
+    public void setDayoftheweek(HDayOfTheWeek dayoftheweek) {
+        this.dayoftheweek = dayoftheweek;
+    }
+
+    // public HFrequencyType getFrequencytype() {
+    //     return frequencytype;
+    // }
+
+    // public void setFrequencytype(HFrequencyType frequencytype) {
+    //     this.frequencytype = frequencytype;
+    // }
+
+    
+    
+   public List<HTimetableLinker> getTimetableLinkerList() {
+       return timetableLinkerList;
+   }
+
+   public void setTimetableLinkerList() {
+       //Method not required 
+       
+       HTimetableLinkerDAOImpl timetableLinkerDAO = new HTimetableLinkerDAOImpl();
+       List<HTimetableLinker> timetableLinkers = timetableLinkerDAO.findAll();
+       
+       for (HTimetableLinker timetableLinker : timetableLinkers){
+           if(timetableLinker.getEventId() == this.timetableId){
+               timetableLinkerList.add(timetableLinker);
+           }
+       }
+   }
  
 //Method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
+
 
 
     
