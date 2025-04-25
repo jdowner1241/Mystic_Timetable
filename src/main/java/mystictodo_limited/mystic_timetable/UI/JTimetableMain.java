@@ -4,6 +4,8 @@
  */
 package mystictodo_limited.mystic_timetable.UI;
 
+import com.github.lgooddatepicker.components.TimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
 import jakarta.persistence.criteria.TemporalField;
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -17,6 +19,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -42,14 +45,17 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
@@ -82,25 +88,9 @@ public class JTimetableMain extends javax.swing.JFrame {
         getTimetable(1);
         populateTimetableData(1, 1);
         updateTimeTableForWeek(eventWeekList, activeWeekIndex);
-        //getTimetableList();
-        //setListOfTableIndexEventId(timetableInfo);
- 
 
-        
-        
-//        //testing
-//        LocalTime startTime = LocalTime.of(10, 45);
-//        LocalTime endTime = LocalTime.of(12, 30);
-//        Timeframe task = getTimeframe("Monday", "Wednesday", startTime, endTime);
-//        
-//        System.out.println("\n\nTimeframe :: \nHours  : " + task.hours + "\nMinutes : " 
-//                + task.minutes + "\nSeconds : " + task.seconds );
-//        
-//     
-//        HTimetable timetableData = getTimetableData();
-//        
-        
-        System.out.println("test");
+
+
     }
     
     public JTimetableMain(int userId, String userName){
@@ -178,10 +168,14 @@ public class JTimetableMain extends javax.swing.JFrame {
         editJCBRepeatEvent = new javax.swing.JComboBox<>();
         editJLRepeatAmount = new javax.swing.JLabel();
         editJCBRepeatAmount = new javax.swing.JComboBox<>();
-        editJLStartTime = new javax.swing.JLabel();
-        editJSStartTime = new javax.swing.JSpinner();
+        editJPaneEndTime = new javax.swing.JPanel();
         editJLEndTime = new javax.swing.JLabel();
         editJSEndTime = new javax.swing.JSpinner();
+        editJSEndTimeDBox = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        editJLStartTime = new javax.swing.JLabel();
+        editJSStartTime = new javax.swing.JSpinner();
+        editJSStartTimeDBox = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         editJBAddEvent = new javax.swing.JButton();
         editJBCancelEvent = new javax.swing.JButton();
@@ -524,7 +518,7 @@ public class JTimetableMain extends javax.swing.JFrame {
                         .addComponent(editJRBNotificationOn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(editJRBNotificationOff, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {editJRBNotificationOff, editJRBNotificationOn});
@@ -572,16 +566,18 @@ public class JTimetableMain extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(editTBColor, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(editTbSetColor))
-                    .addComponent(editTBColorStr)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(editJLColor, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editTBColorStr)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(editTBColor, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editTbSetColor, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -651,15 +647,6 @@ public class JTimetableMain extends javax.swing.JFrame {
         editJCBRepeatAmount.setMinimumSize(new java.awt.Dimension(75, 25));
         editJCBRepeatAmount.setPreferredSize(new java.awt.Dimension(160, 25));
 
-        editJLStartTime.setText("Start Time");
-        editJLStartTime.setMaximumSize(new java.awt.Dimension(170, 25));
-        editJLStartTime.setMinimumSize(new java.awt.Dimension(75, 25));
-        editJLStartTime.setPreferredSize(new java.awt.Dimension(160, 25));
-
-        editJSStartTime.setMaximumSize(new java.awt.Dimension(170, 25));
-        editJSStartTime.setMinimumSize(new java.awt.Dimension(75, 25));
-        editJSStartTime.setPreferredSize(new java.awt.Dimension(160, 25));
-
         editJLEndTime.setText("End Time");
         editJLEndTime.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLEndTime.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -669,6 +656,87 @@ public class JTimetableMain extends javax.swing.JFrame {
         editJSEndTime.setMinimumSize(new java.awt.Dimension(75, 25));
         editJSEndTime.setPreferredSize(new java.awt.Dimension(160, 25));
 
+        editJSEndTimeDBox.setBackground(new java.awt.Color(153, 186, 204));
+        editJSEndTimeDBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/Icons/down.png"))); // NOI18N
+        editJSEndTimeDBox.setAlignmentX(0.5F);
+        editJSEndTimeDBox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        editJSEndTimeDBox.setInheritsPopupMenu(true);
+        editJSEndTimeDBox.setMaximumSize(new java.awt.Dimension(40, 40));
+        editJSEndTimeDBox.setMinimumSize(new java.awt.Dimension(40, 40));
+        editJSEndTimeDBox.setPreferredSize(new java.awt.Dimension(40, 40));
+
+        javax.swing.GroupLayout editJPaneEndTimeLayout = new javax.swing.GroupLayout(editJPaneEndTime);
+        editJPaneEndTime.setLayout(editJPaneEndTimeLayout);
+        editJPaneEndTimeLayout.setHorizontalGroup(
+            editJPaneEndTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editJPaneEndTimeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(editJPaneEndTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(editJLEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(editJPaneEndTimeLayout.createSequentialGroup()
+                        .addComponent(editJSEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editJSEndTimeDBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        editJPaneEndTimeLayout.setVerticalGroup(
+            editJPaneEndTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editJPaneEndTimeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(editJLEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editJPaneEndTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(editJSEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editJSEndTimeDBox, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        editJLStartTime.setText("Start Time");
+        editJLStartTime.setMaximumSize(new java.awt.Dimension(170, 25));
+        editJLStartTime.setMinimumSize(new java.awt.Dimension(75, 25));
+        editJLStartTime.setPreferredSize(new java.awt.Dimension(160, 25));
+
+        editJSStartTime.setMaximumSize(new java.awt.Dimension(170, 25));
+        editJSStartTime.setMinimumSize(new java.awt.Dimension(75, 25));
+        editJSStartTime.setPreferredSize(new java.awt.Dimension(160, 25));
+
+        editJSStartTimeDBox.setBackground(new java.awt.Color(153, 186, 204));
+        editJSStartTimeDBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/Icons/down.png"))); // NOI18N
+        editJSStartTimeDBox.setAlignmentX(0.5F);
+        editJSStartTimeDBox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        editJSStartTimeDBox.setInheritsPopupMenu(true);
+        editJSStartTimeDBox.setMaximumSize(new java.awt.Dimension(40, 40));
+        editJSStartTimeDBox.setMinimumSize(new java.awt.Dimension(40, 40));
+        editJSStartTimeDBox.setPreferredSize(new java.awt.Dimension(40, 40));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(editJLStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(9, 9, 9))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(editJSStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editJSStartTimeDBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 13, Short.MAX_VALUE))))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(editJLStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(editJSStartTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editJSStartTimeDBox, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -676,23 +744,26 @@ public class JTimetableMain extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJLName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJTFName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJLCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJCBCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJLDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJCBDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJLRepeatEvent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJCBRepeatEvent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJLRepeatAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJCBRepeatAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJLStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJSStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJLEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editJSEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(editJLRepeatEvent, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                        .addComponent(editJLDay, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(editJCBDay, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(editJCBRepeatEvent, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+                        .addComponent(editJLRepeatAmount, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(editJPaneEndTime, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, Short.MAX_VALUE)
+                        .addComponent(editJCBRepeatAmount, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(editJLCategory, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                        .addComponent(editJCBCategory, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(editJLName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                        .addComponent(editJTFName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -718,14 +789,10 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editJCBRepeatAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(editJLStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(editJSStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(editJLEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(editJSEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(editJPaneEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1165,10 +1232,13 @@ public class JTimetableMain extends javax.swing.JFrame {
     private javax.swing.JLabel editJLRepeatAmount;
     private javax.swing.JLabel editJLRepeatEvent;
     private javax.swing.JLabel editJLStartTime;
+    private javax.swing.JPanel editJPaneEndTime;
     private javax.swing.JRadioButton editJRBNotificationOff;
     private javax.swing.JRadioButton editJRBNotificationOn;
     private javax.swing.JSpinner editJSEndTime;
+    private javax.swing.JButton editJSEndTimeDBox;
     private javax.swing.JSpinner editJSStartTime;
+    private javax.swing.JButton editJSStartTimeDBox;
     private javax.swing.JTextField editJTFName;
     private javax.swing.JTextField editTBColor;
     private javax.swing.JTextField editTBColorStr;
@@ -1205,6 +1275,7 @@ public class JTimetableMain extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPaneFolder;
     private javax.swing.JScrollPane jScrollPaneTimetable;
     private javax.swing.JTextField jTFCurrentWeekRange;
@@ -1358,43 +1429,102 @@ public class JTimetableMain extends javax.swing.JFrame {
         
     }
  
-    
-    private LocalDate getFirstDayOfWeek(int weekIndex, int year){
-        java.time.temporal.TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfYear();
-        LocalDate firstDayOfYear = LocalDate.of(year,1, 1);
-        LocalDate firstDayOfWeek = firstDayOfYear.with(weekOfYear, weekIndex).with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 1);
-    
-        return firstDayOfWeek;
-    }
-    
-    private LocalDate getLastDayOfWeek(int weekIndex, int year){
-        java.time.temporal.TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfYear();
-        LocalDate firstDayOfYear = LocalDate.of(year, 1, 1);
-        LocalDate lastDayOfWeek = firstDayOfYear.with(weekOfYear, weekIndex).with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 7);
-        
-        return lastDayOfWeek;
-    }
-    
+   
     private void initializeEditorComp() {
         
         // Update spinner
         //Start time
+        
+
+//        // Use LGoodDatePicker for time selection
+//        TimePickerSettings timePickerSettings = new TimePickerSettings();
+//        timePickerSettings.setFormatForDisplayTime("hh:mm a"); // Use 12-hour clock with AM/PM
+//        TimePicker startTimePicker1 = new TimePicker(timePickerSettings);
+//        startTimePicker1.setTime(LocalTime.now()); // Set the default time to the current time
+//        editJPaneStartTime.setLayout(new BorderLayout());
+//        //editJPaneStartTime.setPreferredSize(new Dimension(150, 30)); // Set preferred size for the panel
+//        editJPaneStartTime.add(startTimePicker1, BorderLayout.CENTER);
+//        startTimePicker1.setVisible(true);
+
+        //Starttime
         SpinnerDateModel startTimeSpinnerModel = new SpinnerDateModel();
         startTimeSpinnerModel.setCalendarField(Calendar.MINUTE); // Set the field to minutes 
         editJSStartTime.setModel(startTimeSpinnerModel);
-        JSpinner.DateEditor startTimeEditor = new JSpinner.DateEditor(editJSStartTime, "hh:mm:ss a");
+        JSpinner.DateEditor startTimeEditor = new JSpinner.DateEditor(editJSStartTime, "hh:mm a");
         editJSStartTime.setEditor(startTimeEditor);
         java.util.Date startTime = convertLocalDateTimeToDate(LocalDateTime.now());
         editJSStartTime.setValue(startTime);
+
+        // adjust icon size for button
+        editJSStartTimeDBox.setIcon(new javax.swing.ImageIcon(
+            new javax.swing.ImageIcon(getClass().getResource("/Assets/Icons/down.png"))
+            .getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH)));
+       
+        // Add a drop-down menu for time selection using the editJSStartTimeDBox button
+        editJSStartTimeDBox.addActionListener(e -> {
+            JPopupMenu timeMenu = new JPopupMenu();
+            String[] times = {
+            "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM",
+            "6:00 AM", "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM",
+            "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
+            "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
+            };
+
+            for (String time : times) {
+            JMenuItem menuItem = new JMenuItem(time);
+            menuItem.addActionListener(evt -> {
+                try {
+                java.util.Date selectedTime = new java.text.SimpleDateFormat("hh:mm a").parse(time);
+                editJSStartTime.setValue(selectedTime);
+                } catch (Exception ex) {
+                ex.printStackTrace();
+                }
+            });
+            timeMenu.add(menuItem);
+            }
+
+            timeMenu.show(editJSStartTimeDBox, editJSStartTimeDBox.getWidth() / 2, editJSStartTimeDBox.getHeight());
+        });
 
         //Endtime
         SpinnerDateModel endTimeSpinnerModel = new SpinnerDateModel();
         endTimeSpinnerModel.setCalendarField(Calendar.MINUTE); // Set the field to minutes 
         editJSEndTime.setModel(endTimeSpinnerModel);
-        JSpinner.DateEditor endTimeEditor = new JSpinner.DateEditor(editJSEndTime, "hh:mm:ss a");
+        JSpinner.DateEditor endTimeEditor = new JSpinner.DateEditor(editJSEndTime, "hh:mm a");
         editJSEndTime.setEditor(endTimeEditor);
         java.util.Date endTime = convertLocalDateTimeToDate(LocalDateTime.now());
         editJSEndTime.setValue(endTime);
+
+        // adjust icon size for button
+        editJSEndTimeDBox.setIcon(new javax.swing.ImageIcon(
+            new javax.swing.ImageIcon(getClass().getResource("/Assets/Icons/down.png"))
+            .getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH)));
+
+        // Add a drop-down menu for time selection using the editJSEndTimeDBox1 button
+        editJSEndTimeDBox.addActionListener(e -> {
+            JPopupMenu timeMenu = new JPopupMenu();
+            String[] times = {
+            "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM",
+            "6:00 AM", "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM",
+            "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
+            "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
+            };
+
+            for (String time : times) {
+            JMenuItem menuItem = new JMenuItem(time);
+            menuItem.addActionListener(evt -> {
+                try {
+                java.util.Date selectedTime = new java.text.SimpleDateFormat("hh:mm a").parse(time);
+                editJSEndTime.setValue(selectedTime);
+                } catch (Exception ex) {
+                ex.printStackTrace();
+                }
+            });
+            timeMenu.add(menuItem);
+            }
+
+            timeMenu.show(editJSEndTimeDBox, editJSEndTimeDBox.getWidth() / 2, editJSEndTimeDBox.getHeight());
+        });
 
         //RepeatEventAmount
         editJCBRepeatAmount.setEnabled(false);
@@ -1402,6 +1532,9 @@ public class JTimetableMain extends javax.swing.JFrame {
         // Add event Listeners
         setupRepeatEventListener();
         setupColorPickerListener();
+
+        //Add event to the table
+        addEventToTable();
     }
     
     private void addNewEvent() {
@@ -1642,17 +1775,18 @@ public class JTimetableMain extends javax.swing.JFrame {
     }
 
     // create a method to get the location of a any component releative to the screen
-    private Point getLocationRelativeToScreen(Component component) {
+    public Point getLocationRelativeToScreen(Component component) {
         Point location = component.getLocationOnScreen();
         return location;
     }
 
 
-    private void reloadTimetableData(){
+    public void reloadTimetableData(){
 
         populateTimetableData(activeUserAndFolderId, activeWeekIndex);
         if (!eventWeekList.isEmpty()){
             updateTimeTableForWeek(eventWeekList, activeWeekIndex);
+            addEventToTable();
         }else{
             logger.CreateLog("error", "eventWeekList is empty", null);
         }
@@ -1747,6 +1881,59 @@ public class JTimetableMain extends javax.swing.JFrame {
         editJRBNotificationOff.setSelected(true);
     
     }
+
+    private void addEventToTable() {
+
+        if (jTimetable != null) {
+
+            // check if event is already added then remove it before adding it again
+            jTimetable.removeMouseListener(jTimetable.getMouseListeners()[0]); // Remove existing mouse listener
+            
+            // add mouse listener to launch base on cell selection
+            jTimetable.addMouseListener(new java.awt.event.MouseAdapter() {
+            private volatile boolean isEditorOpen = false; // Flag to track if the editor is already open
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (isEditorOpen) {
+                    return; // Prevent opening multiple editors
+                }
+
+                int row = jTimetable.rowAtPoint(e.getPoint());
+                int column = jTimetable.columnAtPoint(e.getPoint());
+
+                if (row >= 0 && column >= 0) { // Ensure valid cell
+                    Object cellValue = jTimetable.getValueAt(row, column);
+
+                    // Check if the cell contains an event ID (integer)
+                    if (cellValue instanceof Integer) {
+                        int eventId = (Integer) cellValue;
+
+                        SwingUtilities.invokeLater(() -> {
+                            // Open the event editor with the specific event ID
+                            JEventEditor eventEditor = new JEventEditor(eventId, activeUserAndFolderId, JTimetableMain.this);
+                            eventEditor.setLocationRelativeTo(jTimetable);
+                            eventEditor.setVisible(true);
+
+                            // Add a listener to reset the flag when the editor is closed
+                            eventEditor.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosed(java.awt.event.WindowEvent e) {
+                                    isEditorOpen = false;
+                                }
+                            });
+
+                            isEditorOpen = true; // Set the flag to true
+                        });
+                    }
+                }
+            }
+        });
+        } else {
+            logger.CreateLog("error", "jTimetable is null", null);
+
+        }  
+    }
     
      
     //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
@@ -1774,15 +1961,6 @@ public class JTimetableMain extends javax.swing.JFrame {
     public void setActiveUserId(int activeUserId) {
         this.activeUserId = activeUserId;
     }
-
-//    public int getActiveTimetableLinkerId() {
-//        return activeTimetableLinkerId;
-//    }
-//
-//    public void setActiveTimetableLinkerId(int activeTimetableLinkerId) {
-//        this.activeTimetableLinkerId = activeTimetableLinkerId;
-//    }
-    
     
     
     
@@ -2236,100 +2414,6 @@ public class JTimetableMain extends javax.swing.JFrame {
         }
     }// Method : changeCellColorByString
     
-    //change cell color 
-//    private void changeCell(JTable table, List<EventDayRange> eventRangeList){
-//        for (EventDayRange range : eventRangeList) {
-//            int startDayIndex = range.getDayIndex();
-//            int startTimeIndex = range.getStartRow();
-//            int endTimeIndex = range.getEndRow();
-//            Color newColor = range.getColor();
-//            Color textColor = getContrastingColor(newColor);
-//            
-//            //for (int row = startTimeIndex; row <= endTimeIndex; row++){
-//                
-//                DefaultTableCellRenderer intialRenderer = new DefaultTableCellRenderer(){
-//                @Override
-//                    public Component getTableCellRendererComponent(JTable table,
-//                    Object value, boolean isSelected, boolean hasFocus, int row, 
-//                    int column) { 
-//            
-//                        return super.getTableCellRendererComponent(table, value, isSelected,
-//                        hasFocus, row, column);
-//                    }
-//                };
-//                
-//                
-//                DefaultTableCellRenderer renderer = new DefaultTableCellRenderer(){
-//                    @Override
-//                    public Component getTableCellRendererComponent(JTable table,
-//                    Object value, boolean isSelected, boolean hasFocus, int row, 
-//                    int column) { 
-//                        
-//                    Component initialC = initialRenderer.getTableCellRendererComponent(table,
-//                       value, isSelected, hasFocus, row, column);
-//                        
-//                        if (row >= startTimeIndex && row <= endTimeIndex &&
-//                        column == startDayIndex){
-//                            
-//                            Component c = super.getTableCellRendererComponent(table,
-//                            value, isSelected, hasFocus, row, column);
-//             
-//                            c.setBackground(newColor != null ? newColor : newColor.GREEN);
-//  
-//                            ((JLabel) c).setText(""); // Clear the text in the cell
-//                            
-//                            //add borders based on the cell position in range
-//                            if (row == startTimeIndex){
-//                                //Top, left, right
-//                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK)); 
-//                                ((JLabel) c).setText(range.eventName);
-//                                c.setForeground(textColor);
-//                                
-//                            } else if (row == endTimeIndex){
-//                                //Bottom, left, right
-//                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
-//                            } else {
-//                                //Left, right
-//                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
-//                            }
-//                            
-//                            return c;
-//                        }else {
-//                            return initialC;
-//                        }
-//                    }
-//                }; 
-//                for (int row = startTimeIndex; row <= endTimeIndex; row++) {
-//                    table.getColumnModel().getColumn(startDayIndex).setCellRenderer(new DefaultTableCellRenderer() {
-//                        @Override
-//                        public Component getTableCellRendererComponent(JTable table,
-//                                Object value, boolean isSelected, boolean hasFocus, int rowIndex,
-//                                int columnIndex) {
-//                            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, columnIndex);
-//                            if (rowIndex == row && columnIndex == startDayIndex) {
-//                                c.setBackground(newColor != null ? newColor : Color.GREEN);
-//                                ((JLabel) c).setText(range.eventName);
-//                                c.setForeground(textColor);
-//                                if (rowIndex == startTimeIndex) {
-//                                    ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
-//                                } else if (rowIndex == endTimeIndex) {
-//                                    ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
-//                                } else {
-//                                    ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
-//                                }
-//                            }
-//                            return c;
-//                        }
-//                    });
-//                }
-//                
-//                //for (int row1 = startTimeIndex; row1 <= endTimeIndex; row1++){
-//                //    table.getColumnModel().getColumn(startDayIndex).setCellRenderer(renderer);
-//                //}
-//            }
-//            table.repaint();
-//        //}    
-//    }//End changeCellColor
     
     private void resetTable(JTable table){
         // iterate trhough all colouns and reset there cell renderers to default
@@ -2400,6 +2484,9 @@ public class JTimetableMain extends javax.swing.JFrame {
                                 ((JLabel) c).setBackground(range.getColor());
                                 ((JLabel) c).setForeground(getContrastingColor(range.getColor()));
                                 //c.setForeground(getContrastingColor(range.getColor()));
+                                
+                                // Add event id directly to that cell
+                                table.setValueAt(range.getEventId(), row, column);
 
                             } else if (row == range.getEndRow()) {
                                 ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
@@ -2446,6 +2533,8 @@ public class JTimetableMain extends javax.swing.JFrame {
 
         // Repaint the table to apply the changes
         table.repaint();
+
+        
     }// End changeCellColor
     
     
@@ -2885,16 +2974,8 @@ public class JTimetableMain extends javax.swing.JFrame {
     
     
     
-    // public enum frequencyType{
-    //     Once, //FrequencyType 0
-    //     Weekly, //FrequencyType 1
-    //     Monthly //FrequencyType 2
-    // }
     
-    
-    
-    
-    private String convertDateToDayOfWeek(Date date){
+    public String convertDateToDayOfWeek(Date date){
         try {
             //Convert Date to LocalDate
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -2908,14 +2989,14 @@ public class JTimetableMain extends javax.swing.JFrame {
         }
     }
     
-    private LocalDateTime convertDateToLocalDateTime(Date date){
+    public LocalDateTime convertDateToLocalDateTime(Date date){
        // Convert Date to LocalDateTime 
        LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
        
        return localDateTime;
     }
     
-    private LocalDate convertLocalDateToLocalDate(Date date){
+    public LocalDate convertLocalDateToLocalDate(Date date){
        // Convert Date to LocalDate
        LocalDateTime dateTime = convertDateToLocalDateTime(date);
        LocalDate localDate = dateTime.toLocalDate();
@@ -2923,19 +3004,19 @@ public class JTimetableMain extends javax.swing.JFrame {
        return localDate;
     }
 
-    private Date convertLocalDateToDate(LocalDate date){
+    public Date convertLocalDateToDate(LocalDate date){
         //Convert LocalDate to Date
         ZonedDateTime zonedDateTime = date.atStartOfDay(ZoneId.systemDefault());
         return Date.from(zonedDateTime.toInstant());
     }
     
-    private Date convertLocalDateTimeToDate(LocalDateTime dateTime){
+    public Date convertLocalDateTimeToDate(LocalDateTime dateTime){
         //Convert LocalDateTime to Date
         ZonedDateTime zonedDateTime = dateTime.atZone(ZoneId.systemDefault());
         return Date.from(zonedDateTime.toInstant());
     }
 
-    private LocalTime convertDateToLocalTime(Date date){
+    public LocalTime convertDateToLocalTime(Date date){
         //Covert Date to LocalDateTime
         LocalDateTime dateTime = convertDateToLocalDateTime(date);
     
@@ -2945,17 +3026,17 @@ public class JTimetableMain extends javax.swing.JFrame {
         return localTime;
     }
 
-    private int convertLocalTimeToHoursValue(LocalTime time){
+    public int convertLocalTimeToHoursValue(LocalTime time){
         //get  the hour from localTime
         return time.getHour();
     }
     
-    private int convertLocalDateTimeToHoursValue(LocalDateTime time){
+    public int convertLocalDateTimeToHoursValue(LocalDateTime time){
         //get  the hour from localTime
         return time.getHour();
     }
     
-    private int getWeekIndex(Date date) {
+    public int getWeekIndex(Date date) {
         //Convert Date to localDate
         LocalDate localDate = convertLocalDateToLocalDate(date);
 
@@ -2964,7 +3045,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         return localDate.get(weekFields.weekOfWeekBasedYear());
     }
     
-    private int getWeekIndex(LocalDate date) {
+    public int getWeekIndex(LocalDate date) {
         //Convert LocalDate to week index number
         java.time.temporal.TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfYear();
         int weekIndex = date.get(weekOfYear);
@@ -2972,7 +3053,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         return weekIndex;
     }
     
-    private int getYear(Date date) {
+    public int getYear(Date date) {
         // Convert Date to local Date
         LocalDate localDate = convertLocalDateToLocalDate(date);
        
@@ -2980,7 +3061,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         return localDate.getYear();
     }
     
-    private int getMaxWeekIndex(int year){
+    public int getMaxWeekIndex(int year){
         // Get the last date of the year
         LocalDate lastDayOfYear = LocalDate.of(year, 12, 31);
         
@@ -3027,6 +3108,22 @@ public class JTimetableMain extends javax.swing.JFrame {
         }
     }
     
-
+     
+    public LocalDate getFirstDayOfWeek(int weekIndex, int year){
+        java.time.temporal.TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfYear();
+        LocalDate firstDayOfYear = LocalDate.of(year,1, 1);
+        LocalDate firstDayOfWeek = firstDayOfYear.with(weekOfYear, weekIndex).with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 1);
+    
+        return firstDayOfWeek;
+    }
+    
+    public LocalDate getLastDayOfWeek(int weekIndex, int year){
+        java.time.temporal.TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfYear();
+        LocalDate firstDayOfYear = LocalDate.of(year, 1, 1);
+        LocalDate lastDayOfWeek = firstDayOfYear.with(weekOfYear, weekIndex).with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 7);
+        
+        return lastDayOfWeek;
+    }
+    
     
 }//End Class
