@@ -8,6 +8,7 @@ package mystictodo_limited.mystic_timetable.UI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -45,10 +46,8 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         logger.CreateLog("info", "Default Constructor Triggered.", null); //user logger method from DbConnectionManager to create logs.
         
         initComponents(); //default method from jTimetableLoginPage
-        jPanelUserUISwitch(1); // Show list of users 
-        jPanelUserControlsSwitch(1, "home"); // Add home usercontrols to frame
-
-        
+        initalSetting();
+     
     }
 
     /**
@@ -60,6 +59,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jModeHeader = new javax.swing.JLabel();
         jPanelUserUI = new javax.swing.JPanel();
         jHome = new javax.swing.JPanel();
@@ -86,7 +86,14 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jAppTitle1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Mystic Timetable");
+        setBackground(new java.awt.Color(51, 153, 255));
+        setMaximumSize(new java.awt.Dimension(5000, 4000));
+        setName("MysticTimetableStarter"); // NOI18N
 
+        jPanel1.setBackground(new java.awt.Color(51, 153, 255));
+
+        jModeHeader.setBackground(new java.awt.Color(154, 189, 213));
         jModeHeader.setFont(new java.awt.Font("Vampire Wars", 1, 24)); // NOI18N
         jModeHeader.setForeground(new java.awt.Color(0, 0, 0));
         jModeHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -97,14 +104,16 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jModeHeader.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jModeHeader.setMaximumSize(new java.awt.Dimension(500, 50));
         jModeHeader.setMinimumSize(new java.awt.Dimension(300, 40));
+        jModeHeader.setOpaque(true);
         jModeHeader.setPreferredSize(new java.awt.Dimension(503, 40));
 
+        jPanelUserUI.setBackground(new java.awt.Color(154, 189, 213));
         jPanelUserUI.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 1, 2, 1, new java.awt.Color(0, 0, 0)));
         jPanelUserUI.setAutoscrolls(true);
         jPanelUserUI.setMaximumSize(new java.awt.Dimension(500, 1000));
-        jPanelUserUI.setOpaque(false);
         jPanelUserUI.setPreferredSize(new java.awt.Dimension(300, 300));
 
+        jHome.setBackground(new java.awt.Color(204, 255, 255));
         jHome.setAutoscrolls(true);
         jHome.setEnabled(false);
         jHome.setMaximumSize(new java.awt.Dimension(500, 1000));
@@ -121,21 +130,25 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             .addGap(0, 284, Short.MAX_VALUE)
         );
 
+        jAddUser.setBackground(new java.awt.Color(154, 189, 213));
         jAddUser.setEnabled(false);
         jAddUser.setMaximumSize(new java.awt.Dimension(500, 1000));
         jAddUser.setPreferredSize(new java.awt.Dimension(300, 300));
 
-        jLabelUserName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelUserName.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jLabelUserName.setForeground(new java.awt.Color(0, 0, 0));
         jLabelUserName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelUserName.setLabelFor(jTFUserNameAddUser);
         jLabelUserName.setText("User Name");
 
-        jLabelEmail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelEmail.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jLabelEmail.setForeground(new java.awt.Color(0, 0, 0));
         jLabelEmail.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelEmail.setLabelFor(jTFEmailAddUser);
         jLabelEmail.setText("Email");
 
-        jLabelPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelPassword.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jLabelPassword.setForeground(new java.awt.Color(0, 0, 0));
         jLabelPassword.setLabelFor(jPFPasswordAddUser);
         jLabelPassword.setText("Password");
 
@@ -258,16 +271,21 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                     .addComponent(jPFPasswordAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26)
                 .addComponent(jBClearAllAddUser)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
+        jLogin.setBackground(new java.awt.Color(154, 189, 213));
         jLogin.setEnabled(false);
         jLogin.setMaximumSize(new java.awt.Dimension(500, 1000));
         jLogin.setPreferredSize(new java.awt.Dimension(300, 300));
 
+        jLabelEmailLogin.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jLabelEmailLogin.setForeground(new java.awt.Color(0, 0, 0));
         jLabelEmailLogin.setLabelFor(jTFEmailLogin);
         jLabelEmailLogin.setText(" Email");
 
+        jLabelPasswordLogin.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jLabelPasswordLogin.setForeground(new java.awt.Color(0, 0, 0));
         jLabelPasswordLogin.setLabelFor(jPFPasswordLogin);
         jLabelPasswordLogin.setText("Password");
 
@@ -297,7 +315,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jLoginLayout.setHorizontalGroup(
             jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLoginLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(36, Short.MAX_VALUE)
                 .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelEmailLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -309,7 +327,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jTGBShowPasswordLogin))
                         .addComponent(jTFEmailLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 40, Short.MAX_VALUE))
         );
         jLoginLayout.setVerticalGroup(
             jLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,7 +344,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                     .addComponent(jTGBShowPasswordLogin))
                 .addGap(42, 42, 42)
                 .addComponent(jBClearAllLogin)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelUserUILayout = new javax.swing.GroupLayout(jPanelUserUI);
@@ -373,6 +391,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jHome.getAccessibleContext().setAccessibleName("");
         jAddUser.getAccessibleContext().setAccessibleName("");
 
+        jPanelUserControls.setBackground(new java.awt.Color(51, 153, 255));
         jPanelUserControls.setMaximumSize(new java.awt.Dimension(100, 1000));
 
         javax.swing.GroupLayout jPanelUserControlsLayout = new javax.swing.GroupLayout(jPanelUserControls);
@@ -396,43 +415,54 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         jAppTitle1.setMinimumSize(new java.awt.Dimension(503, 40));
         jAppTitle1.setPreferredSize(new java.awt.Dimension(503, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(419, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(300, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanelUserControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelUserUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jModeHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)))
-                .addContainerGap(420, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(11, 11, 11)
-                    .addComponent(jAppTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
-                    .addGap(16, 16, 16)))
+                    .addComponent(jPanelUserUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(300, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jAppTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jModeHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(322, 322, 322))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(144, 144, 144)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jAppTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addComponent(jModeHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelUserUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelUserControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(61, 61, 61)
-                    .addComponent(jAppTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(527, Short.MAX_VALUE)))
+                .addContainerGap(117, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTGBShowPasswordLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTGBShowPasswordLoginActionPerformed
@@ -535,6 +565,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     private javax.swing.JLabel jModeHeader;
     private javax.swing.JPasswordField jPFPasswordAddUser;
     private javax.swing.JPasswordField jPFPasswordLogin;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelUserControls;
     private javax.swing.JPanel jPanelUserUI;
     private javax.swing.JTextField jTFEmailAddUser;
@@ -550,7 +581,16 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
     private int passwordAttempts;
     
     //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
-
+    
+    private void initalSetting() {
+       
+        jPanelUserUISwitch(1); // Show list of users 
+        jPanelUserControlsSwitch(1, "home"); // Add home usercontrols to frame
+        
+    }
+    
+    
+    
     //Switch jPanelUserUI
     private void jPanelUserUISwitch(int mode){
         
@@ -608,6 +648,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                    
                     //Add new panel to seperate buttons base on Column sizes, specific to a row
                     JPanel row = new JPanel();
+                    row.setBackground(new Color(204, 255, 255, 255)); //set row color
                     row.setLayout(new GridBagLayout()); // Set the layout for the jHome
                     GridBagConstraints gbc = new GridBagConstraints(); //Set constraints for layout
                 
@@ -709,6 +750,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         // Create Add New Mode button
         JButton buttonNewUser = new JButton("Add New User"); 
         buttonNewUser.setBounds(10, 20, 40, 20);
+        buttonNewUser.setBackground(new Color(0,153,51,255));
+        buttonNewUser.setForeground(Color.white);
+        buttonNewUser.setFont(new Font("Vampire Wars", Font.PLAIN, 12));
         buttonNewUser.addActionListener((ActionEvent e) -> {
             jPanelUserUISwitch(2);//Switch to UserList to addUser mode 
             jPanelUserControlsSwitch(1, "addUser"); //switch UserControls to addUser mode
@@ -717,6 +761,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         // Create Cancel button
         JButton buttonCancel = new JButton("Cancel"); 
         buttonCancel.setBounds(10, 20, 40, 20);
+        buttonCancel.setBackground(Color.RED);
+        buttonCancel.setForeground(Color.white);
+        buttonCancel.setFont(new Font("Vampire Wars", Font.PLAIN, 12));
         buttonCancel.addActionListener((ActionEvent e) -> {
             jPanelUserUISwitch(1);//Switch to UserList to home mode 
             jPanelUserControlsSwitch(1, "home"); //switch UserControls to home mode
@@ -725,6 +772,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         // Create Login button
         JButton buttonLogin = new JButton("Login"); 
         buttonLogin.setBounds(10, 20, 40, 20);
+        buttonLogin.setBackground(Color.blue);
+        buttonLogin.setForeground(Color.white);
+        buttonLogin.setFont(new Font("Vampire Wars", Font.PLAIN, 12));
         buttonLogin.addActionListener((ActionEvent e) -> {
             //Switch to timetable ui base on a userId
             if (userId != 1){
@@ -735,6 +785,9 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
         // Create addUser button
         JButton buttonaddUser = new JButton("Add"); 
         buttonaddUser.setBounds(10, 20, 40, 20);
+        buttonaddUser.setBackground(new Color(0,153,51,255));
+        buttonaddUser.setForeground(Color.white);
+        buttonaddUser.setFont(new Font("Vampire Wars", Font.PLAIN, 12));
         buttonaddUser.addActionListener((ActionEvent e) -> {
             //add new user to database 
             addNewUser();
@@ -802,56 +855,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
             jLabelErrorPasswordAddUser.setVisible(true);
             errorMessage += "\nPassword : Password Invalid or Empty!";
         }
-        
-        
-//        if(jTFUserNameAddUser == null || jTFUserNameAddUser.getText().isBlank()){
-//            valid = false;
-//            
-//            jTFUserNameAddUser.grabFocus();
-//            jLabelErrorUserNameAddUser.setVisible(true);
-//            errorMessage += "UserName : User Name Invalid or Empty!";
-//        }
-  
-//        if(jTFEmailAddUser == null || jTFEmailAddUser.getText().isBlank()){
-//            valid = false;
-//            
-//            jTFEmailAddUser.grabFocus();
-//            jLabelErrorEmailAddUser.setVisible(true);
-//            errorMessage += "\nEmail : Email Invalid format or Empty!";
-//        }else{
-//            String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-//            Pattern pattern = Pattern.compile(emailRegex);
-//            Matcher matcher = pattern.matcher(jTFEmailAddUser.getText());
-//            if(!matcher.matches()){
-//                valid = false;
-//                
-//                jTFEmailAddUser.grabFocus();
-//                jLabelErrorEmailAddUser.setVisible(true);
-//                errorMessage += "\nEmail : Email format Invalid!";
-//            }
-//        }
-        
-//        if(jPFPasswordAddUser == null){
-//           valid = false;
-//           
-//           jPFPasswordAddUser.grabFocus();
-//           jLabelErrorPasswordAddUser.setVisible(true);
-//           errorMessage += "\nPassword : Password null!";
-//        }else{
-//            char[] passwordChar = jPFPasswordAddUser.getPassword();
-//            String password = new String(passwordChar);
-//            
-//            if(password.isBlank()){
-//                valid = false;
-//                
-//                jPFPasswordAddUser.grabFocus();
-//                jLabelErrorPasswordAddUser.setVisible(true);
-//                errorMessage += "\nPassword : Password Invalid or Empty!";
-//            } 
-//        }
-        
-            
-           
+              
         //if all condition or valid, save the user other a error prompt is offered
         if(valid){
             DbUsers user = new DbUsers();
@@ -960,7 +964,8 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
 
         return confirmedLogin;
     }// End loginVerification
-    
+
+
 
     
 }// End Class

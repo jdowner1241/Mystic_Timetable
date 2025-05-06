@@ -78,16 +78,16 @@ public class JTimetableMain extends javax.swing.JFrame {
         
         initComponents();//default method from JTimetableMain
         
-        ChooseInitailValue(1, "Guest");
+        //ChooseInitailValue(1, "Guest");
         
         
-        UpdateFolderList();
-        initialCreateTable();
+        // UpdateFolderList();
+        // initialCreateTable();
         
-        ChooseFolder(1, 1);
-        getTimetable(1);
-        populateTimetableData(1, 1);
-        updateTimeTableForWeek(eventWeekList, activeWeekIndex);
+        // ChooseFolder(1, 1);
+        // getTimetable(1);
+        // populateTimetableData(activeUserAndFolderId, activeWeekIndex);
+        // updateTimeTableForWeek(eventWeekList, activeWeekIndex);
 
 
 
@@ -96,10 +96,7 @@ public class JTimetableMain extends javax.swing.JFrame {
     public JTimetableMain(int userId, String userName){
         this();
         ChooseInitailValue(userId, userName);
-        
-        //UpdateFolderList();
-        //populateTableData();
-
+       
     }
 
     /**
@@ -354,8 +351,17 @@ public class JTimetableMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLayeredPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.lightGray, java.awt.Color.darkGray, java.awt.Color.gray));
+        jPanel3.setBackground(new java.awt.Color(51, 153, 255));
 
+        jLayeredPane1.setBackground(new java.awt.Color(51, 153, 255));
+        jLayeredPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.lightGray, java.awt.Color.darkGray, java.awt.Color.gray));
+        jLayeredPane1.setOpaque(true);
+
+        jPanel4.setBackground(new java.awt.Color(51, 153, 255));
+
+        jBackToMain.setBackground(new java.awt.Color(255, 153, 0));
+        jBackToMain.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jBackToMain.setForeground(new java.awt.Color(0, 0, 0));
         jBackToMain.setText("< Back");
         jBackToMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -363,8 +369,11 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
+        jUserName.setBackground(new java.awt.Color(204, 255, 255));
         jUserName.setFont(new java.awt.Font("Vampire Wars", 1, 24)); // NOI18N
+        jUserName.setForeground(new java.awt.Color(0, 0, 0));
         jUserName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jUserName.setOpaque(true);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -408,12 +417,20 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addGap(1, 1, 1))
         );
 
+        MainLeft.setBackground(new java.awt.Color(154, 189, 213));
         MainLeft.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), null));
+        MainLeft.setOpaque(true);
         MainLeft.setPreferredSize(new java.awt.Dimension(195, 850));
 
         jLabel1.setFont(new java.awt.Font("Vampire Wars", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Folders");
 
+        FolderControls.setBackground(new java.awt.Color(154, 189, 213));
+
+        jBFolderRemove.setBackground(new java.awt.Color(255, 102, 102));
+        jBFolderRemove.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jBFolderRemove.setForeground(new java.awt.Color(204, 204, 204));
         jBFolderRemove.setText("Remove");
         jBFolderRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -421,6 +438,9 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
+        jBFolderAdd.setBackground(new java.awt.Color(0, 153, 51));
+        jBFolderAdd.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jBFolderAdd.setForeground(new java.awt.Color(204, 204, 204));
         jBFolderAdd.setText("Add");
         jBFolderAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -449,6 +469,7 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jScrollPaneFolder.setBackground(new java.awt.Color(204, 255, 255));
         jScrollPaneFolder.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.gray));
 
         MainLeft.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -462,14 +483,14 @@ public class JTimetableMain extends javax.swing.JFrame {
             .addGroup(MainLeftLayout.createSequentialGroup()
                 .addGroup(MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(MainLeftLayout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(MainLeftLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(FolderControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPaneFolder))))
-                .addContainerGap(11, Short.MAX_VALUE))
+                            .addComponent(jScrollPaneFolder)))
+                    .addGroup(MainLeftLayout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         MainLeftLayout.setVerticalGroup(
             MainLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -483,24 +504,34 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addGap(15, 15, 15))
         );
 
+        MainRight.setBackground(new java.awt.Color(154, 189, 213));
         MainRight.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), null));
         MainRight.setMaximumSize(new java.awt.Dimension(220, 220));
+        MainRight.setOpaque(true);
         MainRight.setPreferredSize(new java.awt.Dimension(195, 850));
 
         jLabel2.setFont(new java.awt.Font("Vampire Wars", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Event Info");
 
+        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.gray));
         jPanel1.setAutoscrolls(true);
         jPanel1.setMaximumSize(new java.awt.Dimension(200, 2000));
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 779));
 
+        jPanel5.setBackground(new java.awt.Color(204, 255, 255));
+
         NotificationRadio.add(editJRBNotificationOn);
+        editJRBNotificationOn.setForeground(new java.awt.Color(0, 0, 0));
         editJRBNotificationOn.setText("Yes");
 
         NotificationRadio.add(editJRBNotificationOff);
+        editJRBNotificationOff.setForeground(new java.awt.Color(0, 0, 0));
         editJRBNotificationOff.setText("No");
 
+        editJLNotification.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLNotification.setForeground(new java.awt.Color(0, 0, 0));
         editJLNotification.setText("Enable Notification");
         editJLNotification.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLNotification.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -537,6 +568,10 @@ public class JTimetableMain extends javax.swing.JFrame {
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {editJRBNotificationOff, editJRBNotificationOn});
 
+        jPanel6.setBackground(new java.awt.Color(204, 255, 255));
+
+        editJLColor.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLColor.setForeground(new java.awt.Color(0, 0, 0));
         editJLColor.setText("Color");
         editJLColor.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLColor.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -547,6 +582,9 @@ public class JTimetableMain extends javax.swing.JFrame {
         editTBColor.setToolTipText("");
         editTBColor.setAutoscrolls(false);
 
+        editTbSetColor.setBackground(new java.awt.Color(0, 102, 255));
+        editTbSetColor.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editTbSetColor.setForeground(new java.awt.Color(204, 204, 204));
         editTbSetColor.setText("Set Color");
         editTbSetColor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -572,11 +610,11 @@ public class JTimetableMain extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(editTBColorStr)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(editTBColor, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(editTBColor, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editTbSetColor, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(editTbSetColor, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
         );
         jPanel6Layout.setVerticalGroup(
@@ -593,6 +631,8 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        editJLName.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLName.setForeground(new java.awt.Color(0, 0, 0));
         editJLName.setText("Name");
         editJLName.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLName.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -603,6 +643,8 @@ public class JTimetableMain extends javax.swing.JFrame {
         editJTFName.setMinimumSize(new java.awt.Dimension(75, 25));
         editJTFName.setPreferredSize(new java.awt.Dimension(160, 25));
 
+        editJLCategory.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLCategory.setForeground(new java.awt.Color(0, 0, 0));
         editJLCategory.setText("Category");
         editJLCategory.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLCategory.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -613,6 +655,8 @@ public class JTimetableMain extends javax.swing.JFrame {
         editJCBCategory.setMinimumSize(new java.awt.Dimension(75, 25));
         editJCBCategory.setPreferredSize(new java.awt.Dimension(160, 25));
 
+        editJLDay.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLDay.setForeground(new java.awt.Color(0, 0, 0));
         editJLDay.setText("Day");
         editJLDay.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLDay.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -623,6 +667,8 @@ public class JTimetableMain extends javax.swing.JFrame {
         editJCBDay.setMinimumSize(new java.awt.Dimension(75, 25));
         editJCBDay.setPreferredSize(new java.awt.Dimension(160, 25));
 
+        editJLRepeatEvent.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLRepeatEvent.setForeground(new java.awt.Color(0, 0, 0));
         editJLRepeatEvent.setText("Repeat Event");
         editJLRepeatEvent.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLRepeatEvent.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -638,6 +684,8 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
+        editJLRepeatAmount.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLRepeatAmount.setForeground(new java.awt.Color(0, 0, 0));
         editJLRepeatAmount.setText("How Often");
         editJLRepeatAmount.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLRepeatAmount.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -647,6 +695,10 @@ public class JTimetableMain extends javax.swing.JFrame {
         editJCBRepeatAmount.setMinimumSize(new java.awt.Dimension(75, 25));
         editJCBRepeatAmount.setPreferredSize(new java.awt.Dimension(160, 25));
 
+        editJPaneEndTime.setBackground(new java.awt.Color(204, 255, 255));
+
+        editJLEndTime.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLEndTime.setForeground(new java.awt.Color(0, 0, 0));
         editJLEndTime.setText("End Time");
         editJLEndTime.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLEndTime.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -691,6 +743,10 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel7.setBackground(new java.awt.Color(204, 255, 255));
+
+        editJLStartTime.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJLStartTime.setForeground(new java.awt.Color(0, 0, 0));
         editJLStartTime.setText("Start Time");
         editJLStartTime.setMaximumSize(new java.awt.Dimension(170, 25));
         editJLStartTime.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -799,6 +855,11 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addGap(52, 52, 52))
         );
 
+        jPanel2.setBackground(new java.awt.Color(154, 189, 213));
+
+        editJBAddEvent.setBackground(new java.awt.Color(0, 153, 51));
+        editJBAddEvent.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJBAddEvent.setForeground(new java.awt.Color(204, 204, 204));
         editJBAddEvent.setText("Add Event");
         editJBAddEvent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -806,6 +867,9 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
+        editJBCancelEvent.setBackground(new java.awt.Color(255, 102, 102));
+        editJBCancelEvent.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editJBCancelEvent.setForeground(new java.awt.Color(204, 204, 204));
         editJBCancelEvent.setText("Cancel");
         editJBCancelEvent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -863,12 +927,17 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
+        MainMiddle.setBackground(new java.awt.Color(154, 189, 213));
+        MainMiddle.setOpaque(true);
         MainMiddle.setPreferredSize(new java.awt.Dimension(195, 850));
         MainMiddle.setRequestFocusEnabled(false);
 
+        jBHideMainLeft.setBackground(new java.awt.Color(0, 102, 255));
+        jBHideMainLeft.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jBHideMainLeft.setForeground(new java.awt.Color(204, 204, 204));
         jBHideMainLeft.setText("<<");
         jBHideMainLeft.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -876,6 +945,11 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
+        TimetableDatePanel.setBackground(new java.awt.Color(154, 189, 213));
+
+        jTFCurrentWeekRange.setBackground(new java.awt.Color(204, 255, 255));
+        jTFCurrentWeekRange.setFont(new java.awt.Font("Vampire Wars", 0, 14)); // NOI18N
+        jTFCurrentWeekRange.setForeground(new java.awt.Color(0, 0, 0));
         jTFCurrentWeekRange.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTFCurrentWeekRange.setText("Mar 10 to  Mar 17");
         jTFCurrentWeekRange.addContainerListener(new java.awt.event.ContainerAdapter() {
@@ -889,6 +963,9 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
+        jBPreviousWeek.setBackground(new java.awt.Color(0, 102, 255));
+        jBPreviousWeek.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jBPreviousWeek.setForeground(new java.awt.Color(204, 204, 204));
         jBPreviousWeek.setText("<<");
         jBPreviousWeek.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -896,6 +973,9 @@ public class JTimetableMain extends javax.swing.JFrame {
             }
         });
 
+        jBNextWeek.setBackground(new java.awt.Color(0, 102, 255));
+        jBNextWeek.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jBNextWeek.setForeground(new java.awt.Color(204, 204, 204));
         jBNextWeek.setText(">>");
         jBNextWeek.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -927,6 +1007,9 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addGap(10, 10, 10))
         );
 
+        jBHideMainRight.setBackground(new java.awt.Color(0, 102, 255));
+        jBHideMainRight.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jBHideMainRight.setForeground(new java.awt.Color(204, 204, 204));
         jBHideMainRight.setText(">>");
         jBHideMainRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -938,7 +1021,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         jPTimetableRoot.setLayout(jPTimetableRootLayout);
         jPTimetableRootLayout.setHorizontalGroup(
             jPTimetableRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 669, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPTimetableRootLayout.setVerticalGroup(
             jPTimetableRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -965,7 +1048,7 @@ public class JTimetableMain extends javax.swing.JFrame {
                         .addComponent(jPTimetableRoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(5, 5, 5)
                         .addComponent(jBHideMainRight, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(1, 1, 1))
         );
         MainMiddleLayout.setVerticalGroup(
             MainMiddleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -974,10 +1057,10 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addComponent(TimetableDatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(MainMiddleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(MainMiddleLayout.createSequentialGroup()
-                        .addGap(240, 240, 240)
+                        .addGap(445, 445, 445)
                         .addComponent(jBHideMainLeft))
                     .addGroup(MainMiddleLayout.createSequentialGroup()
-                        .addGap(240, 240, 240)
+                        .addGap(350, 350, 350)
                         .addComponent(jBHideMainRight))
                     .addGroup(MainMiddleLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1311,141 +1394,76 @@ public class JTimetableMain extends javax.swing.JFrame {
     private JTable jTimetable;
     private List<EventDayRange> eventWeekList;
     
-
-    
-    private void ChooseFolder(int folderID, int folderPerUserId) {
-        
-        setActiveFolderId(folderID);
-        setActiveUserAndFolderId(folderPerUserId);    
-            
-        getTimetableLinkerList(folderPerUserId);
-        
-        reloadTimetableData();
-
-    }
-    
-    private void getTimetableLinkerList(int userAndFolderId){
-        
-        timetableLinkerList.clear();
-        
-        List<HTimetableLinker> linkListAll = timetableLinkerInfoDAO.findAll();
-        for(HTimetableLinker currentLink : linkListAll){
-                    if(currentLink.getUserAndFolderId() == userAndFolderId){
-                        timetableLinkerList.add(currentLink);
-                    }
-        }
-        
-    }
-    
-    private List<HTimetable> getTimetableList(){
-        
-        List<Integer> timetableIdList = new ArrayList<>();
-        List<HTimetable> timetableList = new ArrayList<>();
-        
-        for (HTimetableLinker currentLink : timetableLinkerList){
-            timetableIdList.add(currentLink.getEventId());
-        }
-        
-        List<HTimetable> timetableListAll = timetableInfoDAO.findAll();       
-        for (HTimetable timetable : timetableListAll){
-            for (Integer currentId : timetableIdList){
-                if (timetable.getTimetableId() == currentId ){
-                    timetableList.add(timetable);
-                }
-            }
-        }
-        
-        return timetableList;
-    }
-    
-    private void getTimetable(int eventId){
-        timetableInfo = timetableInfoDAO.findById(eventId);         
-    }
-    
      
-    private void populateTimetableData(int userAndFolderId, int weekIndex){
-        
+    //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
 
-        try{
-            getTimetableLinkerList(userAndFolderId);
-            List<HTimetable> timetableList = getTimetableList();
-            eventWeekList.clear();
-            for ( HTimetable current : timetableList){
-                setListOfTableIndex(current);
-            }
-            
-            updateTimeTableForWeek(eventWeekList, weekIndex);
-            
-        } catch (Exception ex) {
-            logger.CreateLog("error", "Exception caught", ex);
-        }
+    public int getActiveUserAndFolderId() {
+        return activeUserAndFolderId;
+    }
+
+    public void setActiveUserAndFolderId(int activeUserAndFolderId) {
+        this.activeUserAndFolderId = activeUserAndFolderId;
+    }
+
+    public int getActiveFolderId() {
+        return activeFolderId;
+    }
+
+    public void setActiveFolderId(int activeFolderId) {
+        this.activeFolderId = activeFolderId;
+    }
+
+    public int getActiveUserId() {
+        return activeUserId;
+    }
+
+    public void setActiveUserId(int activeUserId) {
+        this.activeUserId = activeUserId;
     }
     
-    private void setCurrentWeekRange(){
-        //Update variables
-        LocalDate currentDate = LocalDate.now();
-        int currentYear = currentDate.getYear();
-        int currentWeekIndex = getWeekIndex(currentDate);        
-        activeWeekIndex = currentWeekIndex;
+    
+    
+    //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+    
+    //Intial ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
+
+    private void ChooseInitailValue(int userId, String userName){
+        //Initialize Variables
+        userInfoDAO = new HUsersDAOImpl();
+        userInfo = new HUsers();
+        timetableInfoDAO = new HTimetableDAOImpl();
+        timetableInfo = new HTimetable();
+        timetableLinkerList = new ArrayList<>();
+        timetableLinkerInfoDAO = new HTimetableLinkerDAOImpl();
+        eventWeekList = new ArrayList<>();
         
-        LocalDate firstDayOfWeek = getFirstDayOfWeek(currentWeekIndex, currentYear);
-        LocalDate lastDayOfWeek = getLastDayOfWeek(currentWeekIndex, currentYear);
-        int firstDay = firstDayOfWeek.getDayOfMonth();
-        int lastDay = lastDayOfWeek.getDayOfMonth();
-        String firstMonth = firstDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-        String lastMonth = lastDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-        //Update UI
-        jTFCurrentWeekRange.setText(firstMonth + " " + firstDay + " - " + lastMonth + " " + lastDay );
+        //Assign default values
+        this.activeUserId = userId;
+        this.userName = userName;
+        jUserName.setText(userName);
+        this.activeFolderId = 1; // Default folder List
+        findUserAndFolderId(userId, activeFolderId); // updates activeUserAndFolderId
+      
         
-        if (!eventWeekList.isEmpty()){
-            updateTimeTableForWeek(eventWeekList, currentWeekIndex);
-        }else{
-            logger.CreateLog("error", "eventWeekList is empty", null);
-        }
+        //start objects
+        initializeEditorComp();
+        
+        ChooseFolder(activeFolderId, activeUserAndFolderId);
+        //getTimetable(1);
+        populateTimetableData(activeUserAndFolderId, activeWeekIndex); // updates timetable data for current week
+        //updateTimeTableForWeek(eventWeekList, activeWeekIndex);
     }
     
-    private void changeCurrentWeekRange(int weekIndex){
-        //Update variables
-        //LocalDate currentYear = LocalDate.now().getYear()
-        int currentYear = LocalDate.now().getYear();
-        activeWeekIndex = weekIndex;
-        
-        LocalDate firstDayOfWeek = getFirstDayOfWeek(weekIndex, currentYear);
-        LocalDate lastDayOfWeek = getLastDayOfWeek(weekIndex, currentYear);
-        int firstDay = firstDayOfWeek.getDayOfMonth();
-        int lastDay = lastDayOfWeek.getDayOfMonth();
-        String firstMonth = firstDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-        String lastMonth = lastDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-        
-        //Update UI
-        jTFCurrentWeekRange.setText(firstMonth + " " + firstDay + " - " + lastMonth + " " + lastDay );
-        
-        
-        if (!eventWeekList.isEmpty()){
-            updateTimeTableForWeek(eventWeekList, weekIndex);
-        }else{
-            logger.CreateLog("error", "eventWeekList is empty", null);
-        }
-        
-    }
- 
-   
     private void initializeEditorComp() {
         
-        // Update spinner
-        //Start time
+        //Create table
+        initialCreateTable();
         
-
-//        // Use LGoodDatePicker for time selection
-//        TimePickerSettings timePickerSettings = new TimePickerSettings();
-//        timePickerSettings.setFormatForDisplayTime("hh:mm a"); // Use 12-hour clock with AM/PM
-//        TimePicker startTimePicker1 = new TimePicker(timePickerSettings);
-//        startTimePicker1.setTime(LocalTime.now()); // Set the default time to the current time
-//        editJPaneStartTime.setLayout(new BorderLayout());
-//        //editJPaneStartTime.setPreferredSize(new Dimension(150, 30)); // Set preferred size for the panel
-//        editJPaneStartTime.add(startTimePicker1, BorderLayout.CENTER);
-//        startTimePicker1.setVisible(true);
-
+        // Update folder list 
+        UpdateFolderList();
+        
+        
+        // Update spinner
         //Starttime
         SpinnerDateModel startTimeSpinnerModel = new SpinnerDateModel();
         startTimeSpinnerModel.setCalendarField(Calendar.MINUTE); // Set the field to minutes 
@@ -1537,6 +1555,259 @@ public class JTimetableMain extends javax.swing.JFrame {
         addEventToTable();
     }
     
+    private void initialCreateTable() {
+        String[] header = {"TimeFrame", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+        tableModel = new DefaultTableModel(header, 0);
+
+        Object[][] data = {
+            {"12:00am - 1:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"1:00am - 2:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"2:00am - 3:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"3:00am - 4:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"4:00am - 5:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"5:00am - 6:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"6:00am - 7:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"7:00am - 8:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"8:00am - 9:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"9:00am - 10:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"10:00am - 11:00am", "_", "_", "_", "_", "_", "_", "_"},
+            {"11:00am - 12:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"12:00pm - 1:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"1:00pm - 2:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"2:00pm - 3:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"3:00pm - 4:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"4:00pm - 5:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"5:00pm - 6:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"6:00pm - 7:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"7:00pm - 8:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"8:00pm - 9:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"9:00pm - 10:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"10:00pm - 11:00pm", "_", "_", "_", "_", "_", "_", "_"},
+            {"11:00pm - 12:00pm", "_", "_", "_", "_", "_", "_", "_"}
+        };
+
+        for (Object[] row : data) {
+            tableModel.addRow(row);
+        }
+
+        // Update table with data
+        jTimetable = new JTable(tableModel);
+
+        JScrollPane jScrollPaneTimetable1 = new JScrollPane(jTimetable);
+
+        jPTimetableRoot.setLayout(new BorderLayout());
+        jPTimetableRoot.add(jScrollPaneTimetable1, BorderLayout.CENTER);
+
+        jPTimetableRoot.revalidate();
+        jPTimetableRoot.repaint();
+
+        setRowHeightAndColumnWidth(jTimetable);
+        removeCellLines(jTimetable);
+
+        // Adjust table property
+        jTimetable.setCellSelectionEnabled(true);
+        jTimetable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jTimetable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                                                           boolean isSelected, boolean hasFocus, int row, int column) {
+
+                Component cellComponent = super.getTableCellRendererComponent(table, value,
+                        isSelected, hasFocus, row, column);
+
+                if (isSelected) {
+                    cellComponent.setBackground(table.getSelectionBackground());
+                    cellComponent.setForeground(table.getSelectionForeground());
+                } else {
+                    cellComponent.setBackground(new Color(0, 0, 0, 0));
+                    cellComponent.setForeground(table.getForeground());
+                }
+                return cellComponent;
+            }
+        });
+
+        // Set the default week index to the current day
+        setCurrentWeekRange();
+
+        // Populate timetable data for the current week index
+        populateTimetableData(activeUserAndFolderId, activeWeekIndex); 
+        
+        
+    }
+    
+    
+    //Component ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+    private void backToMain(){
+    //Switch to the Guest UserAccount
+     this.setVisible(false); //hide current Frame
+           
+     //create and show second frame
+     JTimetableLoginPage login = new JTimetableLoginPage();
+     login.setVisible(true);
+    }//End signSuccess
+    
+    private void OpenOptions(){
+        //Create and show Option frame
+        JTimetableOptions options = new JTimetableOptions();
+        options.setVisible(true);
+    
+    }//End OpenOptions
+    
+    private void OpenImportExportTool(){
+        //Create and show Import/Export Tool frame
+        JTimetableImportExportTool tool = new JTimetableImportExportTool();
+        tool.setVisible(true);
+    
+    }//End OpenImportExportTool
+    
+    private void UpdateFolderList(){
+    
+        //Get list of folder for specific user
+        HUsersDAOImpl usersDao = new HUsersDAOImpl();  
+        
+        int maxUserCount = 20;
+                
+        HUsers currentUser = usersDao.findById(activeUserId);
+        List<HFolderPerUser> userFolderList = currentUser.getFolderPerUserList();
+        
+        if (userFolderList != null){
+            int rowCount = userFolderList.size();
+            //JPanel userFolderListUI = new JPanel();
+            //userFolderListUI.setLayout(new BoxLayout(userFolderListUI, BoxLayout.Y_AXIS)); 
+            
+            JPanel UI = new JPanel();
+            UI.setBackground(new Color(204, 255, 255, 255)); 
+
+            if(rowCount > maxUserCount ){
+                UI.setLayout(new GridLayout(rowCount, 5, 10, 5));
+            }else{
+                UI.setLayout(new GridLayout(maxUserCount, 5, 10, 5));
+            }
+            
+            
+            //SetButton Group for single click
+            ButtonGroup userFolderListGroup = new ButtonGroup();
+            
+            //ilterate between folders then create and add a button with its events
+            for (HFolderPerUser userFolder1 : userFolderList){
+                int folderId = userFolder1.getFolderId();
+                int userFolderId =  userFolder1.getFolderPerUserId();
+                String folderName = userFolder1.getFolder().getFolderName();
+                
+                //Create button to Switch tables
+                    
+                JButton button = new JButton(folderName);
+                button.setPreferredSize(new Dimension(30, 25));
+                
+                
+                //add event to button
+                button.addActionListener((ActionEvent e) -> {
+                    //UpdateEventList(folderId, userFolderId);
+                    ChooseFolder(folderId, userFolderId);
+                });
+                
+                //Add button to ButtonGroup
+                userFolderListGroup.add(button);
+                
+                //Add button to UI
+                //userFolderListUI.add(Box.createRigidArea(new Dimension(5, 5)));
+                //userFolderListUI.add(button);
+                //userFolderListUI.add(Box.createRigidArea(new Dimension(5, 5)));
+
+                UI.add(button);
+                // Add button to Box container
+                //buttonBox.add(button);
+                //buttonBox.add(Box.createVerticalStrut(5)); // Add spacing between buttons
+            }
+            //UI.add(userFolderListUI);
+             // Add Box container to panel
+            //userFolderListUI.add(buttonBox, gbc);
+            
+            // add panel to scrollablepanel
+            jScrollPaneFolder.setViewportView(UI);
+        }
+
+    }//End UpdateFolderList
+    
+    private void ChooseFolder(int folderID, int folderPerUserId) {
+        
+        setActiveFolderId(folderID);
+        setActiveUserAndFolderId(folderPerUserId);    
+            
+        getTimetableLinkerList(folderPerUserId);
+        
+        reloadTimetableData();
+    }
+       
+    private void populateTimetableData(int userAndFolderId, int weekIndex){
+        
+
+        try{
+            getTimetableLinkerList(userAndFolderId);
+            List<HTimetable> timetableList = getTimetableList();
+            eventWeekList.clear();
+            for ( HTimetable current : timetableList){
+                setListOfTableIndex(current);
+            }
+            
+            updateTimeTableForWeek(eventWeekList, weekIndex);
+            
+        } catch (Exception ex) {
+            logger.CreateLog("error", "Exception caught", ex);
+        }
+    }
+    
+    private void setCurrentWeekRange(){
+        //Update variables
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentWeekIndex = getWeekIndex(currentDate);        
+        activeWeekIndex = currentWeekIndex;
+        
+        LocalDate firstDayOfWeek = getFirstDayOfWeek(currentWeekIndex, currentYear);
+        LocalDate lastDayOfWeek = getLastDayOfWeek(currentWeekIndex, currentYear);
+        int firstDay = firstDayOfWeek.getDayOfMonth();
+        int lastDay = lastDayOfWeek.getDayOfMonth();
+        String firstMonth = firstDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        String lastMonth = lastDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        //Update UI
+        jTFCurrentWeekRange.setText(firstMonth + " " + firstDay + " - " + lastMonth + " " + lastDay );
+        
+        if (!eventWeekList.isEmpty()){
+            updateTimeTableForWeek(eventWeekList, currentWeekIndex);
+        }else{
+            logger.CreateLog("error", "eventWeekList is empty", null);
+        }
+    }
+    
+    private void changeCurrentWeekRange(int weekIndex){
+        //Update variables
+        //LocalDate currentYear = LocalDate.now().getYear()
+        int currentYear = LocalDate.now().getYear();
+        activeWeekIndex = weekIndex;
+        
+        LocalDate firstDayOfWeek = getFirstDayOfWeek(weekIndex, currentYear);
+        LocalDate lastDayOfWeek = getLastDayOfWeek(weekIndex, currentYear);
+        int firstDay = firstDayOfWeek.getDayOfMonth();
+        int lastDay = lastDayOfWeek.getDayOfMonth();
+        String firstMonth = firstDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        String lastMonth = lastDayOfWeek.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+        
+        //Update UI
+        jTFCurrentWeekRange.setText(firstMonth + " " + firstDay + " - " + lastMonth + " " + lastDay );
+        
+        
+        if (!eventWeekList.isEmpty()){
+            updateTimeTableForWeek(eventWeekList, weekIndex);
+        }else{
+            logger.CreateLog("error", "eventWeekList is empty", null);
+        }
+        
+    }
+    
+    
     private void addNewEvent() {
         
         boolean isValid = true;
@@ -1613,10 +1884,6 @@ public class JTimetableMain extends javax.swing.JFrame {
                 newEvent.setHasNotification(hasNotification);
                 newEvent.setColor(colorStr);
                 newEvent.setDayoftheweek(newDayOfWeek); 
-//                newEvent.setFrequencytype(newFrequencyType); // Ensure this setter properly maps the frequency type
-//                if (newFrequencyType == null) {
-//                    throw new IllegalArgumentException("FrequencyType cannot be null. Please ensure it is properly initialized.");
-//                }
                 timetableInfoDAO.save(newEvent); //Save to DB
 
                 //Get the new event id
@@ -1653,6 +1920,367 @@ public class JTimetableMain extends javax.swing.JFrame {
         } 
         
     }
+    
+    public void reloadTimetableData(){
+
+        populateTimetableData(activeUserAndFolderId, activeWeekIndex);
+        if (!eventWeekList.isEmpty()){
+            updateTimeTableForWeek(eventWeekList, activeWeekIndex);
+            addEventToTable();
+        }else{
+            logger.CreateLog("error", "eventWeekList is empty", null);
+        }
+    }
+    
+    private void AddNewFolder(){
+        //Create and show Add New Folder frame
+        HFolderPerUserDAOImpl folderPerUserInfoDAO = new HFolderPerUserDAOImpl();
+        HFolderPerUser newUserAndFolder = new HFolderPerUser();
+        HFolderDAOImpl folderInfoDAO = new HFolderDAOImpl();
+        HFolder newFolder = new HFolder();
+        HUsersDAOImpl usersDao = new HUsersDAOImpl();
+        HUsers currentUser = usersDao.findById(activeUserId);
+
+        //Create and show a prompt to get the folder name
+        String folderName = JOptionPane.showInputDialog(this, "Enter Folder Name", "Add New Folder", JOptionPane.OK_CANCEL_OPTION);
+        Point location = getLocationRelativeToScreen(jBFolderAdd);
+        location.y -= jBFolderAdd.getHeight(); // adjust to above the button
+        
+        if (folderName == null || folderName.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Folder name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }else{
+            //Create new folder
+            newFolder.setFolderName(folderName);
+            folderInfoDAO.save(newFolder); //Save to DB
+
+            //Get the new folder id
+            int newFolderId = newFolder.getFolderId();
+
+            //set user and folder id
+            newUserAndFolder.setUserId(activeUserId);
+            newUserAndFolder.setFolderId(newFolderId);
+            newUserAndFolder.setUsers(currentUser);
+            newUserAndFolder.setFolder(newFolder);
+            folderPerUserInfoDAO.save(newUserAndFolder); //Save to DB
+
+            //check if the folder was saved
+            HFolderPerUser savedUserAndFolder = folderPerUserInfoDAO.findById(newUserAndFolder.getFolderPerUserId());
+            if (savedUserAndFolder != null && savedUserAndFolder.getFolderPerUserId() == newUserAndFolder.getFolderPerUserId()) {
+                JOptionPane.showMessageDialog(this, "Folder has been added successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Folder failed to save.");
+            }
+
+            //Reload data
+        
+            UpdateFolderList();
+        }
+    }
+
+    private void RemoveFolder(){
+        HFolderDAOImpl folderInfoDAO = new HFolderDAOImpl();
+        HFolder folder = folderInfoDAO.findById(activeFolderId);
+        String folderName = folder.getFolderName();
+
+        if(folder != null && folder.getFolderId() != 1){
+            int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete FolderName : " + folderName + " ?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION) {
+                folderInfoDAO.delete(folder);
+                JOptionPane.showMessageDialog(this, "The Folder \" " + folderName + " \" has been deleted successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Folder deletion cancelled");
+            }
+        }else {
+            JOptionPane.showMessageDialog(this, "You cannot delete the default folder");
+        }
+
+        //Reload the folderList
+        setActiveFolderId(1);
+        setActiveUserAndFolderId(1);
+        UpdateFolderList();
+        reloadTimetableData();
+    }
+    
+    private void CancelNewEvent(){
+        //Reset all fields
+        editJTFName.setText("");
+        editJCBCategory.setSelectedIndex(0);
+        editJCBDay.setSelectedIndex(0);
+        editJCBRepeatEvent.setSelectedIndex(0);
+        if(editJCBRepeatAmount.isEnabled()){
+            editJCBRepeatAmount.setSelectedIndex(0);
+        }
+        editJCBRepeatAmount.setEnabled(false);
+        editJSStartTime.setValue(new Date());
+        editJSEndTime.setValue(new Date());
+        editTBColorStr.setText("");
+        editTBColor.setBackground(Color.WHITE);
+        editJRBNotificationOff.setSelected(true);
+    
+    }
+
+    private void addEventToTable() {
+
+        if (jTimetable != null) {
+
+            // check if event is already added then remove it before adding it again
+            jTimetable.removeMouseListener(jTimetable.getMouseListeners()[0]); // Remove existing mouse listener
+            
+            // add mouse listener to launch base on cell selection
+            jTimetable.addMouseListener(new java.awt.event.MouseAdapter() {
+            private volatile boolean isEditorOpen = false; // Flag to track if the editor is already open
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (isEditorOpen) {
+                    return; // Prevent opening multiple editors
+                }
+
+                int row = jTimetable.rowAtPoint(e.getPoint());
+                int column = jTimetable.columnAtPoint(e.getPoint());
+
+                if (row >= 0 && column >= 0) { // Ensure valid cell
+                    Object cellValue = jTimetable.getValueAt(row, column);
+
+                    // Check if the cell contains an event ID (integer)
+                    if (cellValue instanceof Integer) {
+                        int eventId = (Integer) cellValue;
+
+                        SwingUtilities.invokeLater(() -> {
+                            // Open the event editor with the specific event ID
+                            JEventEditor eventEditor = new JEventEditor(eventId, activeUserAndFolderId, JTimetableMain.this);
+                            eventEditor.setLocationRelativeTo(jTimetable);
+                            eventEditor.setVisible(true);
+
+                            // Add a listener to reset the flag when the editor is closed
+                            eventEditor.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosed(java.awt.event.WindowEvent e) {
+                                    isEditorOpen = false;
+                                }
+                            });
+
+                            isEditorOpen = true; // Set the flag to true
+                        });
+                    }
+                }
+            }
+        });
+        } else {
+            logger.CreateLog("error", "jTimetable is null", null);
+
+        }  
+    }
+    
+    private void updateTimeTableForWeek(List<EventDayRange> eventRangeList, int weekIndex){
+        
+        List<EventDayRange> currentWeekList = new ArrayList<>();
+        
+        //Locate only ranges from the same week
+        for(EventDayRange range : eventRangeList){
+            if (range.weekIndex == weekIndex){
+               currentWeekList.add(range);
+            }
+       }
+        
+       resetTable(jTimetable); //Reset the table
+       //changeCell(jTimetable, currentWeekList); // Apply renderer using a list of objects
+       changeCellByRow(jTimetable, currentWeekList); // Apply renderer using a list of objects
+    }
+    
+    
+    private void changeCellByRow(JTable table, List<EventDayRange> eventRangeList) {
+        List<Integer> daysWithEntries = new ArrayList<>();
+
+        for (EventDayRange range : eventRangeList) {
+            if (!daysWithEntries.contains(range.getDayIndex())) {
+                daysWithEntries.add(range.getDayIndex());
+            }
+        }
+
+        // Iterate through each day and then each sameDayRange to apply the renderer to only those cells
+        for (int dayIndex : daysWithEntries) {
+            List<EventDayRange> sameDayRanges = new ArrayList<>();
+            for (EventDayRange range : eventRangeList) {
+                if (range.getDayIndex() == dayIndex) {
+                    sameDayRanges.add(range);
+                }
+            }
+
+
+            // create default renderer 
+            DefaultTableCellRenderer initialRenderer = new DefaultTableCellRenderer(){
+               @Override
+                   public Component getTableCellRendererComponent(JTable table,
+                   Object value, boolean isSelected, boolean hasFocus, int row, 
+                   int column) { 
+           
+                       return super.getTableCellRendererComponent(table, value, isSelected,
+                       hasFocus, row, column);
+                   }
+            };
+
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    Component initialC = initialRenderer.getTableCellRendererComponent(table,
+                                           value, isSelected, hasFocus, row, column);
+
+                    for (EventDayRange range : sameDayRanges) {
+                        
+
+                        if (row >= range.getStartRow() && row <= range.getEndRow() && column == range.getDayIndex()) {
+                            c.setBackground(range.getColor() != null ? range.getColor() : Color.GREEN);
+                            
+                            if (row == range.getStartRow()) {
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
+                                ((JLabel) c).setText(range.getEventName());
+                                ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
+                                ((JLabel) c).setVerticalAlignment(SwingConstants.CENTER);
+                                ((JLabel) c).setFont(new java.awt.Font("TImesNewRoman", java.awt.Font.BOLD, 12));
+                                ((JLabel) c).setOpaque(true);
+                                ((JLabel) c).setBackground(range.getColor());
+                                ((JLabel) c).setForeground(getContrastingColor(range.getColor()));
+                                //c.setForeground(getContrastingColor(range.getColor()));
+                                
+                                // Add event id directly to that cell
+                                table.setValueAt(range.getEventId(), row, column);
+
+                            } else if (row == range.getEndRow()) {
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+                            } else {
+                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
+                            }
+                            return c;
+                        }
+                    }
+
+                    // Reset to default for cells not in the range
+                    c.setBackground(Color.WHITE);
+                    
+                    ((JLabel) c).setBorder(null);
+                    ((JLabel) c).setText(value != null ? value.toString() : "");
+                     // create a list of rowIndex that is not within the range of the sameDayRanges
+                    List<Integer> activeRowIndexList = new ArrayList<>();
+                    // iterate through the sameDayRanges and add the rowIndex to the activeRowIndexList
+                    for (EventDayRange range : sameDayRanges) {
+                        for (int i = range.getStartRow(); i <= range.getEndRow(); i++) {
+                            activeRowIndexList.add(i);
+                        }
+                    }
+                    // create a inactive rowIndex list thats no in activeRowIndexList
+                    List<Integer> inactiveRowIndexList = new ArrayList<>();
+                    for (int i = 0; i < table.getRowCount(); i++) {
+                        if (!activeRowIndexList.contains(i)) {
+                            inactiveRowIndexList.add(i);
+                        }
+                    }
+
+                    // if current row is in the inactiveRowIndexList then set the initialC
+                    if (inactiveRowIndexList.contains(row)) {
+                        return initialC;
+                    }
+
+                    return c;
+                }
+            };
+
+            // Apply the renderer to the column for the day
+            table.getColumnModel().getColumn(dayIndex).setCellRenderer(renderer);
+        }
+
+        // Repaint the table to apply the changes
+        table.repaint();
+
+        
+    }// End changeCellColor
+    
+    
+    private void resetTable(JTable table){
+        // iterate trhough all colouns and reset there cell renderers to default
+        for (int column = 1; column < table.getColumnCount(); column++){
+            table.getColumnModel().getColumn(column).setCellRenderer(new DefaultTableCellRenderer());
+        }
+            
+        //Repaint the table to apply the changes
+        table.repaint();
+
+    }
+    
+        
+    // Remove lines between cells
+    private void removeCellLines(JTable table){
+        table.setShowGrid(false);
+        table.setIntercellSpacing(new Dimension(0,0));
+    }// Method : removeCellLines
+    
+    //Set row height and column width
+    private void setRowHeightAndColumnWidth(JTable table){
+        table.setRowHeight(40); // increase row height
+        
+        table.getColumnModel().getColumn(0).setPreferredWidth(130); // set width for the timeframe column
+    
+    }// Method : setRowHeightAndColumnWidth
+    
+    
+    //Supporting Methods ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+    
+    private void getTimetableLinkerList(int userAndFolderId){
+        
+        timetableLinkerList.clear();
+        
+        List<HTimetableLinker> linkListAll = timetableLinkerInfoDAO.findAll();
+        for(HTimetableLinker currentLink : linkListAll){
+                    if(currentLink.getUserAndFolderId() == userAndFolderId){
+                        timetableLinkerList.add(currentLink);
+                    }
+        }
+        
+    }
+    
+    private List<HTimetable> getTimetableList(){
+        
+        List<Integer> timetableIdList = new ArrayList<>();
+        List<HTimetable> timetableList = new ArrayList<>();
+        
+        for (HTimetableLinker currentLink : timetableLinkerList){
+            timetableIdList.add(currentLink.getEventId());
+        }
+        
+        List<HTimetable> timetableListAll = timetableInfoDAO.findAll();       
+        for (HTimetable timetable : timetableListAll){
+            for (Integer currentId : timetableIdList){
+                if (timetable.getTimetableId() == currentId ){
+                    timetableList.add(timetable);
+                }
+            }
+        }
+        
+        return timetableList;
+    }
+    
+    private void findUserAndFolderId(int userId, int folderId) {
+    
+        HFolderPerUserDAOImpl folderPerUserDAO = new HFolderPerUserDAOImpl();
+        //HFolderPerUser folderPerUser = folderPerUserDAO.findById(folderId);
+        
+        List<HFolderPerUser> folderPerUserList = folderPerUserDAO.findAll();
+        for (HFolderPerUser current : folderPerUserList){
+            if (current.getUserId() == userId && current.getFolderId() == folderId){
+                activeUserAndFolderId = current.getFolderPerUserId();
+                break;
+            }
+        }
+    }
+    
+    private void getTimetable(int eventId){
+        timetableInfo = timetableInfoDAO.findById(eventId);         
+    }
+    
+    
 
     private boolean eventValidCheck (){
         boolean isValid = true;
@@ -1779,390 +2407,84 @@ public class JTimetableMain extends javax.swing.JFrame {
         Point location = component.getLocationOnScreen();
         return location;
     }
-
-
-    public void reloadTimetableData(){
-
-        populateTimetableData(activeUserAndFolderId, activeWeekIndex);
-        if (!eventWeekList.isEmpty()){
-            updateTimeTableForWeek(eventWeekList, activeWeekIndex);
-            addEventToTable();
-        }else{
-            logger.CreateLog("error", "eventWeekList is empty", null);
+    
+    //Internal Class to store timeframe
+    public class Timeframe {
+        private int hours;
+        private int minutes;
+        private int seconds;
+        
+        
+        public Timeframe(int hours, int minutes, int seconds){
+            this.hours = hours;
+            this.minutes = minutes;
+            this.seconds = seconds;
+        }
+        
+        public int getHours() {
+            return hours;
+        }
+        
+        public int getMinutes() {
+            return minutes;
+        }
+        
+        public int getSeconds(){
+            return seconds;
         }
     }
     
-    private void AddNewFolder(){
-        //Create and show Add New Folder frame
-        HFolderPerUserDAOImpl folderPerUserInfoDAO = new HFolderPerUserDAOImpl();
-        HFolderPerUser newUserAndFolder = new HFolderPerUser();
-        HFolderDAOImpl folderInfoDAO = new HFolderDAOImpl();
-        HFolder newFolder = new HFolder();
-        HUsersDAOImpl usersDao = new HUsersDAOImpl();
-        HUsers currentUser = usersDao.findById(activeUserId);
-
-        //Create and show a prompt to get the folder name
-        String folderName = JOptionPane.showInputDialog(this, "Enter Folder Name", "Add New Folder", JOptionPane.OK_CANCEL_OPTION);
-        Point location = getLocationRelativeToScreen(jBFolderAdd);
-        location.y -= jBFolderAdd.getHeight(); // adjust to above the button
+    // Internal Class for EventDayRange 
+    public class EventDayRange {
+        private int startRow;
+        private int endRow;
+        private List<Integer> rowRange = new ArrayList<>(); 
+        private int dayIndex;
+        private int weekIndex;
+        private int monthIndex;
+        private int yearIndex;
+        private int eventId;
+        private String eventName;
+        private Color color;
         
-        if (folderName == null || folderName.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Folder name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }else{
-            //Create new folder
-            newFolder.setFolderName(folderName);
-            folderInfoDAO.save(newFolder); //Save to DB
-
-            //Get the new folder id
-            int newFolderId = newFolder.getFolderId();
-
-            //set user and folder id
-            newUserAndFolder.setUserId(activeUserId);
-            newUserAndFolder.setFolderId(newFolderId);
-            newUserAndFolder.setUsers(currentUser);
-            newUserAndFolder.setFolder(newFolder);
-            folderPerUserInfoDAO.save(newUserAndFolder); //Save to DB
-
-            //check if the folder was saved
-            HFolderPerUser savedUserAndFolder = folderPerUserInfoDAO.findById(newUserAndFolder.getFolderPerUserId());
-            if (savedUserAndFolder != null && savedUserAndFolder.getFolderPerUserId() == newUserAndFolder.getFolderPerUserId()) {
-                JOptionPane.showMessageDialog(this, "Folder has been added successfully");
-            } else {
-                JOptionPane.showMessageDialog(this, "Folder failed to save.");
-            }
-
-            //Reload data
+        public EventDayRange(int startRow, int endRow, int dayIndex, int weekIndex,
+        int monthIndex, int yearIndex, int eventId, String eventName, Color color){
+            this.startRow = startRow;
+            this.endRow = endRow;
+            this.dayIndex = dayIndex;
+            this.weekIndex = weekIndex;
+            this.monthIndex = monthIndex;
+            this.yearIndex = yearIndex;
+            this.eventId = eventId;
+            this.eventName = eventName;
+            this.color = color;
+            
+            rowRange = new ArrayList<>(); 
+        }
         
-            UpdateFolderList();
+        //Getters and setters
+        public int getStartRow(){return startRow; }
+        public int getEndRow() {return endRow; }
+        public List<Integer> getRowRange() {return rowRange; }
+        public int getDayIndex() {return dayIndex; }
+        public int getWeekIndex() {return weekIndex; }
+        public int getMonthIndex() {return monthIndex; }
+        public int getYearIndex() {return yearIndex; }
+        public int getEventId() {return eventId; }
+        public String getEventName() {return eventName; }
+        public Color getColor() {return color; }
+        
+        public void setRowRange( Integer newRowId){
+            rowRange.add(newRowId);
         }
 
-    
-    }
-
-    private void RemoveFolder(){
-        HFolderDAOImpl folderInfoDAO = new HFolderDAOImpl();
-        HFolder folder = folderInfoDAO.findById(activeFolderId);
-        String folderName = folder.getFolderName();
-
-        if(folder != null && folder.getFolderId() != 1){
-            int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete FolderName : " + folderName + " ?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
-            if (response == JOptionPane.YES_OPTION) {
-                folderInfoDAO.delete(folder);
-                JOptionPane.showMessageDialog(this, "The Folder \" " + folderName + " \" has been deleted successfully");
-            } else {
-                JOptionPane.showMessageDialog(this, "Folder deletion cancelled");
-            }
-        }else {
-            JOptionPane.showMessageDialog(this, "You cannot delete the default folder");
+        public void setRowRange( List<Integer> newRowList){
+            rowRange.addAll(newRowList);
         }
-
-        //Reload the folderList
-        setActiveFolderId(1);
-        setActiveUserAndFolderId(1);
-        UpdateFolderList();
-        reloadTimetableData();
-    }
-    
-    private void CancelNewEvent(){
-        //Reset all fields
-        editJTFName.setText("");
-        editJCBCategory.setSelectedIndex(0);
-        editJCBDay.setSelectedIndex(0);
-        editJCBRepeatEvent.setSelectedIndex(0);
-        if(editJCBRepeatAmount.isEnabled()){
-            editJCBRepeatAmount.setSelectedIndex(0);
-        }
-        editJCBRepeatAmount.setEnabled(false);
-        editJSStartTime.setValue(new Date());
-        editJSEndTime.setValue(new Date());
-        editTBColorStr.setText("");
-        editTBColor.setBackground(Color.WHITE);
-        editJRBNotificationOff.setSelected(true);
     
     }
-
-    private void addEventToTable() {
-
-        if (jTimetable != null) {
-
-            // check if event is already added then remove it before adding it again
-            jTimetable.removeMouseListener(jTimetable.getMouseListeners()[0]); // Remove existing mouse listener
-            
-            // add mouse listener to launch base on cell selection
-            jTimetable.addMouseListener(new java.awt.event.MouseAdapter() {
-            private volatile boolean isEditorOpen = false; // Flag to track if the editor is already open
-
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (isEditorOpen) {
-                    return; // Prevent opening multiple editors
-                }
-
-                int row = jTimetable.rowAtPoint(e.getPoint());
-                int column = jTimetable.columnAtPoint(e.getPoint());
-
-                if (row >= 0 && column >= 0) { // Ensure valid cell
-                    Object cellValue = jTimetable.getValueAt(row, column);
-
-                    // Check if the cell contains an event ID (integer)
-                    if (cellValue instanceof Integer) {
-                        int eventId = (Integer) cellValue;
-
-                        SwingUtilities.invokeLater(() -> {
-                            // Open the event editor with the specific event ID
-                            JEventEditor eventEditor = new JEventEditor(eventId, activeUserAndFolderId, JTimetableMain.this);
-                            eventEditor.setLocationRelativeTo(jTimetable);
-                            eventEditor.setVisible(true);
-
-                            // Add a listener to reset the flag when the editor is closed
-                            eventEditor.addWindowListener(new java.awt.event.WindowAdapter() {
-                                @Override
-                                public void windowClosed(java.awt.event.WindowEvent e) {
-                                    isEditorOpen = false;
-                                }
-                            });
-
-                            isEditorOpen = true; // Set the flag to true
-                        });
-                    }
-                }
-            }
-        });
-        } else {
-            logger.CreateLog("error", "jTimetable is null", null);
-
-        }  
-    }
+  
     
-     
-    //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
-
-    public int getActiveUserAndFolderId() {
-        return activeUserAndFolderId;
-    }
-
-    public void setActiveUserAndFolderId(int activeUserAndFolderId) {
-        this.activeUserAndFolderId = activeUserAndFolderId;
-    }
-
-    public int getActiveFolderId() {
-        return activeFolderId;
-    }
-
-    public void setActiveFolderId(int activeFolderId) {
-        this.activeFolderId = activeFolderId;
-    }
-
-    public int getActiveUserId() {
-        return activeUserId;
-    }
-
-    public void setActiveUserId(int activeUserId) {
-        this.activeUserId = activeUserId;
-    }
-    
-    
-    
-    //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
-
-    private void ChooseInitailValue(int userId, String userName){
-        //Initialize Variables
-        userInfoDAO = new HUsersDAOImpl();
-        userInfo = new HUsers();
-        timetableInfoDAO = new HTimetableDAOImpl();
-        timetableInfo = new HTimetable();
-        timetableLinkerList = new ArrayList<>();
-        timetableLinkerInfoDAO = new HTimetableLinkerDAOImpl();
-        eventWeekList = new ArrayList<>();
-        
-        //Assign default values
-        this.activeUserId = userId;
-        this.userName = userName;
-        jUserName.setText(userName);
-        this.activeFolderId = 1;
-        this.activeUserAndFolderId = 1;
-        //this.activeTimetableLinkerId = 1;
-        
-        //start objects
-        initializeEditorComp();
-        
-    }
-    
-    
-    private void backToMain(){
-    //Switch to the Guest UserAccount
-     this.setVisible(false); //hide current Frame
-           
-     //create and show second frame
-     JTimetableLoginPage login = new JTimetableLoginPage();
-     login.setVisible(true);
-    }//End signSuccess
-    
-    private void OpenOptions(){
-        //Create and show Option frame
-        JTimetableOptions options = new JTimetableOptions();
-        options.setVisible(true);
-    
-    }//End OpenOptions
-    
-    private void OpenImportExportTool(){
-        //Create and show Import/Export Tool frame
-        JTimetableImportExportTool tool = new JTimetableImportExportTool();
-        tool.setVisible(true);
-    
-    }//End OpenImportExportTool
-    
-    private void UpdateFolderList(){
-    
-        //Get list of folder for specific user
-        HUsersDAOImpl usersDao = new HUsersDAOImpl();  
-        
-        int maxUserCount = 20;
-                
-        HUsers currentUser = usersDao.findById(activeUserId);
-        List<HFolderPerUser> userFolderList = currentUser.getFolderPerUserList();
-        
-        if (userFolderList != null){
-            int rowCount = userFolderList.size();
-            //JPanel userFolderListUI = new JPanel();
-            //userFolderListUI.setLayout(new BoxLayout(userFolderListUI, BoxLayout.Y_AXIS)); 
-            
-            JPanel UI = new JPanel();    
-            if(rowCount > maxUserCount ){
-                UI.setLayout(new GridLayout(rowCount, 5, 10, 5));
-            }else{
-                UI.setLayout(new GridLayout(maxUserCount, 5, 10, 5));
-            }
-            
-            
-            //SetButton Group for single click
-            ButtonGroup userFolderListGroup = new ButtonGroup();
-            
-            //ilterate between folders then create and add a button with its events
-            for (HFolderPerUser userFolder1 : userFolderList){
-                int folderId = userFolder1.getFolderId();
-                int userFolderId =  userFolder1.getFolderPerUserId();
-                String folderName = userFolder1.getFolder().getFolderName();
-                
-                //Create button to Switch tables
-                    
-                JButton button = new JButton(folderName);
-                button.setPreferredSize(new Dimension(30, 25));
-                
-                
-                //add event to button
-                button.addActionListener((ActionEvent e) -> {
-                    //UpdateEventList(folderId, userFolderId);
-                    ChooseFolder(folderId, userFolderId);
-                });
-                
-                //Add button to ButtonGroup
-                userFolderListGroup.add(button);
-                
-                //Add button to UI
-                //userFolderListUI.add(Box.createRigidArea(new Dimension(5, 5)));
-                //userFolderListUI.add(button);
-                //userFolderListUI.add(Box.createRigidArea(new Dimension(5, 5)));
-
-                UI.add(button);
-                // Add button to Box container
-                //buttonBox.add(button);
-                //buttonBox.add(Box.createVerticalStrut(5)); // Add spacing between buttons
-            }
-            //UI.add(userFolderListUI);
-             // Add Box container to panel
-            //userFolderListUI.add(buttonBox, gbc);
-            
-            // add panel to scrollablepanel
-            jScrollPaneFolder.setViewportView(UI);
-        }
-
-    }//End UpdateFolderList
-    
-    
-    private void initialCreateTable() {
-        String[] header = {"TimeFrame", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-
-        tableModel = new DefaultTableModel(header, 0);
-
-        Object[][] data = {
-            {"12:00am - 1:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"1:00am - 2:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"2:00am - 3:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"3:00am - 4:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"4:00am - 5:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"5:00am - 6:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"6:00am - 7:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"7:00am - 8:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"8:00am - 9:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"9:00am - 10:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"10:00am - 11:00am", "_", "_", "_", "_", "_", "_", "_"},
-            {"11:00am - 12:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"12:00pm - 1:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"1:00pm - 2:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"2:00pm - 3:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"3:00pm - 4:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"4:00pm - 5:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"5:00pm - 6:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"6:00pm - 7:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"7:00pm - 8:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"8:00pm - 9:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"9:00pm - 10:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"10:00pm - 11:00pm", "_", "_", "_", "_", "_", "_", "_"},
-            {"11:00pm - 12:00pm", "_", "_", "_", "_", "_", "_", "_"}
-        };
-
-        for (Object[] row : data) {
-            tableModel.addRow(row);
-        }
-
-        // Update table with data
-        jTimetable = new JTable(tableModel);
-
-        JScrollPane jScrollPaneTimetable1 = new JScrollPane(jTimetable);
-
-        jPTimetableRoot.setLayout(new BorderLayout());
-        jPTimetableRoot.add(jScrollPaneTimetable1, BorderLayout.CENTER);
-
-        jPTimetableRoot.revalidate();
-        jPTimetableRoot.repaint();
-
-        setRowHeightAndColumnWidth(jTimetable);
-        removeCellLines(jTimetable);
-
-        // Adjust table property
-        jTimetable.setCellSelectionEnabled(true);
-        jTimetable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        jTimetable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                                                           boolean isSelected, boolean hasFocus, int row, int column) {
-
-                Component cellComponent = super.getTableCellRendererComponent(table, value,
-                        isSelected, hasFocus, row, column);
-
-                if (isSelected) {
-                    cellComponent.setBackground(table.getSelectionBackground());
-                    cellComponent.setForeground(table.getSelectionForeground());
-                } else {
-                    cellComponent.setBackground(new Color(0, 0, 0, 0));
-                    cellComponent.setForeground(table.getForeground());
-                }
-                return cellComponent;
-            }
-        });
-
-        // Set the default week index to the current day
-        setCurrentWeekRange();
-
-        // Populate timetable data for the current week index
-        populateTimetableData(activeUserAndFolderId, activeWeekIndex);
-        
-        
-    }
-
     private boolean isCellInRange(int row, int column, int startRow, int endRow,
     int startColumn, int endColumn){
         return row >= startRow && row <= endRow && column >= startColumn && column <= endColumn;
@@ -2347,197 +2669,8 @@ public class JTimetableMain extends javax.swing.JFrame {
     } // Method : getTimeframe
 
  
-    //Internal Class to store timeframe
-    public class Timeframe {
-        private int hours;
-        private int minutes;
-        private int seconds;
-        
-        
-        public Timeframe(int hours, int minutes, int seconds){
-            this.hours = hours;
-            this.minutes = minutes;
-            this.seconds = seconds;
-        }
-        
-        public int getHours() {
-            return hours;
-        }
-        
-        public int getMinutes() {
-            return minutes;
-        }
-        
-        public int getSeconds(){
-            return seconds;
-        }
-    }
     
-    //change cell color older
-    private void changeCellColorByString(JTable table, String startDay, String endDay, String startTimeframe,
-    String endTimeframe, Color color) {
-        
-        int startDayIndex = getColumnIndex(startDay);
-        int endDayIndex = getColumnIndex(endDay);
-        int startTimeIndex = getRowIndex(table, startTimeframe);
-        int endTimeIndex = getRowIndex(table, endTimeframe);
-        
-        if (startDayIndex == -1 || endDayIndex == -1 || startTimeIndex == -1 || 
-        endTimeIndex == -1) {
-            return;// invalid values, exit method
-        }
-        
-        
-        for(int row = startTimeIndex; row <= endTimeIndex; row++) {
-            for (int col = startDayIndex; col <= endDayIndex; col++){
-                table.prepareRenderer(new DefaultTableCellRenderer(){
-                    @Override
-                    public Component getTableCellRendererComponent(JTable table, 
-                    Object value, boolean isSelected, boolean hasFocus, int row,
-                    int column) {
-                        Component c = super.getTableCellRendererComponent(table, value,
-                        isSelected, hasFocus, row, column);
-                        
-                        if (row >= startTimeIndex && row <= endTimeIndex && column >=
-                        startDayIndex && column <= endDayIndex){
-                            
-                            if(color != null){
-                                 c.setBackground(color);
-                            }else{
-                                 c.setBackground(Color.GREEN); //default color when none is set
-                            }  
-                        }
-                        return c;
-                    }
-                }, row, col);
-            }
-        }
-    }// Method : changeCellColorByString
-    
-    
-    private void resetTable(JTable table){
-        // iterate trhough all colouns and reset there cell renderers to default
-        for (int column = 1; column < table.getColumnCount(); column++){
-            table.getColumnModel().getColumn(column).setCellRenderer(new DefaultTableCellRenderer());
-        }
-            
-        //Repaint the table to apply the changes
-        table.repaint();
 
-    }
-
-   
-    
-    
-    private void changeCellByRow(JTable table, List<EventDayRange> eventRangeList) {
-        List<Integer> daysWithEntries = new ArrayList<>();
-
-        for (EventDayRange range : eventRangeList) {
-            if (!daysWithEntries.contains(range.getDayIndex())) {
-                daysWithEntries.add(range.getDayIndex());
-            }
-        }
-
-        // Iterate through each day and then each sameDayRange to apply the renderer to only those cells
-        for (int dayIndex : daysWithEntries) {
-            List<EventDayRange> sameDayRanges = new ArrayList<>();
-            for (EventDayRange range : eventRangeList) {
-                if (range.getDayIndex() == dayIndex) {
-                    sameDayRanges.add(range);
-                }
-            }
-
-
-            // create default renderer 
-            DefaultTableCellRenderer initialRenderer = new DefaultTableCellRenderer(){
-               @Override
-                   public Component getTableCellRendererComponent(JTable table,
-                   Object value, boolean isSelected, boolean hasFocus, int row, 
-                   int column) { 
-           
-                       return super.getTableCellRendererComponent(table, value, isSelected,
-                       hasFocus, row, column);
-                   }
-            };
-
-            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                    Component initialC = initialRenderer.getTableCellRendererComponent(table,
-                                           value, isSelected, hasFocus, row, column);
-
-                    for (EventDayRange range : sameDayRanges) {
-                        
-
-                        if (row >= range.getStartRow() && row <= range.getEndRow() && column == range.getDayIndex()) {
-                            c.setBackground(range.getColor() != null ? range.getColor() : Color.GREEN);
-                            
-                            if (row == range.getStartRow()) {
-                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
-                                ((JLabel) c).setText(range.getEventName());
-                                ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
-                                ((JLabel) c).setVerticalAlignment(SwingConstants.CENTER);
-                                ((JLabel) c).setFont(new java.awt.Font("TImesNewRoman", java.awt.Font.BOLD, 12));
-                                ((JLabel) c).setOpaque(true);
-                                ((JLabel) c).setBackground(range.getColor());
-                                ((JLabel) c).setForeground(getContrastingColor(range.getColor()));
-                                //c.setForeground(getContrastingColor(range.getColor()));
-                                
-                                // Add event id directly to that cell
-                                table.setValueAt(range.getEventId(), row, column);
-
-                            } else if (row == range.getEndRow()) {
-                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
-                            } else {
-                                ((JLabel) c).setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
-                            }
-                            return c;
-                        }
-                    }
-
-                    // Reset to default for cells not in the range
-                    c.setBackground(Color.WHITE);
-                    
-                    ((JLabel) c).setBorder(null);
-                    ((JLabel) c).setText(value != null ? value.toString() : "");
-                     // create a list of rowIndex that is not within the range of the sameDayRanges
-                    List<Integer> activeRowIndexList = new ArrayList<>();
-                    // iterate through the sameDayRanges and add the rowIndex to the activeRowIndexList
-                    for (EventDayRange range : sameDayRanges) {
-                        for (int i = range.getStartRow(); i <= range.getEndRow(); i++) {
-                            activeRowIndexList.add(i);
-                        }
-                    }
-                    // create a inactive rowIndex list thats no in activeRowIndexList
-                    List<Integer> inactiveRowIndexList = new ArrayList<>();
-                    for (int i = 0; i < table.getRowCount(); i++) {
-                        if (!activeRowIndexList.contains(i)) {
-                            inactiveRowIndexList.add(i);
-                        }
-                    }
-
-                    // if current row is in the inactiveRowIndexList then set the initialC
-                    if (inactiveRowIndexList.contains(row)) {
-                        return initialC;
-                    }
-
-                    return c;
-                }
-            };
-
-            // Apply the renderer to the column for the day
-            table.getColumnModel().getColumn(dayIndex).setCellRenderer(renderer);
-        }
-
-        // Repaint the table to apply the changes
-        table.repaint();
-
-        
-    }// End changeCellColor
-    
-    
     private int getRowIndex(JTable table, String timeframe){
         for (int i = 0; i < table.getRowCount(); i++) {
             if(table.getValueAt(i, 0).equals(timeframe)){
@@ -2547,70 +2680,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         return -1; // not found
     }
     
-    
-    // Remove lines between cells
-    private void removeCellLines(JTable table){
-        table.setShowGrid(false);
-        table.setIntercellSpacing(new Dimension(0,0));
-    }// Method : removeCellLines
-    
-    //Set row height and column width
-    private void setRowHeightAndColumnWidth(JTable table){
-        table.setRowHeight(40); // increase row height
-        
-        table.getColumnModel().getColumn(0).setPreferredWidth(130); // set width for the timeframe column
-    
-    }// Method : setRowHeightAndColumnWidth
-    
-    public class EventDayRange {
-        private int startRow;
-        private int endRow;
-        private List<Integer> rowRange = new ArrayList<>(); 
-        private int dayIndex;
-        private int weekIndex;
-        private int monthIndex;
-        private int yearIndex;
-        private int eventId;
-        private String eventName;
-        private Color color;
-        
-        public EventDayRange(int startRow, int endRow, int dayIndex, int weekIndex,
-        int monthIndex, int yearIndex, int eventId, String eventName, Color color){
-            this.startRow = startRow;
-            this.endRow = endRow;
-            this.dayIndex = dayIndex;
-            this.weekIndex = weekIndex;
-            this.monthIndex = monthIndex;
-            this.yearIndex = yearIndex;
-            this.eventId = eventId;
-            this.eventName = eventName;
-            this.color = color;
-            
-            rowRange = new ArrayList<>(); 
-        }
-        
-        //Getters and setters
-        public int getStartRow(){return startRow; }
-        public int getEndRow() {return endRow; }
-        public List<Integer> getRowRange() {return rowRange; }
-        public int getDayIndex() {return dayIndex; }
-        public int getWeekIndex() {return weekIndex; }
-        public int getMonthIndex() {return monthIndex; }
-        public int getYearIndex() {return yearIndex; }
-        public int getEventId() {return eventId; }
-        public String getEventName() {return eventName; }
-        public Color getColor() {return color; }
-        
-        public void setRowRange( Integer newRowId){
-            rowRange.add(newRowId);
-        }
 
-        public void setRowRange( List<Integer> newRowList){
-            rowRange.addAll(newRowList);
-        }
-    
-    }
-  
     private void setListOfTableIndexEventIdFullRange(HTimetable event) {
         int eventId = event.getTimetableId();
         String eventName = event.getEventName();
@@ -2956,24 +3026,6 @@ public class JTimetableMain extends javax.swing.JFrame {
         }    
     }// End setListOfTableIndexEventId
     
-    private void updateTimeTableForWeek(List<EventDayRange> eventRangeList, int weekIndex){
-        
-        List<EventDayRange> currentWeekList = new ArrayList<>();
-        
-        //Locate only ranges from the same week
-        for(EventDayRange range : eventRangeList){
-            if (range.weekIndex == weekIndex){
-               currentWeekList.add(range);
-            }
-       }
-        
-       resetTable(jTimetable); //Reset the table
-       //changeCell(jTimetable, currentWeekList); // Apply renderer using a list of objects
-       changeCellByRow(jTimetable, currentWeekList); // Apply renderer using a list of objects
-    }
-    
-    
-    
     
     public String convertDateToDayOfWeek(Date date){
         try {
@@ -3124,6 +3176,50 @@ public class JTimetableMain extends javax.swing.JFrame {
         
         return lastDayOfWeek;
     }
+    
+    //Methods not used anymore
+    
+    //change cell color older
+//    private void changeCellColorByString(JTable table, String startDay, String endDay, String startTimeframe,
+//    String endTimeframe, Color color) {
+//        
+//        int startDayIndex = getColumnIndex(startDay);
+//        int endDayIndex = getColumnIndex(endDay);
+//        int startTimeIndex = getRowIndex(table, startTimeframe);
+//        int endTimeIndex = getRowIndex(table, endTimeframe);
+//        
+//        if (startDayIndex == -1 || endDayIndex == -1 || startTimeIndex == -1 || 
+//        endTimeIndex == -1) {
+//            return;// invalid values, exit method
+//        }
+//        
+//        
+//        for(int row = startTimeIndex; row <= endTimeIndex; row++) {
+//            for (int col = startDayIndex; col <= endDayIndex; col++){
+//                table.prepareRenderer(new DefaultTableCellRenderer(){
+//                    @Override
+//                    public Component getTableCellRendererComponent(JTable table, 
+//                    Object value, boolean isSelected, boolean hasFocus, int row,
+//                    int column) {
+//                        Component c = super.getTableCellRendererComponent(table, value,
+//                        isSelected, hasFocus, row, column);
+//                        
+//                        if (row >= startTimeIndex && row <= endTimeIndex && column >=
+//                        startDayIndex && column <= endDayIndex){
+//                            
+//                            if(color != null){
+//                                 c.setBackground(color);
+//                            }else{
+//                                 c.setBackground(Color.GREEN); //default color when none is set
+//                            }  
+//                        }
+//                        return c;
+//                    }
+//                }, row, col);
+//            }
+//        }
+//    }// Method : changeCellColorByString
+    
     
     
 }//End Class
