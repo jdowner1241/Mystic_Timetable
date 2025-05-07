@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -586,6 +587,19 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
        
         jPanelUserUISwitch(1); // Show list of users 
         jPanelUserControlsSwitch(1, "home"); // Add home usercontrols to frame
+
+        //JFrame settings 
+        java.net.URL iconURL = getClass().getResource("/Assets/Icons/Logo.png");
+        if (iconURL != null) {
+            ImageIcon icon = new ImageIcon(iconURL);
+            this.setIconImage(icon.getImage());
+        } else {
+            logger.CreateLog("warning", "\"Icon resource not found: /Assets/Icons/Logo.png\"", null);
+            //Logger.getLogger(JTimetableLoginPage.class.getName()).log(Level.WARNING, "Icon resource not found: /Assets/Icons/Logo.png");
+        }
+        this.getContentPane().setBackground(new Color(51, 153, 255));
+
+
         
     }
     
@@ -915,7 +929,7 @@ public class JTimetableLoginPage extends javax.swing.JFrame {
                 DbLoginInfo loginInfo = new DbLoginInfo();
                 
                 //Initial required varilables 
-                String userName = "";
+                String userName = jModeHeader.getText();
             
                 String email = jTFEmailLogin.getText();
                 char[] passwordChar = jPFPasswordLogin.getPassword();

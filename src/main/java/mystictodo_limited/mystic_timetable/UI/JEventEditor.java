@@ -13,12 +13,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.ImageIcon;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import static mystictodo_limited.mystic_timetable.UI.JTimetableImportExportTool.logger;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
 import mystictodo_limited.mystic_timetable.hibernate.*;
 import mystictodo_limited.mystic_timetable.tools.validCheck;
@@ -61,14 +63,13 @@ public class JEventEditor extends javax.swing.JFrame {
         editorNotificationRadio = new javax.swing.ButtonGroup();
         EventColorSelectorDialog = new javax.swing.JDialog();
         EventColorSelector = new javax.swing.JColorChooser();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        editorJBDelete = new javax.swing.JButton();
+        editorJBEdit = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
         editorJLHeader = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        editorJLName = new javax.swing.JLabel();
-        editorJLCategory = new javax.swing.JLabel();
-        editorJLDay = new javax.swing.JLabel();
-        editorJTFName = new javax.swing.JTextField();
-        editorJCBCategory = new javax.swing.JComboBox<>();
-        editorJCBDay = new javax.swing.JComboBox<>();
+        jPanel8 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         editorJLRepeatEvent = new javax.swing.JLabel();
         editorJCBRepeatEvent = new javax.swing.JComboBox<>();
@@ -85,14 +86,18 @@ public class JEventEditor extends javax.swing.JFrame {
         editorJLNotification = new javax.swing.JLabel();
         editorJRBNotificationOn = new javax.swing.JRadioButton();
         editorJRBNotificationOff = new javax.swing.JRadioButton();
+        jPanel1 = new javax.swing.JPanel();
+        editorJLName = new javax.swing.JLabel();
+        editorJLCategory = new javax.swing.JLabel();
+        editorJLDay = new javax.swing.JLabel();
+        editorJTFName = new javax.swing.JTextField();
+        editorJCBCategory = new javax.swing.JComboBox<>();
+        editorJCBDay = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         editorTbSetColor = new javax.swing.JToggleButton();
         editorTBColor = new javax.swing.JTextField();
         editorJLColor = new javax.swing.JLabel();
         editorTBColorStr = new javax.swing.JTextField();
-        jPanel6 = new javax.swing.JPanel();
-        editorJBDelete = new javax.swing.JButton();
-        editorJBEdit = new javax.swing.JButton();
 
         EventColorSelectorDialog.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         EventColorSelectorDialog.setMinimumSize(new java.awt.Dimension(640, 326));
@@ -124,53 +129,83 @@ public class JEventEditor extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Mystic Timetable");
+        setBackground(new java.awt.Color(51, 153, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
-        editorJLHeader.setFont(new java.awt.Font("Vampire Wars", 1, 14)); // NOI18N
+        jPanel9.setBackground(new java.awt.Color(51, 153, 255));
+
+        jPanel6.setBackground(new java.awt.Color(51, 153, 255));
+
+        editorJBDelete.setBackground(new java.awt.Color(255, 102, 102));
+        editorJBDelete.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJBDelete.setText("Delete");
+        editorJBDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editorJBDeleteActionPerformed(evt);
+            }
+        });
+
+        editorJBEdit.setBackground(new java.awt.Color(0, 153, 51));
+        editorJBEdit.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJBEdit.setText("Edit");
+        editorJBEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editorJBEditActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editorJBEdit)
+                .addGap(18, 18, 18)
+                .addComponent(editorJBDelete)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editorJBEdit)
+                    .addComponent(editorJBDelete))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel7.setBackground(new java.awt.Color(51, 153, 255));
+
+        editorJLHeader.setFont(new java.awt.Font("Vampire Wars", 1, 18)); // NOI18N
         editorJLHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         editorJLHeader.setText("Event Editor");
 
-        jPanel1.setLayout(new java.awt.GridLayout(2, 3, 20, 20));
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editorJLHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(editorJLHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
-        editorJLName.setText("Name");
-        editorJLName.setMaximumSize(new java.awt.Dimension(170, 25));
-        editorJLName.setMinimumSize(new java.awt.Dimension(75, 25));
-        editorJLName.setPreferredSize(new java.awt.Dimension(160, 25));
-        jPanel1.add(editorJLName);
+        jPanel8.setBackground(new java.awt.Color(154, 189, 213));
 
-        editorJLCategory.setText("Category");
-        editorJLCategory.setMaximumSize(new java.awt.Dimension(170, 25));
-        editorJLCategory.setMinimumSize(new java.awt.Dimension(75, 25));
-        editorJLCategory.setPreferredSize(new java.awt.Dimension(160, 25));
-        jPanel1.add(editorJLCategory);
-
-        editorJLDay.setText("Day");
-        editorJLDay.setMaximumSize(new java.awt.Dimension(170, 25));
-        editorJLDay.setMinimumSize(new java.awt.Dimension(75, 25));
-        editorJLDay.setPreferredSize(new java.awt.Dimension(160, 25));
-        jPanel1.add(editorJLDay);
-
-        editorJTFName.setToolTipText("Event Name");
-        editorJTFName.setMaximumSize(new java.awt.Dimension(170, 25));
-        editorJTFName.setMinimumSize(new java.awt.Dimension(75, 25));
-        editorJTFName.setPreferredSize(new java.awt.Dimension(160, 25));
-        jPanel1.add(editorJTFName);
-
-        editorJCBCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
-        editorJCBCategory.setMaximumSize(new java.awt.Dimension(170, 25));
-        editorJCBCategory.setMinimumSize(new java.awt.Dimension(75, 25));
-        editorJCBCategory.setPreferredSize(new java.awt.Dimension(160, 25));
-        jPanel1.add(editorJCBCategory);
-
-        editorJCBDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }));
-        editorJCBDay.setMaximumSize(new java.awt.Dimension(170, 25));
-        editorJCBDay.setMinimumSize(new java.awt.Dimension(75, 25));
-        editorJCBDay.setPreferredSize(new java.awt.Dimension(160, 25));
-        jPanel1.add(editorJCBDay);
-
+        jPanel2.setBackground(new java.awt.Color(154, 189, 213));
         jPanel2.setLayout(new java.awt.GridLayout(4, 1, 20, 20));
 
+        editorJLRepeatEvent.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLRepeatEvent.setForeground(new java.awt.Color(0, 0, 0));
         editorJLRepeatEvent.setText("Repeat Event");
         editorJLRepeatEvent.setMaximumSize(new java.awt.Dimension(170, 25));
         editorJLRepeatEvent.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -188,6 +223,8 @@ public class JEventEditor extends javax.swing.JFrame {
         });
         jPanel2.add(editorJCBRepeatEvent);
 
+        editorJLRepeatAmount.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLRepeatAmount.setForeground(new java.awt.Color(0, 0, 0));
         editorJLRepeatAmount.setText("How Often");
         editorJLRepeatAmount.setMaximumSize(new java.awt.Dimension(170, 25));
         editorJLRepeatAmount.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -199,6 +236,10 @@ public class JEventEditor extends javax.swing.JFrame {
         editorJCBRepeatAmount.setPreferredSize(new java.awt.Dimension(160, 25));
         jPanel2.add(editorJCBRepeatAmount);
 
+        jPanel3.setBackground(new java.awt.Color(154, 189, 213));
+
+        editorJLStartTime.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLStartTime.setForeground(new java.awt.Color(0, 0, 0));
         editorJLStartTime.setText("Start Time");
         editorJLStartTime.setMaximumSize(new java.awt.Dimension(170, 25));
         editorJLStartTime.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -208,6 +249,8 @@ public class JEventEditor extends javax.swing.JFrame {
         editorJSStartTime.setMinimumSize(new java.awt.Dimension(75, 25));
         editorJSStartTime.setPreferredSize(new java.awt.Dimension(160, 25));
 
+        editorJLEndTime.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLEndTime.setForeground(new java.awt.Color(0, 0, 0));
         editorJLEndTime.setText("End Time");
         editorJLEndTime.setMaximumSize(new java.awt.Dimension(170, 25));
         editorJLEndTime.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -258,7 +301,7 @@ public class JEventEditor extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(editorJSStartTime, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                     .addComponent(editorJSStartTimeDBox, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(editorJLEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -266,6 +309,10 @@ public class JEventEditor extends javax.swing.JFrame {
                     .addComponent(editorJSEndTimeDBox, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
 
+        jPanel4.setBackground(new java.awt.Color(154, 189, 213));
+
+        editorJLNotification.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLNotification.setForeground(new java.awt.Color(0, 0, 0));
         editorJLNotification.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         editorJLNotification.setText("Enable Notification");
         editorJLNotification.setMaximumSize(new java.awt.Dimension(170, 25));
@@ -273,9 +320,11 @@ public class JEventEditor extends javax.swing.JFrame {
         editorJLNotification.setPreferredSize(new java.awt.Dimension(160, 25));
 
         editorNotificationRadio.add(editorJRBNotificationOn);
+        editorJRBNotificationOn.setForeground(new java.awt.Color(0, 0, 0));
         editorJRBNotificationOn.setText("Yes");
 
         editorNotificationRadio.add(editorJRBNotificationOff);
+        editorJRBNotificationOff.setForeground(new java.awt.Color(0, 0, 0));
         editorJRBNotificationOff.setText("No");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -288,7 +337,7 @@ public class JEventEditor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(editorJRBNotificationOn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
-            .addComponent(editorJLNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(editorJLNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,6 +350,53 @@ public class JEventEditor extends javax.swing.JFrame {
                     .addComponent(editorJRBNotificationOn))
                 .addContainerGap())
         );
+
+        jPanel1.setBackground(new java.awt.Color(154, 189, 213));
+        jPanel1.setLayout(new java.awt.GridLayout(2, 3, 20, 20));
+
+        editorJLName.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLName.setForeground(new java.awt.Color(0, 0, 0));
+        editorJLName.setText("Name");
+        editorJLName.setMaximumSize(new java.awt.Dimension(170, 25));
+        editorJLName.setMinimumSize(new java.awt.Dimension(75, 25));
+        editorJLName.setPreferredSize(new java.awt.Dimension(160, 25));
+        jPanel1.add(editorJLName);
+
+        editorJLCategory.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLCategory.setForeground(new java.awt.Color(0, 0, 0));
+        editorJLCategory.setText("Category");
+        editorJLCategory.setMaximumSize(new java.awt.Dimension(170, 25));
+        editorJLCategory.setMinimumSize(new java.awt.Dimension(75, 25));
+        editorJLCategory.setPreferredSize(new java.awt.Dimension(160, 25));
+        jPanel1.add(editorJLCategory);
+
+        editorJLDay.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLDay.setForeground(new java.awt.Color(0, 0, 0));
+        editorJLDay.setText("Day");
+        editorJLDay.setMaximumSize(new java.awt.Dimension(170, 25));
+        editorJLDay.setMinimumSize(new java.awt.Dimension(75, 25));
+        editorJLDay.setPreferredSize(new java.awt.Dimension(160, 25));
+        jPanel1.add(editorJLDay);
+
+        editorJTFName.setToolTipText("Event Name");
+        editorJTFName.setMaximumSize(new java.awt.Dimension(170, 25));
+        editorJTFName.setMinimumSize(new java.awt.Dimension(75, 25));
+        editorJTFName.setPreferredSize(new java.awt.Dimension(160, 25));
+        jPanel1.add(editorJTFName);
+
+        editorJCBCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        editorJCBCategory.setMaximumSize(new java.awt.Dimension(170, 25));
+        editorJCBCategory.setMinimumSize(new java.awt.Dimension(75, 25));
+        editorJCBCategory.setPreferredSize(new java.awt.Dimension(160, 25));
+        jPanel1.add(editorJCBCategory);
+
+        editorJCBDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }));
+        editorJCBDay.setMaximumSize(new java.awt.Dimension(170, 25));
+        editorJCBDay.setMinimumSize(new java.awt.Dimension(75, 25));
+        editorJCBDay.setPreferredSize(new java.awt.Dimension(160, 25));
+        jPanel1.add(editorJCBDay);
+
+        jPanel5.setBackground(new java.awt.Color(154, 189, 213));
 
         editorTbSetColor.setText("Set Color");
         editorTbSetColor.addActionListener(new java.awt.event.ActionListener() {
@@ -319,6 +415,8 @@ public class JEventEditor extends javax.swing.JFrame {
             }
         });
 
+        editorJLColor.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        editorJLColor.setForeground(new java.awt.Color(0, 0, 0));
         editorJLColor.setText("Color");
         editorJLColor.setMaximumSize(new java.awt.Dimension(170, 25));
         editorJLColor.setMinimumSize(new java.awt.Dimension(75, 25));
@@ -357,38 +455,64 @@ public class JEventEditor extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        editorJBDelete.setText("Delete");
-        editorJBDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editorJBDeleteActionPerformed(evt);
-            }
-        });
-
-        editorJBEdit.setText("Edit");
-        editorJBEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editorJBEditActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
-                .addComponent(editorJBEdit)
-                .addGap(18, 18, 18)
-                .addComponent(editorJBDelete)
-                .addGap(46, 46, 46))
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editorJBEdit)
-                    .addComponent(editorJBDelete))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 10, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -396,45 +520,14 @@ public class JEventEditor extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(24, 24, 24)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(20, 20, 20))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(235, 235, 235)
-                        .addComponent(editorJLHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(184, 184, 184)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(editorJLHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -540,6 +633,9 @@ public class JEventEditor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     // End of variables declaration//GEN-END:variables
 
 
@@ -852,6 +948,18 @@ public class JEventEditor extends javax.swing.JFrame {
     
     
     private void initializeEditorComp() {
+        
+        //JFrame settings 
+        java.net.URL iconURL = getClass().getResource("/Assets/Icons/Logo.png");
+        if (iconURL != null) {
+            ImageIcon icon = new ImageIcon(iconURL);
+            this.setIconImage(icon.getImage());
+        } else {
+            logger.CreateLog("warning", "\"Icon resource not found: /Assets/Icons/Logo.png\"", null);
+            //Logger.getLogger(JTimetableLoginPage.class.getName()).log(Level.WARNING, "Icon resource not found: /Assets/Icons/Logo.png");
+        }
+        this.getContentPane().setBackground(new Color(51, 153, 255));
+        
         
         // Update spinner
         //Start time

@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import javax.swing.ImageIcon;
 import mystictodo_limited.mystic_timetable.db.DbConnectionManager;
 import mystictodo_limited.mystic_timetable.util.APIClient;
 import mystictodo_limited.mystic_timetable.util.APIServer;
@@ -24,15 +25,8 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
     //Constructor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
     public JTimetableImportExportTool() {
         initComponents();
+        intialSetting();
         
-        showNetworkInfo();
-        
-        jRBServerStatus.setSelected(false);
-        jRBServerStatus.setForeground(Color.black);
-        jTBToggleServer.setText("Start Server");
-        jRBClientStatus.setSelected(false);
-        jRBClientStatus.setForeground(Color.black);
-        jTBToggleClient.setText("Start Client");
     }
 
     /**
@@ -49,13 +43,13 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPFileGroup = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLFileGroup = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jRadioButton2 = new javax.swing.JRadioButton();
+        jLFileGroup = new javax.swing.JLabel();
         jPNetworkGroup = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLServerPort = new javax.swing.JLabel();
@@ -90,6 +84,7 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
         jFileExport.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Mystic Timetable");
 
         jTabbedPane1.setBackground(new java.awt.Color(51, 153, 255));
         jTabbedPane1.setForeground(new java.awt.Color(0, 0, 0));
@@ -98,10 +93,6 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
         jPFileGroup.setBackground(new java.awt.Color(51, 153, 255));
 
         jPanel3.setBackground(new java.awt.Color(154, 189, 213));
-
-        jLFileGroup.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
-        jLFileGroup.setForeground(new java.awt.Color(0, 0, 0));
-        jLFileGroup.setText("File Import/Export");
 
         jLabel4.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -136,22 +127,16 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(jLFileGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLFileGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel4)
                     .addComponent(jButton1)
@@ -161,24 +146,34 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jButton2)
                     .addComponent(jRadioButton2))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
+
+        jLFileGroup.setFont(new java.awt.Font("Vampire Wars", 0, 12)); // NOI18N
+        jLFileGroup.setForeground(new java.awt.Color(255, 255, 255));
+        jLFileGroup.setText("File Import/Export");
 
         javax.swing.GroupLayout jPFileGroupLayout = new javax.swing.GroupLayout(jPFileGroup);
         jPFileGroup.setLayout(jPFileGroupLayout);
         jPFileGroupLayout.setHorizontalGroup(
             jPFileGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPFileGroupLayout.createSequentialGroup()
-                .addContainerGap(57, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPFileGroupLayout.createSequentialGroup()
+                .addContainerGap(75, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(52, 52, 52))
+            .addGroup(jPFileGroupLayout.createSequentialGroup()
+                .addGap(192, 192, 192)
+                .addComponent(jLFileGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPFileGroupLayout.setVerticalGroup(
             jPFileGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPFileGroupLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(28, 28, 28)
+                .addComponent(jLFileGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(313, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("File Transfer", jPFileGroup);
@@ -241,9 +236,6 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jRBServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -253,29 +245,29 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTFServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTBToggleServer)
+                                    .addComponent(jTFServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jBServerIPSet)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBServerIPSetDefault))
+                            .addComponent(jRBServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jBServerPortSet)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBServerPortSetDefault))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(jTBToggleServer))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
+                        .addGap(152, 152, 152)
                         .addComponent(jLServerHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(5, 5, 5)
                 .addComponent(jLServerHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -289,15 +281,15 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
                     .addComponent(jTFServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBServerPortSet)
                     .addComponent(jBServerPortSetDefault))
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRBServerStatus)
                     .addComponent(jTBToggleServer))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jLNetworkGroup.setFont(new java.awt.Font("Vampire Wars", 0, 14)); // NOI18N
-        jLNetworkGroup.setForeground(new java.awt.Color(0, 0, 0));
+        jLNetworkGroup.setForeground(new java.awt.Color(255, 255, 255));
         jLNetworkGroup.setText("Network Import/Export");
 
         jPanel2.setBackground(new java.awt.Color(154, 189, 213));
@@ -364,17 +356,16 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addComponent(jLClientPort, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTFClientPort, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTBToggleClient))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jTFClientPort, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jBClientPortSet))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jTBToggleClient)
-                                    .addGap(35, 35, 35)
-                                    .addComponent(jRBClientStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBClientPortSetDefault)))
+                                    .addComponent(jBClientPortSet)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jBClientPortSetDefault))
+                                .addComponent(jRBClientStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -387,7 +378,7 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLClientHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(157, 157, 157))
+                .addGap(164, 164, 164))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,10 +404,10 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
                     .addComponent(jBClientPortSet)
                     .addComponent(jBClientPortSetDefault))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jTBToggleClient)
-                    .addComponent(jRBClientStatus))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRBClientStatus)
+                    .addComponent(jTBToggleClient))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPNetworkGroupLayout = new javax.swing.GroupLayout(jPNetworkGroup);
@@ -424,12 +415,15 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
         jPNetworkGroupLayout.setHorizontalGroup(
             jPNetworkGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPNetworkGroupLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(154, 154, 154)
+                .addComponent(jLNetworkGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(142, 142, 142))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPNetworkGroupLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPNetworkGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLNetworkGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
         jPNetworkGroupLayout.setVerticalGroup(
             jPNetworkGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,7 +433,8 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Network Transfer", jPNetworkGroup);
@@ -613,6 +608,29 @@ public class JTimetableImportExportTool extends javax.swing.JFrame {
 //Getters/Setters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
     
 //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      
+    
+    private void intialSetting(){
+        showNetworkInfo();
+        
+        jRBServerStatus.setSelected(false);
+        jRBServerStatus.setForeground(Color.black);
+        jTBToggleServer.setText("Start Server");
+        jRBClientStatus.setSelected(false);
+        jRBClientStatus.setForeground(Color.black);
+        jTBToggleClient.setText("Start Client");
+        
+        //JFrame settings 
+        java.net.URL iconURL = getClass().getResource("/Assets/Icons/Logo.png");
+        if (iconURL != null) {
+            ImageIcon icon = new ImageIcon(iconURL);
+            this.setIconImage(icon.getImage());
+        } else {
+            logger.CreateLog("warning", "\"Icon resource not found: /Assets/Icons/Logo.png\"", null);
+            //Logger.getLogger(JTimetableLoginPage.class.getName()).log(Level.WARNING, "Icon resource not found: /Assets/Icons/Logo.png");
+        }
+        this.getContentPane().setBackground(new Color(51, 153, 255));
+    }
+    
     
     private void showNetworkInfo(){
         //int serverPort = server.getServerPort();

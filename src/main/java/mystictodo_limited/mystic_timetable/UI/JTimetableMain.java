@@ -37,11 +37,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -350,6 +354,7 @@ public class JTimetableMain extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Mystic Timetable");
 
         jPanel3.setBackground(new java.awt.Color(51, 153, 255));
 
@@ -545,9 +550,10 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(editJLNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(editJRBNotificationOn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(editJRBNotificationOff, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1057,7 +1063,7 @@ public class JTimetableMain extends javax.swing.JFrame {
                 .addComponent(TimetableDatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(MainMiddleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(MainMiddleLayout.createSequentialGroup()
-                        .addGap(445, 445, 445)
+                        .addGap(350, 350, 350)
                         .addComponent(jBHideMainLeft))
                     .addGroup(MainMiddleLayout.createSequentialGroup()
                         .addGap(350, 350, 350)
@@ -1462,6 +1468,17 @@ public class JTimetableMain extends javax.swing.JFrame {
         // Update folder list 
         UpdateFolderList();
         
+        //Update frame setting
+        //JFrame settings 
+        java.net.URL iconURL = getClass().getResource("/Assets/Icons/Logo.png");
+        if (iconURL != null) {
+            ImageIcon icon = new ImageIcon(iconURL);
+            this.setIconImage(icon.getImage());
+        } else {
+            logger.CreateLog("warning", "\"Icon resource not found: /Assets/Icons/Logo.png\"", null);
+            //Logger.getLogger(JTimetableLoginPage.class.getName()).log(Level.WARNING, "Icon resource not found: /Assets/Icons/Logo.png");
+        }
+        this.getContentPane().setBackground(new Color(51, 153, 255));
         
         // Update spinner
         //Starttime
@@ -2226,6 +2243,28 @@ public class JTimetableMain extends javax.swing.JFrame {
     }// Method : setRowHeightAndColumnWidth
     
     
+    // CREATE INTERNAL class that would trigger an alarm at a specific timeframe
+    private class EventAlarm extends TimerTask {
+        private int eventId;
+        private Date eventTime;
+
+        public EventAlarm(int eventId, Date eventTime) {
+            this.eventId = eventId;
+            this.eventTime = eventTime;
+        }
+
+        @Override
+        public void run() {
+            // Trigger the alarm for the event
+            JOptionPane.showMessageDialog(null, "Alarm for Event ID: " + eventId);
+
+            // trigger a sound as well
+            // SoundManager.playAlarmSound();
+        }
+    }
+
+
+
     //Supporting Methods ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
     
     private void getTimetableLinkerList(int userAndFolderId){
