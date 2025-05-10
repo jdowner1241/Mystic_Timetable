@@ -20,7 +20,7 @@
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HTimetableLinker"/>
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HTimetable"/>
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLoginInfo"/>
-        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLogType"/>
+        <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLogLevel"/>
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HLogEntry"/>
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HFolderPerUser"/>
         <mapping class="mystictodo_limited.mystic_timetable.hibernate.HFolder"/>

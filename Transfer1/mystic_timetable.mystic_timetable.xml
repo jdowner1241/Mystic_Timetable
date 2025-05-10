@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><database name="mystic_timetable" schema="mystic_timetable" type="MySQL - 8.0.41">
+   <tables>
+      <table catalog="mystic_timetable" name="dayoftheweek" numRows="7" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="DayId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <child catalog="mystic_timetable" column="Day" foreignKey="timetable_DayId" implied="false" onDeleteCascade="true" table="timetable"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="DayName" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <primaryKey column="DayId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="DayId"/>
+         </index>
+         <index name="DayName_UNIQUE" unique="true">
+            <column ascending="true" name="DayName"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="folder" numRows="3" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="FolderId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <child catalog="mystic_timetable" column="FolderId" foreignKey="folderperuser_FolderName" implied="false" onDeleteCascade="true" table="folderperuser"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="FolderName" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <primaryKey column="FolderId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="FolderId"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="folderperuser" numRows="9" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="FolderPerUserId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <child catalog="mystic_timetable" column="UserAndFolderId" foreignKey="timetablelinker_FolderPerUserId" implied="false" onDeleteCascade="false" table="timetablelinker"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="UserId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="UserId" foreignKey="folderperuser_UserId" implied="false" onDeleteCascade="true" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="FolderId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="FolderId" foreignKey="folderperuser_FolderName" implied="false" onDeleteCascade="true" table="folder"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="FolderNumberPerUser" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <primaryKey column="FolderPerUserId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="FolderPerUserId"/>
+         </index>
+         <index name="folderperuser_FolderName" unique="false">
+            <column ascending="true" name="FolderId"/>
+         </index>
+         <index name="folderperuser_UserId" unique="false">
+            <column ascending="true" name="UserId"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="frequencytype" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="FTId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <child catalog="mystic_timetable" column="FrequencyType" foreignKey="timetable_FTId" implied="false" onDeleteCascade="true" table="timetable"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="FTName" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <primaryKey column="FTId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="FTId"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="logentry" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="LogId" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="Timestamp" nullable="false" remarks="" size="19" type="DATETIME" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="LogType" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="LogLevelId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="LogLevelId" foreignKey="logentry_LogLevelId" implied="false" onDeleteCascade="true" table="loglevel"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="Message" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="UserId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="UserId" foreignKey="logentry_UserId" implied="false" onDeleteCascade="false" table="users"/>
+         </column>
+         <primaryKey column="LogId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="LogId"/>
+         </index>
+         <index name="logentry_LogLevelId" unique="false">
+            <column ascending="true" name="LogLevelId"/>
+         </index>
+         <index name="logentry_UserId" unique="false">
+            <column ascending="true" name="UserId"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="logininfo" numRows="8" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="LoginInfoId" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="UserId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="UserId" foreignKey="logininfo_UserId" implied="false" onDeleteCascade="false" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="LoginResult" nullable="false" remarks="" size="1" type="BIT" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="LastLogin" nullable="false" remarks="" size="19" type="DATETIME" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="SuccessLoginCount" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="FailedLoginCount" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <primaryKey column="LoginInfoId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="LoginInfoId"/>
+         </index>
+         <index name="logininfo_UserId" unique="false">
+            <column ascending="true" name="UserId"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="loglevel" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="LogLevelId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <child catalog="mystic_timetable" column="LogLevelId" foreignKey="logentry_LogLevelId" implied="false" onDeleteCascade="true" table="logentry"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="Name" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="Description" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <primaryKey column="LogLevelId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="LogLevelId"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="timetable" numRows="6" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="TimetableId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <child catalog="mystic_timetable" column="EventId" foreignKey="timetablelinker_TimetableId" implied="false" onDeleteCascade="true" table="timetablelinker"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="EventName" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="EventCategory" nullable="true" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="Day" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="DayId" foreignKey="timetable_DayId" implied="false" onDeleteCascade="true" table="dayoftheweek"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="EventStart" nullable="false" remarks="" size="19" type="DATETIME" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="EventEnd" nullable="false" remarks="" size="19" type="DATETIME" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="6" name="FrequencyType" nullable="false" remarks="1 would repeat the event every week. \\\\\\\\n2 Every two weeks etc." size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="FTId" foreignKey="timetable_FTId" implied="false" onDeleteCascade="true" table="frequencytype"/>
+         </column>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="7" name="FrequencyAmount" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="Color" nullable="true" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="HasNotification" nullable="false" remarks="" size="1" type="BIT" typeCode="-7"/>
+         <primaryKey column="TimetableId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="TimetableId"/>
+         </index>
+         <index name="timetable_DayId" unique="false">
+            <column ascending="true" name="Day"/>
+         </index>
+         <index name="timetable_FTId" unique="false">
+            <column ascending="true" name="FrequencyType"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="timetablelinker" numRows="5" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="TimetableLinkerId" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="EventId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="TimetableId" foreignKey="timetablelinker_TimetableId" implied="false" onDeleteCascade="true" table="timetable"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="UserAndFolderId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <parent catalog="mystic_timetable" column="FolderPerUserId" foreignKey="timetablelinker_FolderPerUserId" implied="false" onDeleteCascade="false" table="folderperuser"/>
+         </column>
+         <primaryKey column="TimetableLinkerId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="TimetableLinkerId"/>
+         </index>
+         <index name="timetablelinker_FolderPerUserId" unique="false">
+            <column ascending="true" name="UserAndFolderId"/>
+         </index>
+         <index name="timetablelinker_TimetableId" unique="false">
+            <column ascending="true" name="EventId"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="timetablepresets" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="PresetId" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="PresetName" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="PresetCategory" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="PresetColor" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <primaryKey column="PresetId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="PresetId"/>
+         </index>
+      </table>
+      <table catalog="mystic_timetable" name="users" numRows="8" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="UserId" nullable="false" remarks="" size="10" type="INT" typeCode="4">
+            <child catalog="mystic_timetable" column="UserId" foreignKey="folderperuser_UserId" implied="false" onDeleteCascade="true" table="folderperuser"/>
+            <child catalog="mystic_timetable" column="UserId" foreignKey="logentry_UserId" implied="false" onDeleteCascade="false" table="logentry"/>
+            <child catalog="mystic_timetable" column="UserId" foreignKey="logininfo_UserId" implied="false" onDeleteCascade="false" table="logininfo"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="UserName" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="EmailAddress" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="Password" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="RegistrationDate" nullable="false" remarks="" size="19" type="DATETIME" typeCode="93"/>
+         <primaryKey column="UserId" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="UserId"/>
+         </index>
+         <index name="EmailAddress_UNIQUE" unique="true">
+            <column ascending="true" name="EmailAddress"/>
+         </index>
+         <index name="UserName_UNIQUE" unique="true">
+            <column ascending="true" name="UserName"/>
+         </index>
+      </table>
+   </tables>
+   <routines>
+      <routine dataAccess="CONTAINS SQL" deterministic="false" name="insert_guest_user()" securityType="DEFINER" type="PROCEDURE">
+         <comment/>
+         <definition language="SQL"><![CDATA[BEGIN
+	DECLARE user_count INT;
+    
+    -- Check if the "Guest" user exists
+    SELECT COUNT(*) INTO user_count FROM Users WHERE UserName ='Guest';
+    
+    -- If the "Guest" user does not exist, insert iterate
+    IF user_count = 0 THEN
+		INSERT INTO Users (UserName, EmailAddress, Password)
+        VALUE ('Guest', 'guest@guest.com', 'password');
+	END IF;
+END]]></definition>
+         <parameters/>
+      </routine>
+   </routines>
+</database>

@@ -40,15 +40,16 @@ public class HLogEntry {
  @JoinColumn(name = "UserId", nullable = false)
  private HUsers users;
  
- @Column(name = "LogTypeId", nullable = false, insertable = false, updatable = false)
- private int logTypeId;
+ @Column(name = "LogType", nullable = false)
+ private String logType;
+ 
+ 
+ @Column(name = "LogLevelId", nullable = false, insertable = false, updatable = false )
+ private int logLevelId;
  
  @ManyToOne
- @JoinColumn(name = "LogTypeId", nullable = false)
- private HLogType logtype;
- 
- @Column(name = "LogLevel", nullable = false )
- private String logLevel;
+ @JoinColumn(name = "LogLevelId", nullable = false)
+ private HLogLevel loglevel;
  
  @Column(name = "Message", nullable = false)
  private String message;
@@ -85,31 +86,31 @@ public class HLogEntry {
         }
     }
  
-    public int getLogTypeId() {
-        return logTypeId;
+    public String getLogType() {
+        return logType;
     }
 
-    public void setLogTypeId(int logTypeId) {
-        this.logTypeId = logTypeId;
+    public void setLogType(String logType) {
+        this.logType = logType;
     }
     
-      public HLogType getLogtype() {
-        return logtype;
+      public HLogLevel getLoglevel() {
+        return loglevel;
     }
 
-    public void setLogtype(HLogType logtype) {
-        this.logtype = logtype;
-        if(logtype != null){
-            this.logTypeId = logtype.getLogTypeId();
+    public void setLoglevel(HLogLevel loglevel) {
+        this.loglevel = loglevel;
+        if(loglevel != null){
+            this.logLevelId = loglevel.getLogLevelId();
         }
     }
     
-    public String getLogLevel() {
-        return logLevel;
+    public int getLogLevelId() {
+        return logLevelId;
     }
 
-    public void setLogLevel(String logLevel) {
-        this.logLevel = logLevel;
+    public void setLogLevelId(int logLevelId) {
+        this.logLevelId = logLevelId;
     }
 
     public String getMessage() {

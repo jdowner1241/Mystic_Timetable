@@ -1,0 +1,11 @@
+timetablepresets
+timetablelinker
+logentry
+logininfo
+timetable
+folderperuser
+loglevel
+frequencytype
+folder
+dayoftheweek
+users

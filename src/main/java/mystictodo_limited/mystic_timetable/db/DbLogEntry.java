@@ -28,8 +28,8 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
  
  private int logId;
  private int userId;
- private int logTypeId;
- private String logLevel;
+ private int logLevelId;
+ private String logType;
  private String message;
  private LocalDateTime timeStamp;
  private ArrayList<DbLogEntry> logEntryList;
@@ -52,19 +52,19 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
  }
  
  //LoginTypeId
- public int getLogTypeId(){
-     return logTypeId;
+ public int getLogLevelId(){
+     return logLevelId;
  }
- public void setLogTypeId(int logTypeId){
-     this.logTypeId = logTypeId;
+ public void setLogLevelId(int logLevelId){
+     this.logLevelId = logLevelId;
  }
  
  //LogLevel
- public String getLogLevel(){
-     return logLevel;
+ public String getLogType(){
+     return logType;
  }
- public void setLogLevel(String logLevel){
-     this.logLevel = logLevel;
+ public void setLogType(String logType){
+     this.logType = logType;
  }
  
  //Message
@@ -87,7 +87,7 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
  
  //Methods >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  //Insert Entry 
-    public void InsertEntry(int userId, int logTypeId, String logLevel, String message) throws SQLException{
+    public void InsertEntry(int userId, int logLevelId, String logType, String message) throws SQLException{
         CreateLog("info", "Insert Entry Operation Triggered.", null);  
         
         try{
@@ -96,8 +96,8 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
             
             //Variables and validation
             int _userId = userId;
-            int _logTypeId = logTypeId;
-            String _logLevel = logLevel;
+            int _logLevelId = logLevelId;
+            String _logType = logType;
             String _message = message;
             LocalDateTime _setTimeStamp = LocalDateTime.now();
             String _timeStamp = _setTimeStamp.toString();
@@ -108,12 +108,12 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
            {
                //insert to database
                 String insertSQL = "INSERT INTO logentry "
-                        + "(UserId, LogTypeId, LogLevel, Message, TimeStamp) "
+                        + "(UserId, LogLevelId, logType, Message, TimeStamp) "
                         + "VALUE (?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(insertSQL);
                 ps.setInt(1, _userId);
-                ps.setInt(2, _logTypeId);
-                ps.setString(3, _logLevel);
+                ps.setInt(2, _logLevelId);
+                ps.setString(3, _logType);
                 ps.setString(4, _message);
                 ps.setString(5, _timeStamp);         
             
@@ -139,7 +139,7 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
     }
     
     //Update Entry
-    public void UpdateEntrybyId(int id, int userId, int logTypeId, String logLevel, String message) throws SQLException{
+    public void UpdateEntrybyId(int id, int userId, int logLevelId, String logType, String message) throws SQLException{
         CreateLog("info", "Update Entry by Id operation triggered.", null);  
         
         try{
@@ -148,8 +148,8 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
             
             //Variables and validation
             int _userId = userId;
-            int _logTypeId = logTypeId;
-            String _logLevel = logLevel;
+            int _logLevelId = logLevelId;
+            String _logType = logType;
             String _message = message;
   
             boolean isValid = true;
@@ -158,12 +158,12 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
             {
                 // update the entry
                 String updateSQL = "UPDATE logentry "
-                        + "SET UserId = ? LogTypeId = ? LogLevel = ? Message = ?"
+                        + "SET UserId = ? LogLevelId = ? LogType = ? Message = ?"
                         + "WHERE LogId = ?";
                 PreparedStatement psUpdate  = con.prepareStatement(updateSQL);
                 psUpdate.setInt(1, _userId);
-                psUpdate.setInt(2, _logTypeId);
-                psUpdate.setString(3, _logLevel);
+                psUpdate.setInt(2, _logLevelId);
+                psUpdate.setString(3, _logType);
                 psUpdate.setString(4, _message);
                 psUpdate.setInt(5, id);
                 int rowsUpdated = psUpdate.executeUpdate();
@@ -227,7 +227,7 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                 Connection con = Connection();
                 
                 // use id to locate entry
-                String selectSQL = "SELECT LogId, UserId, LogTypeId, LogLevel, Message, TimeStamp "
+                String selectSQL = "SELECT LogId, UserId, LogLevelId, LogType, Message, TimeStamp "
                         + "FROM logentry"
                         + "WHERE LogId = ?";
                 PreparedStatement psSelect = con.prepareStatement(selectSQL);
@@ -237,8 +237,8 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                 if (rset.next()){
                     dataStore.setLogId (rset.getInt("LogId"));
                     dataStore.setUserId(rset.getInt("UserId"));
-                    dataStore.setLogTypeId (rset.getInt("LogTypeId")); 
-                    dataStore.setLogLevel(rset.getString("LogLevel"));
+                    dataStore.setLogLevelId (rset.getInt("LogLevelId")); 
+                    dataStore.setLogType(rset.getString("LogType"));
                     dataStore.setMessage(rset.getString("Message"));
                     dataStore.setTimeStamp(rset.getString("TimeStamp")); 
                     
@@ -271,7 +271,7 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                 Connection con = Connection();
                 
                 // use name to locate entry
-                String selectSQL = "SELECT LogId, UserId, LogTypeId, LogLevel, Message, TimeStamp "
+                String selectSQL = "SELECT LogId, UserId, LogLevelId, LogType, Message, TimeStamp "
                         + "FROM logentry"
                         + "WHERE UserId = ?";
                 PreparedStatement psSelect = con.prepareStatement(selectSQL);
@@ -281,8 +281,8 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                 if (rset.next()){
                     dataStore.setLogId (rset.getInt("LogId"));
                     dataStore.setUserId(rset.getInt("UserId"));
-                    dataStore.setLogTypeId(rset.getInt("LogTypeId")); 
-                    dataStore.setLogLevel(rset.getString("LogLevel"));
+                    dataStore.setLogLevelId(rset.getInt("LogLevelId")); 
+                    dataStore.setLogType(rset.getString("LogType"));
                     dataStore.setMessage(rset.getString("Message"));
                     dataStore.setTimeStamp(rset.getString("TimeStamp"));        
             
@@ -327,8 +327,8 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                     //get info from db to a variable 
                     dataStore.setLogId (rset.getInt("LogId"));
                     dataStore.setUserId(rset.getInt("UserId"));
-                    dataStore.setLogTypeId(rset.getInt("LogTypeId")); 
-                    dataStore.setLogLevel(rset.getString("LogLevel"));
+                    dataStore.setLogLevelId(rset.getInt("LogLevelId")); 
+                    dataStore.setLogType(rset.getString("LogType"));
                     dataStore.setMessage(rset.getString("Message"));
                     dataStore.setTimeStamp(rset.getString("TimeStamp"));
     
@@ -360,8 +360,8 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                 // Variables
                 int _logId = 0;
                 int _userId = 0;
-                int _logTypeId = 0;
-                String _logLevel = null;
+                int _logLevelId = 0;
+                String _logType = null;
                 String _message = null;
                 String _timeStamp = null;
                 
@@ -377,16 +377,16 @@ public class DbLogEntry extends DbConnectionManager implements DbService<DbLogEn
                     //get info from db to a variable 
                     _logId = rset.getInt("LogId");
                     _userId = rset.getInt("UserId");
-                    _logTypeId = rset.getInt("LogTypeId");
-                    _logLevel  = rset.getString("LogLevel");
+                    _logLevelId = rset.getInt("LogLevelId");
+                    _logType  = rset.getString("LogType");
                     _message = rset.getString("Message");
                     _timeStamp = rset.getString("TimeStamp");
     
                     //print info 
                     System.out.println("\n\nLogEntry Id: " + _logId);
                     System.out.println("UserId : " + _userId );
-                    System.out.println("LogTypeId : " + _logTypeId);
-                    System.out.println("LogLevel : " + _logLevel);
+                    System.out.println("LogLevelId : " + _logLevelId);
+                    System.out.println("LogType : " + _logType);
                     System.out.println("Message : " + _message);
                     System.out.println("TimeStamp : " + _timeStamp); 
                     System.out.println("+++++++++++++++++++++"); 

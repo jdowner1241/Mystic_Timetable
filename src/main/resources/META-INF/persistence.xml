@@ -7,12 +7,12 @@
     <class>mystictodo_limited.mystic_timetable.hibernate.HTimetableLinker</class>
     <class>mystictodo_limited.mystic_timetable.hibernate.HTimetable</class>
     <class>mystictodo_limited.mystic_timetable.hibernate.HLoginInfo</class>
-    <class>mystictodo_limited.mystic_timetable.hibernate.HLogType</class>
     <class>mystictodo_limited.mystic_timetable.hibernate.HLogEntry</class>
     <class>mystictodo_limited.mystic_timetable.hibernate.HFolderPerUser</class>
     <class>mystictodo_limited.mystic_timetable.hibernate.HFolder</class>
     <class>mystictodo_limited.mystic_timetable.hibernate.HDayOfTheWeek</class>
     <class>mystictodo_limited.mystic_timetable.hibernate.HFrequencyType</class>
+    <class>mystictodo_limited.mystic_timetable.hibernate.HLogLevel</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.dialect.MySQLDialect"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mystic_timetable?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
