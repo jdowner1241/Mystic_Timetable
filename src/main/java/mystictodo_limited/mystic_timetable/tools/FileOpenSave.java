@@ -61,7 +61,7 @@ public class FileOpenSave {
    }//End of saveToFile method
 
    
-   //Method to save an object to a file using directmethod
+   //Method to save an object to a file using direct method
    public void saveToFileDirect(File file, String destinationPath) throws IOException {
         InputStream fileInputStream = null;
         OutputStream fileOutputStream = null;

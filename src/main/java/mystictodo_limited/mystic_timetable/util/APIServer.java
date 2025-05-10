@@ -131,8 +131,8 @@ public class APIServer extends SwingWorker<Void, Void>{
                 boolean userPresetFile = true; // change this flage to contorl the behavior
                 
                 if (userPresetFile) {
-                    //use prset file method
-                    String path = "F:\\School\\Bsc Semester 1 (2025)\\Advanced Object Oriented Programming\\Projects\\Mystic_Timetable\\Transfer\\file.xml";
+                    //use present file method
+                    String path = "F:\\School\\Bsc Semester 1 (2025)\\Advanced Object Oriented Programming\\Projects\\Mystic_Timetable\\Transfer\\Sent\\File.xml";
                     sendFile(objOutStream, path); //Send file to client
                     
                 } else {

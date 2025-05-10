@@ -4,13 +4,22 @@
  */
 package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.*;
 import javax.swing.JTable;
 import javax.swing.RowFilter.Entry;
 import javax.swing.table.DefaultTableModel;
+import mystictodo_limited.mystic_timetable.hibernate.HLogEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.cglib.core.Local;
+
+import mystictodo_limited.mystic_timetable.hibernate.HLogEntryDAOImpl;
+import mystictodo_limited.mystic_timetable.hibernate.HLogLevel;
+import mystictodo_limited.mystic_timetable.hibernate.HLogLevelDAOImpl;
+import mystictodo_limited.mystic_timetable.hibernate.HUsers;
+import mystictodo_limited.mystic_timetable.hibernate.HUsersDAOImpl;
 
 
 /**
@@ -112,12 +121,293 @@ public class DbConnectionManager {
 //           //for (int i = 0; i < columnList.length; i++){}
 //   };
     
-    // Create Log
-     public void CreateLog (String level, String message, Exception e) {
-        //Logger log = LogManager.getLogger(DbUsers.class);
+public void CreateLog (String level, String message, Exception e) {
+    //Logger log = LogManager.getLogger(DbUsers.class);
+     String className = otherClassName;
      
+     int currentUserId = 1;
+    String currentLogType = "not set";
+
+    HLogEntryDAOImpl logEntryDAO = new HLogEntryDAOImpl();
+    HLogEntry logEntry = new HLogEntry();
+    HUsersDAOImpl userEntryDAO = new HUsersDAOImpl();
+    HUsers userEntry = new HUsers();
+    HLogLevelDAOImpl logLevelEntryDAO = new HLogLevelDAOImpl();
+    HLogLevel logLevelEntry = new HLogLevel();
+
+    LocalDateTime now = LocalDateTime.now();
+    Date sqlDate = Date.valueOf(now.toLocalDate());
+
+    //Create Log String 
+    String logString = "Class: " + className + " Action: " + message; 
+    
+    Throwable cause = null;
+    if (e != null){
+        cause = e.getCause();
+    }
+    
+
+     //Use Switch Statement to Save the log
+     if(e != null) {
+        switch(level){
+            case "trace" :
+                otherLogger.trace(logString);
+                otherLogger.trace("\nDetail Trace: " + e.getMessage());
+                System.out.println(logString);
+                System.out.println("Detail Error : " + e);
+
+                // Save the log to the database
+                logEntry.setUserId(currentUserId);
+                userEntry = userEntryDAO.findById(currentUserId);
+                logEntry.setUsers(userEntry);
+                logEntry.setLogType(currentLogType);
+                logEntry.setLogLevelId(1);
+                logLevelEntry = logLevelEntryDAO.findById(1);
+                logEntry.setLoglevel(logLevelEntry);
+                logEntry.setMessage(logString);
+                logEntry.setTimeStamp(sqlDate);
+
+                 if (cause != null){
+                    otherLogger.trace("\nException Cause: " + cause);
+                    System.out.println("Exception Cause : " + cause); 
+                }
+                break;
+            case "debug" :
+                otherLogger.debug(logString);
+                otherLogger.debug("\nDetail Debug: " + e.getMessage());
+                System.out.println(logString);
+                System.out.println("Detail Error : " + e);
+
+                // Save the log to the database
+                logEntry.setUserId(currentUserId);
+                userEntry = userEntryDAO.findById(currentUserId);
+                logEntry.setUsers(userEntry);
+                logEntry.setLogType(currentLogType);
+                logEntry.setLogLevelId(2);
+                logLevelEntry = logLevelEntryDAO.findById(2);
+                logEntry.setLoglevel(logLevelEntry);
+                logEntry.setMessage(logString);
+                logEntry.setTimeStamp(sqlDate);
+
+                if (cause != null){
+                    otherLogger.debug("\nException Cause: " + cause);
+                    System.out.println("Exception Cause : " + cause); 
+                }
+                break;
+            case "info" :
+                otherLogger.info(logString);
+                otherLogger.info("\nDetail Info: " + e.getMessage());
+                System.out.println(logString);
+                System.out.println("Detail Error : " + e);
+
+                   // Save the log to the database
+                   logEntry.setUserId(currentUserId);
+                   userEntry = userEntryDAO.findById(currentUserId);
+                   logEntry.setUsers(userEntry);
+                   logEntry.setLogType(currentLogType);
+                   logEntry.setLogLevelId(3);
+                   logLevelEntry = logLevelEntryDAO.findById(3);
+                   logEntry.setLoglevel(logLevelEntry);
+                   logEntry.setMessage(logString);
+                   logEntry.setTimeStamp(sqlDate);
+
+                 if (cause != null){
+                    otherLogger.info("\nException Cause: " + cause);
+                    System.out.println("Exception Cause : " + cause); 
+                }
+                break;
+            case "warn" :
+                otherLogger.warn(logString);
+                otherLogger.warn("\nDetail Warn: " + e.getMessage());
+                System.out.println(logString);
+                System.out.println("Detail Error : " + e);
+
+                 // Save the log to the database
+                 logEntry.setUserId(currentUserId);
+                 userEntry = userEntryDAO.findById(currentUserId);
+                 logEntry.setUsers(userEntry);
+                 logEntry.setLogType(currentLogType);
+                 logEntry.setLogLevelId(4);
+                 logLevelEntry = logLevelEntryDAO.findById(4);
+                 logEntry.setLoglevel(logLevelEntry);
+                 logEntry.setMessage(logString);
+                 logEntry.setTimeStamp(sqlDate);
+
+                 if (cause != null){
+                    otherLogger.warn("\nException Cause: " + cause);
+                    System.out.println("Exception Cause : " + cause); 
+                }
+                break;
+            case "error" :
+                otherLogger.error(logString);
+                otherLogger.error("\nDetail Error: " + e.getMessage());
+                System.out.println(logString);
+                System.out.println("Detail Error : " + e);
+
+                 // Save the log to the database
+                 logEntry.setUserId(currentUserId);
+                 userEntry = userEntryDAO.findById(currentUserId);
+                 logEntry.setUsers(userEntry);
+                 logEntry.setLogType(currentLogType);
+                 logEntry.setLogLevelId(5);
+                 logLevelEntry = logLevelEntryDAO.findById(5);
+                 logEntry.setLoglevel(logLevelEntry);
+                 logEntry.setMessage(logString);
+                 logEntry.setTimeStamp(sqlDate);
+
+                 if (cause != null){
+                    otherLogger.debug("\nException Cause: " + cause);
+                    System.out.println("Exception Cause : " + cause); 
+                }
+                break;
+            case "fatal" :
+                otherLogger.fatal(logString);
+                otherLogger.fatal("\nDetail Fatal: " + e.getMessage());
+                System.out.println(logString);
+                System.out.println("Detail Error : " + e);
+
+                 // Save the log to the database
+                 logEntry.setUserId(currentUserId);
+                 userEntry = userEntryDAO.findById(currentUserId);
+                 logEntry.setUsers(userEntry);
+                 logEntry.setLogType(currentLogType);
+                 logEntry.setLogLevelId(6);
+                 logLevelEntry = logLevelEntryDAO.findById(6);
+                 logEntry.setLoglevel(logLevelEntry);
+                 logEntry.setMessage(logString);
+                 logEntry.setTimeStamp(sqlDate);
+
+                 if (cause != null){
+                    otherLogger.fatal("\nException Cause: " + cause);
+                    System.out.println("Exception Cause : " + cause); 
+                }
+                break; 
+        }
+     }else{
+     switch(level){
+            case "trace" :
+                otherLogger.trace(logString);
+                System.out.println(logString);
+
+                 // Save the log to the database
+                 logEntry.setUserId(currentUserId);
+                 userEntry = userEntryDAO.findById(currentUserId);
+                 logEntry.setUsers(userEntry);
+                 logEntry.setLogType(currentLogType);
+                 logEntry.setLogLevelId(1);
+                 logLevelEntry = logLevelEntryDAO.findById(1);
+                 logEntry.setLoglevel(logLevelEntry);
+                 logEntry.setMessage(logString);
+                 logEntry.setTimeStamp(sqlDate);
+
+
+                break;
+            case "debug" :
+                otherLogger.debug(logString);
+                System.out.println(logString);
+
+                 // Save the log to the database
+                 logEntry.setUserId(currentUserId);
+                 userEntry = userEntryDAO.findById(currentUserId);
+                 logEntry.setUsers(userEntry);
+                 logEntry.setLogType(currentLogType);
+                 logEntry.setLogLevelId(2);
+                 logLevelEntry = logLevelEntryDAO.findById(2);
+                 logEntry.setLoglevel(logLevelEntry);
+                 logEntry.setMessage(logString);
+                 logEntry.setTimeStamp(sqlDate);
+
+                break;
+            case "info" :
+                otherLogger.info(logString);
+                System.out.println(logString);
+
+                 // Save the log to the database
+                 logEntry.setUserId(currentUserId);
+                 userEntry = userEntryDAO.findById(currentUserId);
+                 logEntry.setUsers(userEntry);
+                 logEntry.setLogType(currentLogType);
+                 logEntry.setLogLevelId(3);
+                 logLevelEntry = logLevelEntryDAO.findById(3);
+                 logEntry.setLoglevel(logLevelEntry);
+                 logEntry.setMessage(logString);
+                 logEntry.setTimeStamp(sqlDate);
+
+                break;
+            case "warn" :
+                otherLogger.warn(logString);
+                System.out.println(logString);
+
+                    // Save the log to the database
+                    logEntry.setUserId(currentUserId);
+                    userEntry = userEntryDAO.findById(currentUserId);
+                    logEntry.setUsers(userEntry);
+                    logEntry.setLogType(currentLogType);
+                    logEntry.setLogLevelId(4);
+                    logLevelEntry = logLevelEntryDAO.findById(4);
+                    logEntry.setLoglevel(logLevelEntry);
+                    logEntry.setMessage(logString);
+                    logEntry.setTimeStamp(sqlDate);
+
+                break;
+            case "error" :
+                otherLogger.error(logString);
+                System.out.println(logString);
+
+                 // Save the log to the database
+                 logEntry.setUserId(currentUserId);
+                 userEntry = userEntryDAO.findById(currentUserId);
+                 logEntry.setUsers(userEntry);
+                 logEntry.setLogType(currentLogType);
+                 logEntry.setLogLevelId(5);
+                 logLevelEntry = logLevelEntryDAO.findById(5);
+                 logEntry.setLoglevel(logLevelEntry);
+                 logEntry.setMessage(logString);
+                 logEntry.setTimeStamp(sqlDate);
+                break;
+            case "fatal" :
+                otherLogger.fatal(logString);
+                System.out.println(logString);
+
+                    // Save the log to the database
+                    logEntry.setUserId(currentUserId);
+                    userEntry = userEntryDAO.findById(currentUserId);
+                    logEntry.setUsers(userEntry);
+                    logEntry.setLogType(currentLogType);
+                    logEntry.setLogLevelId(6);
+                    logLevelEntry = logLevelEntryDAO.findById(6);
+                    logEntry.setLoglevel(logLevelEntry);
+                    logEntry.setMessage(logString);
+                    logEntry.setTimeStamp(sqlDate);
+                break; 
+        }
+     }
+ }
+
+    // Create Log with the addition of the userId and logType
+     public void CreateLog (String level, String message, Exception e, int userId, String logType) {
+        //Logger log = LogManager.getLogger(DbUsers.class);
          String className = otherClassName;
-         
+         int currentUserId = 1;
+         if(userId != 1){
+            currentUserId = userId;
+         }
+
+         String currentLogType = "not set";
+         if (logType != null){
+            currentLogType = logType;
+         }
+
+        HLogEntryDAOImpl logEntryDAO = new HLogEntryDAOImpl();
+        HLogEntry logEntry = new HLogEntry();
+        HUsersDAOImpl userEntryDAO = new HUsersDAOImpl();
+        HUsers userEntry = new HUsers();
+        HLogLevelDAOImpl logLevelEntryDAO = new HLogLevelDAOImpl();
+        HLogLevel logLevelEntry = new HLogLevel();
+
+        LocalDateTime now = LocalDateTime.now();
+        Date sqlDate = Date.valueOf(now.toLocalDate());
+
         //Create Log String 
         String logString = "Class: " + className + " Action: " + message; 
         
@@ -126,14 +416,49 @@ public class DbConnectionManager {
             cause = e.getCause();
         }
         
+
          //Use Switch Statement to Save the log
          if(e != null) {
             switch(level){
+                case "trace" :
+                    otherLogger.trace(logString);
+                    otherLogger.trace("\nDetail Trace: " + e.getMessage());
+                    System.out.println(logString);
+                    System.out.println("Detail Error : " + e);
+
+                    // Save the log to the database
+                    logEntry.setUserId(currentUserId);
+                    userEntry = userEntryDAO.findById(currentUserId);
+                    logEntry.setUsers(userEntry);
+                    logEntry.setLogType(currentLogType);
+                    logEntry.setLogLevelId(1);
+                    logLevelEntry = logLevelEntryDAO.findById(1);
+                    logEntry.setLoglevel(logLevelEntry);
+                    logEntry.setMessage(logString);
+                    logEntry.setTimeStamp(sqlDate);
+
+                     if (cause != null){
+                        otherLogger.trace("\nException Cause: " + cause);
+                        System.out.println("Exception Cause : " + cause); 
+                    }
+                    break;
                 case "debug" :
                     otherLogger.debug(logString);
                     otherLogger.debug("\nDetail Debug: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+
+                    // Save the log to the database
+                    logEntry.setUserId(currentUserId);
+                    userEntry = userEntryDAO.findById(currentUserId);
+                    logEntry.setUsers(userEntry);
+                    logEntry.setLogType(currentLogType);
+                    logEntry.setLogLevelId(2);
+                    logLevelEntry = logLevelEntryDAO.findById(2);
+                    logEntry.setLoglevel(logLevelEntry);
+                    logEntry.setMessage(logString);
+                    logEntry.setTimeStamp(sqlDate);
+
                     if (cause != null){
                         otherLogger.debug("\nException Cause: " + cause);
                         System.out.println("Exception Cause : " + cause); 
@@ -144,6 +469,18 @@ public class DbConnectionManager {
                     otherLogger.info("\nDetail Info: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+
+                       // Save the log to the database
+                       logEntry.setUserId(currentUserId);
+                       userEntry = userEntryDAO.findById(currentUserId);
+                       logEntry.setUsers(userEntry);
+                       logEntry.setLogType(currentLogType);
+                       logEntry.setLogLevelId(3);
+                       logLevelEntry = logLevelEntryDAO.findById(3);
+                       logEntry.setLoglevel(logLevelEntry);
+                       logEntry.setMessage(logString);
+                       logEntry.setTimeStamp(sqlDate);
+
                      if (cause != null){
                         otherLogger.info("\nException Cause: " + cause);
                         System.out.println("Exception Cause : " + cause); 
@@ -154,6 +491,18 @@ public class DbConnectionManager {
                     otherLogger.warn("\nDetail Warn: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+
+                     // Save the log to the database
+                     logEntry.setUserId(currentUserId);
+                     userEntry = userEntryDAO.findById(currentUserId);
+                     logEntry.setUsers(userEntry);
+                     logEntry.setLogType(currentLogType);
+                     logEntry.setLogLevelId(4);
+                     logLevelEntry = logLevelEntryDAO.findById(4);
+                     logEntry.setLoglevel(logLevelEntry);
+                     logEntry.setMessage(logString);
+                     logEntry.setTimeStamp(sqlDate);
+
                      if (cause != null){
                         otherLogger.warn("\nException Cause: " + cause);
                         System.out.println("Exception Cause : " + cause); 
@@ -164,6 +513,18 @@ public class DbConnectionManager {
                     otherLogger.error("\nDetail Error: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+
+                     // Save the log to the database
+                     logEntry.setUserId(currentUserId);
+                     userEntry = userEntryDAO.findById(currentUserId);
+                     logEntry.setUsers(userEntry);
+                     logEntry.setLogType(currentLogType);
+                     logEntry.setLogLevelId(5);
+                     logLevelEntry = logLevelEntryDAO.findById(5);
+                     logEntry.setLoglevel(logLevelEntry);
+                     logEntry.setMessage(logString);
+                     logEntry.setTimeStamp(sqlDate);
+
                      if (cause != null){
                         otherLogger.debug("\nException Cause: " + cause);
                         System.out.println("Exception Cause : " + cause); 
@@ -174,6 +535,18 @@ public class DbConnectionManager {
                     otherLogger.fatal("\nDetail Fatal: " + e.getMessage());
                     System.out.println(logString);
                     System.out.println("Detail Error : " + e);
+
+                     // Save the log to the database
+                     logEntry.setUserId(currentUserId);
+                     userEntry = userEntryDAO.findById(currentUserId);
+                     logEntry.setUsers(userEntry);
+                     logEntry.setLogType(currentLogType);
+                     logEntry.setLogLevelId(6);
+                     logLevelEntry = logLevelEntryDAO.findById(6);
+                     logEntry.setLoglevel(logLevelEntry);
+                     logEntry.setMessage(logString);
+                     logEntry.setTimeStamp(sqlDate);
+
                      if (cause != null){
                         otherLogger.fatal("\nException Cause: " + cause);
                         System.out.println("Exception Cause : " + cause); 
@@ -182,25 +555,100 @@ public class DbConnectionManager {
             }
          }else{
          switch(level){
+                case "trace" :
+                    otherLogger.trace(logString);
+                    System.out.println(logString);
+
+                     // Save the log to the database
+                     logEntry.setUserId(currentUserId);
+                     userEntry = userEntryDAO.findById(currentUserId);
+                     logEntry.setUsers(userEntry);
+                     logEntry.setLogType(currentLogType);
+                     logEntry.setLogLevelId(1);
+                     logLevelEntry = logLevelEntryDAO.findById(1);
+                     logEntry.setLoglevel(logLevelEntry);
+                     logEntry.setMessage(logString);
+                     logEntry.setTimeStamp(sqlDate);
+ 
+
+                    break;
                 case "debug" :
                     otherLogger.debug(logString);
                     System.out.println(logString);
+
+                     // Save the log to the database
+                     logEntry.setUserId(currentUserId);
+                     userEntry = userEntryDAO.findById(currentUserId);
+                     logEntry.setUsers(userEntry);
+                     logEntry.setLogType(currentLogType);
+                     logEntry.setLogLevelId(2);
+                     logLevelEntry = logLevelEntryDAO.findById(2);
+                     logEntry.setLoglevel(logLevelEntry);
+                     logEntry.setMessage(logString);
+                     logEntry.setTimeStamp(sqlDate);
+
                     break;
                 case "info" :
                     otherLogger.info(logString);
                     System.out.println(logString);
+
+                     // Save the log to the database
+                     logEntry.setUserId(currentUserId);
+                     userEntry = userEntryDAO.findById(currentUserId);
+                     logEntry.setUsers(userEntry);
+                     logEntry.setLogType(currentLogType);
+                     logEntry.setLogLevelId(3);
+                     logLevelEntry = logLevelEntryDAO.findById(3);
+                     logEntry.setLoglevel(logLevelEntry);
+                     logEntry.setMessage(logString);
+                     logEntry.setTimeStamp(sqlDate);
+
                     break;
                 case "warn" :
                     otherLogger.warn(logString);
                     System.out.println(logString);
+
+                        // Save the log to the database
+                        logEntry.setUserId(currentUserId);
+                        userEntry = userEntryDAO.findById(currentUserId);
+                        logEntry.setUsers(userEntry);
+                        logEntry.setLogType(currentLogType);
+                        logEntry.setLogLevelId(4);
+                        logLevelEntry = logLevelEntryDAO.findById(4);
+                        logEntry.setLoglevel(logLevelEntry);
+                        logEntry.setMessage(logString);
+                        logEntry.setTimeStamp(sqlDate);
+
                     break;
                 case "error" :
                     otherLogger.error(logString);
                     System.out.println(logString);
+
+                     // Save the log to the database
+                     logEntry.setUserId(currentUserId);
+                     userEntry = userEntryDAO.findById(currentUserId);
+                     logEntry.setUsers(userEntry);
+                     logEntry.setLogType(currentLogType);
+                     logEntry.setLogLevelId(5);
+                     logLevelEntry = logLevelEntryDAO.findById(5);
+                     logEntry.setLoglevel(logLevelEntry);
+                     logEntry.setMessage(logString);
+                     logEntry.setTimeStamp(sqlDate);
                     break;
                 case "fatal" :
                     otherLogger.fatal(logString);
                     System.out.println(logString);
+
+                        // Save the log to the database
+                        logEntry.setUserId(currentUserId);
+                        userEntry = userEntryDAO.findById(currentUserId);
+                        logEntry.setUsers(userEntry);
+                        logEntry.setLogType(currentLogType);
+                        logEntry.setLogLevelId(6);
+                        logLevelEntry = logLevelEntryDAO.findById(6);
+                        logEntry.setLoglevel(logLevelEntry);
+                        logEntry.setMessage(logString);
+                        logEntry.setTimeStamp(sqlDate);
                     break; 
             }
          }

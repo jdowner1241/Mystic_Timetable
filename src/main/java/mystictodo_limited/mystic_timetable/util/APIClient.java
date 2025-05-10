@@ -138,7 +138,7 @@ public class APIClient extends SwingWorker<Void, Void> {
             
             try {
                 
-                //Extablish connection to server, write sockect for ObjectInputStream, read response from sender 
+                //Exstablish connection to server, write sockect for ObjectInputStream, read response from sender 
                 senderSock = new Socket(clientHostInfo.getHostName(), clientPort);
                 objOutStream = new ObjectOutputStream(senderSock.getOutputStream());
                 objInStream = new ObjectInputStream(senderSock.getInputStream());
@@ -149,7 +149,7 @@ public class APIClient extends SwingWorker<Void, Void> {
                 
                 //Check if response is a string or file
                 if (response instanceof String){
-                    //Output String response to constole 
+                    //Output String response to console 
                     System.out.println("Message received: " + response);
                     
                     //server closed if Exit response is received
