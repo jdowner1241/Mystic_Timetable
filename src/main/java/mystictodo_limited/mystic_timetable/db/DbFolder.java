@@ -4,13 +4,8 @@
  */
 package mystictodo_limited.mystic_timetable.db;
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import javax.swing.RowFilter.Entry;
 import mystictodo_limited.mystic_timetable.dbInterface.DbService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -92,7 +87,7 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
     }
     
     //Update Entry
-    public void UpdateEntrybyId(int id) throws SQLException{
+    public void UpdateEntrybyId(int id, String folderName) throws SQLException{
         CreateLog("info", "Update Entry by Id operation triggered.", null);  
         
         try{
@@ -204,7 +199,7 @@ public class DbFolder extends DbConnectionManager implements DbService<DbFolder>
         }   
         
         //Return Entry by FolderName
-        public DbFolder GetEntrybyFolderId(String folderName) throws SQLException {       
+        public DbFolder GetEntrybyFolderName(String folderName) throws SQLException {       
             CreateLog("info", "Return Entry by FolderName operation triggered.", null);  
             
             //Create new class instance
