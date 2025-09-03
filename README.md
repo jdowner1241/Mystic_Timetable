@@ -1,4 +1,5 @@
 Mystic Timetable
+
 Mystic Timetable is a desktop time management application designed to help users organize their schedules, manage tasks, and boost productivity. Built with Java, MySQL, and Hibernate, it offers a dynamic weekly timetable, folder-based event organization, and customizable notifications—all wrapped in a sleek, intuitive interface.
 
 Technologies Used:
