@@ -18,6 +18,14 @@ Technologies Used:
 - Productivity Analytics – Track usage and event stats via Log4J
 - Data Management – CSV import/export, folder cloning, and persistent storage
 
+Status / Version
+⦁	Current version : v0.39
+⦁	Development status : In Progress
+_________________________________________
+Demo Video : 
+Download Link : 
+_________________________________________
+
 📦 Installation
 - Clone the repo
 git clone https://github.com/jdowner1241/Mystic_Timetable.git
